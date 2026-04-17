@@ -2,317 +2,490 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
   <title>TaskFlow — AI Task Manager</title>
-  <meta name="theme-color" content="#0f0f11" />
-  <meta name="description" content="AI-powered daily task manager by Subhojit and Mohit." />
+  <meta name="theme-color" content="#09090b" />
   
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
   
   <style>
     /* ══════════════════════════════════════════════════════
-       TASKFLOW — Premium Dark Theme Variables
+       TASKFLOW — Premium Adaptive Design System
     ══════════════════════════════════════════════════════ */
     :root {
-      --bg-base:        #0a0a0c;
-      --bg-surface:     #141419;
-      --bg-raised:      #1c1c24;
-      --bg-hover:       #252530;
-      --border:         #2a2a35;
-      --border-light:   #3a3a48;
+      /* Dark Theme Palette */
+      --bg-base:        #09090b;
+      --bg-surface:     #18181b;
+      --bg-raised:      #27272a;
+      --bg-hover:       #3f3f46;
+      --border:         #27272a;
       
-      --text-primary:   #f0f0f4;
-      --text-secondary: #9090a8;
-      --text-muted:     #5a5a72;
+      --text-main:      #fafafa;
+      --text-muted:     #a1a1aa;
       
-      --accent:         #f5a623;
-      --accent-glow:    rgba(245, 166, 35, 0.2);
-      --green:          #10b981;
-      --red:            #ef4444;
-      --orange:         #f97316;
-      --purple:         #8b5cf6;
+      --accent:         #6366f1;
+      --accent-hover:   #4f46e5;
+      --accent-glow:    rgba(99, 102, 241, 0.25);
       
-      --font-display:   'Syne', sans-serif;
-      --font-body:      'DM Sans', sans-serif;
-      --font-mono:      'IBM Plex Mono', monospace;
+      --danger:         #ef4444;
+      --warning:        #f59e0b;
+      --success:        #10b981;
       
-      --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-6: 24px; --sp-8: 32px;
-      --r-md: 10px; --r-lg: 16px; --r-xl: 24px;
+      --font-ui:        'Plus Jakarta Sans', sans-serif;
+      --font-display:   'Space Grotesk', sans-serif;
       
-      --shadow-sm: 0 4px 6px rgba(0,0,0,0.3);
-      --shadow-lg: 0 12px 40px rgba(0,0,0,0.6);
-      --nav-h: 70px;
+      --radius-sm:      8px;
+      --radius-md:      12px;
+      --radius-lg:      20px;
+      
+      --shadow-float:   0 10px 30px -10px rgba(0,0,0,0.5);
     }
 
-    /* ── BASE STYLES ──────────────────────────────────────── */
     * { box-sizing: border-box; margin: 0; padding: 0; }
+    
     body {
-      font-family: var(--font-body);
+      font-family: var(--font-ui);
       background-color: var(--bg-base);
-      color: var(--text-primary);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+      color: var(--text-main);
       -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
     }
 
     /* ── FORMS & BUTTONS ──────────────────────────────────── */
-    input, select, button {
+    input, select {
+      width: 100%;
+      background: var(--bg-raised);
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      padding: 14px 16px;
+      border-radius: var(--radius-md);
       font-family: inherit;
       font-size: 0.95rem;
-      border: 1px solid var(--border);
-      background: var(--bg-raised);
-      color: var(--text-primary);
-      padding: 12px 16px;
-      border-radius: var(--r-md);
-      outline: none;
       transition: all 0.2s ease;
     }
     input:focus, select:focus {
+      outline: none;
       border-color: var(--accent);
       box-shadow: 0 0 0 3px var(--accent-glow);
     }
-    input[type="date"] { color: var(--text-secondary); }
     
-    button { cursor: pointer; font-weight: 600; }
-    button:hover { background: var(--bg-hover); }
-    
+    button {
+      font-family: inherit;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 14px 20px;
+      transition: all 0.2s ease;
+    }
     .btn-primary {
       background: var(--accent);
-      color: #000;
-      border: none;
-      box-shadow: 0 4px 12px var(--accent-glow);
+      color: #fff;
+      width: 100%;
     }
     .btn-primary:hover {
-      background: #ffb742;
+      background: var(--accent-hover);
       transform: translateY(-2px);
-      box-shadow: 0 6px 16px var(--accent-glow);
+      box-shadow: 0 4px 15px var(--accent-glow);
     }
+    .btn-text {
+      background: transparent;
+      color: var(--text-muted);
+      padding: 8px;
+    }
+    .btn-text:hover { color: var(--text-main); }
 
-    /* ── AUTH SCREEN ──────────────────────────────────────── */
-    #auth-screen {
-      display: flex; flex-direction: column; align-items: center; justify-content: center;
-      flex: 1; padding: var(--sp-4);
-      background: radial-gradient(circle at 50% -20%, var(--bg-surface), var(--bg-base) 70%);
-      animation: fadeIn 0.5s ease;
+    /* ── AUTHENTICATION SCREEN ────────────────────────────── */
+    #auth-view {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      background: radial-gradient(circle at top right, rgba(99, 102, 241, 0.15), transparent 40%), var(--bg-base);
     }
-    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-    
-    .auth-card {
-      width: 100%; max-width: 400px;
+    .auth-box {
+      width: 100%;
+      max-width: 420px;
       background: var(--bg-surface);
-      border: 1px solid var(--border-light);
-      border-radius: var(--r-xl);
-      box-shadow: var(--shadow-lg);
+      padding: 40px;
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--border);
+      box-shadow: var(--shadow-float);
+    }
+    .auth-header { text-align: center; margin-bottom: 30px; }
+    .auth-header h1 { font-family: var(--font-display); font-size: 2rem; color: var(--accent); }
+    .auth-header p { color: var(--text-muted); margin-top: 8px; }
+    
+    .auth-form { display: flex; flex-direction: column; gap: 16px; }
+    
+    .auth-toggle {
+      text-align: center; margin-top: 24px; font-size: 0.9rem; color: var(--text-muted);
+    }
+    .auth-toggle span { color: var(--accent); cursor: pointer; font-weight: 600; }
+    .auth-toggle span:hover { text-decoration: underline; }
+
+    /* ── APP LAYOUT (DESKTOP FIRST) ───────────────────────── */
+    #app-view {
+      display: none; /* Hidden by default */
+      height: 100vh;
+      grid-template-columns: 260px 1fr;
       overflow: hidden;
     }
-    .auth-top { padding: var(--sp-8) var(--sp-6) var(--sp-4); text-align: center; }
-    .auth-logo { font-family: var(--font-display); font-size: 2rem; font-weight: 800; color: var(--accent); letter-spacing: -0.5px; }
-    .auth-body { padding: var(--sp-6); display: flex; flex-direction: column; gap: var(--sp-4); }
-    .auth-footer { 
-      padding: var(--sp-4); text-align: center; font-size: 0.85rem; 
-      color: var(--text-muted); border-top: 1px solid var(--border); 
-      background: var(--bg-raised);
-    }
-    
-    /* ── APP SCREEN & LAYOUT ──────────────────────────────── */
-    #app-screen { display: none; flex: 1; flex-direction: column; }
-    
-    #main-header {
-      height: var(--nav-h); background: rgba(20, 20, 25, 0.8);
-      backdrop-filter: blur(12px); border-bottom: 1px solid var(--border);
-      display: flex; align-items: center; justify-content: space-between; padding: 0 var(--sp-6);
-      position: sticky; top: 0; z-index: 100;
-    }
-    .header-left { display: flex; align-items: baseline; gap: var(--sp-3); }
-    .header-credits { font-size: 0.85rem; color: var(--text-muted); font-family: var(--font-mono); }
-    
-    #app-main {
-      max-width: 1100px; margin: 0 auto; padding: var(--sp-8) var(--sp-4); width: 100%;
-      display: grid; grid-template-columns: 320px 1fr; gap: var(--sp-8); align-items: start;
-    }
-    
-    /* Desktop Sticky Sidebar */
-    .sticky-sidebar { position: sticky; top: calc(var(--nav-h) + var(--sp-8)); display: flex; flex-direction: column; gap: var(--sp-6); }
 
-    @media(max-width: 860px) {
-      #app-main { grid-template-columns: 1fr; padding: var(--sp-6) var(--sp-4); gap: var(--sp-6); }
-      .sticky-sidebar { position: static; }
-      .header-credits { display: none; }
-      .auth-logo { font-size: 1.5rem; }
+    /* Sidebar (Desktop) */
+    .sidebar {
+      background: var(--bg-surface);
+      border-right: 1px solid var(--border);
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
+    .brand { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: var(--accent); display: flex; align-items: center; gap: 8px; }
+    .nav-menu { display: flex; flex-direction: column; gap: 8px; margin-top: 40px; }
+    .nav-item {
+      padding: 12px 16px; border-radius: var(--radius-md); color: var(--text-muted);
+      font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 12px;
+    }
+    .nav-item:hover, .nav-item.active { background: var(--bg-raised); color: var(--text-main); }
+    .user-profile {
+      display: flex; align-items: center; gap: 12px; padding-top: 24px; border-top: 1px solid var(--border);
+    }
+    .avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--accent); display: grid; place-items: center; font-weight: bold; }
 
-    /* ── CARDS & COMPONENTS ───────────────────────────────── */
-    .card {
-      background: var(--bg-surface); border: 1px solid var(--border);
-      border-radius: var(--r-lg); padding: var(--sp-6);
-      box-shadow: var(--shadow-sm);
+    /* Main Content Area */
+    .main-content {
+      padding: 40px;
+      overflow-y: auto;
+      display: grid;
+      grid-template-columns: 1fr 350px;
+      gap: 30px;
+      align-items: start;
     }
-    .card h2 { font-family: var(--font-display); margin-bottom: var(--sp-4); font-size: 1.25rem; font-weight: 700; }
     
-    .task-form { display: flex; flex-direction: column; gap: var(--sp-3); }
-    
-    /* Task List */
-    .task-item {
+    .header-bar { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .header-bar h2 { font-family: var(--font-display); font-size: 2rem; }
+
+    /* Cards & Components */
+    .panel {
+      background: var(--bg-surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+    }
+    .panel-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 20px; }
+
+    /* Task List Styles */
+    .task-list { display: flex; flex-direction: column; gap: 12px; }
+    .task-card {
+      background: var(--bg-raised); border: 1px solid var(--border);
+      border-radius: var(--radius-md); padding: 16px;
       display: flex; justify-content: space-between; align-items: center;
-      padding: var(--sp-4); border-bottom: 1px solid var(--border);
-      transition: background 0.2s, transform 0.2s;
-      border-radius: var(--r-md);
+      transition: transform 0.2s;
     }
-    .task-item:hover { background: var(--bg-hover); transform: translateX(4px); }
-    .task-item:last-child { border-bottom: none; }
+    .task-card:hover { transform: translateX(4px); border-color: var(--text-muted); }
+    .task-card.completed { opacity: 0.5; }
+    .task-card.completed h4 { text-decoration: line-through; }
     
-    /* Custom Checkbox */
-    .checkbox-wrapper { display: flex; align-items: center; gap: var(--sp-4); flex: 1; cursor: pointer; }
-    .checkbox-wrapper input[type="checkbox"] { 
-      width: 20px; height: 20px; cursor: pointer; accent-color: var(--accent); flex-shrink: 0;
+    .task-info { display: flex; align-items: flex-start; gap: 16px; }
+    .task-checkbox {
+      width: 22px; height: 22px; border-radius: 6px; border: 2px solid var(--text-muted);
+      cursor: pointer; appearance: none; display: grid; place-items: center; flex-shrink: 0; margin-top: 2px;
     }
+    .task-checkbox:checked { background: var(--accent); border-color: var(--accent); }
+    .task-checkbox:checked::before { content: '✓'; color: white; font-size: 14px; font-weight: bold; }
     
-    .task-info h3 { font-size: 1.05rem; font-weight: 500; margin-bottom: 4px; transition: color 0.2s; }
-    .task-meta { font-size: 0.8rem; color: var(--text-muted); font-family: var(--font-mono); display: flex; gap: 10px; align-items: center;}
-    
-    .badge { padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.5px; }
-    .badge.high { background: rgba(239,68,68,0.15); color: var(--red); border: 1px solid rgba(239,68,68,0.3); }
-    .badge.medium { background: rgba(245,166,35,0.15); color: var(--accent); border: 1px solid rgba(245,166,35,0.3); }
-    .badge.low { background: rgba(16,185,129,0.15); color: var(--green); border: 1px solid rgba(16,185,129,0.3); }
-    
-    .btn-delete {
-      color: var(--text-muted); background: transparent; border: none; font-size: 0.85rem; padding: 6px 10px;
-    }
-    .btn-delete:hover { color: var(--red); background: rgba(239,68,68,0.1); }
+    .badge { padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase;}
+    .badge.high { color: var(--danger); background: rgba(239,68,68,0.1); }
+    .badge.medium { color: var(--warning); background: rgba(245,158,11,0.1); }
+    .badge.low { color: var(--success); background: rgba(16,185,129,0.1); }
 
-    /* Banners & AI */
+    /* AI & Banners */
+    .ai-insight {
+      background: linear-gradient(135deg, rgba(99,102,241,0.1), transparent);
+      border: 1px solid rgba(99,102,241,0.3);
+      padding: 20px; border-radius: var(--radius-md); margin-top: 20px;
+    }
+    .ai-insight h4 { color: var(--accent); display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+    
     .banner {
-      background: rgba(239,68,68,0.1); border-left: 4px solid var(--red); color: var(--text-primary);
-      padding: var(--sp-4); border-radius: 0 var(--r-md) var(--r-md) 0; margin-bottom: var(--sp-6);
-      display: none; font-size: 0.95rem; animation: fadeIn 0.3s ease;
+      grid-column: 1 / -1; background: rgba(239,68,68,0.1); border-left: 4px solid var(--danger);
+      padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin-bottom: 10px; display: none;
     }
 
-    .ai-box { 
-      background: linear-gradient(145deg, rgba(139,92,246,0.1) 0%, rgba(20,20,25,1) 100%); 
-      border: 1px solid rgba(139,92,246,0.3); 
-      padding: var(--sp-6); border-radius: var(--r-lg); 
-      box-shadow: inset 0 0 20px rgba(139,92,246,0.05);
+    /* Mobile Bottom Nav (Hidden on Desktop) */
+    .mobile-nav { display: none; }
+
+    /* ── MOBILE RESPONSIVE REDESIGN ───────────────────────── */
+    @media (max-width: 900px) {
+      #app-view {
+        display: none; /* Toggled via JS */
+        grid-template-columns: 1fr;
+        height: auto;
+        min-height: 100vh;
+        padding-bottom: 80px; /* Space for bottom nav */
+      }
+      
+      .sidebar { display: none; } /* Hide desktop sidebar */
+      
+      .main-content {
+        grid-template-columns: 1fr;
+        padding: 20px;
+        gap: 20px;
+      }
+      
+      .header-bar h2 { font-size: 1.5rem; }
+
+      /* Mobile Bottom Navigation */
+      .mobile-nav {
+        display: flex;
+        position: fixed;
+        bottom: 0; left: 0; right: 0;
+        height: 70px;
+        background: rgba(24, 24, 27, 0.9);
+        backdrop-filter: blur(10px);
+        border-top: 1px solid var(--border);
+        justify-content: space-around;
+        align-items: center;
+        z-index: 1000;
+      }
+      .mob-nav-item {
+        display: flex; flex-direction: column; align-items: center; gap: 4px;
+        color: var(--text-muted); font-size: 0.75rem; font-weight: 600; background: none; padding: 8px;
+      }
+      .mob-nav-item.active { color: var(--accent); }
+      .mob-nav-icon { font-size: 1.2rem; }
+      
+      /* Reorder sections on mobile: AI first, Form second, List third */
+      #form-panel { order: 2; }
+      #list-panel { order: 3; }
+      #ai-panel { order: 1; margin-bottom: -10px; }
     }
-    .ai-box h3 { color: var(--purple); font-size: 1rem; margin-bottom: var(--sp-2); display: flex; align-items: center; gap: 8px; font-family: var(--font-display); }
   </style>
 </head>
 <body>
 
-  <div id="auth-screen">
-    <div class="auth-card">
-      <div class="auth-top">
-        <div class="auth-logo">TaskFlow</div>
-        <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 8px;">AI-Powered Task Management</p>
+  <div id="auth-view">
+    <div class="auth-box">
+      <div class="auth-header">
+        <h1>TaskFlow</h1>
+        <p id="auth-subtitle">Sign in to continue to your workspace.</p>
       </div>
-      <div class="auth-body">
-        <input type="email" id="login-email" placeholder="Email Address" value="user@taskflow.ai" />
-        <input type="password" id="login-pass" placeholder="Password" value="password123" />
-        <button class="btn-primary" onclick="login()" style="margin-top: 8px;">Access Dashboard</button>
+      
+      <div class="auth-form">
+        <input type="text" id="auth-name" placeholder="Full Name" style="display: none;" />
+        <input type="email" id="auth-email" placeholder="Email Address" />
+        <input type="password" id="auth-password" placeholder="Password" />
+        
+        <button class="btn-primary" id="auth-submit-btn" onclick="handleAuth()">Sign In</button>
       </div>
-      <div class="auth-footer">
-        Created by Subhojit and Mohit
+
+      <div class="auth-toggle">
+        <span id="auth-toggle-text" onclick="toggleAuthMode()">Don't have an account? <b>Sign up</b></span>
       </div>
     </div>
   </div>
 
-  <div id="app-screen">
-    <header id="main-header">
-      <div class="header-left">
-        <div class="auth-logo" style="font-size: 1.5rem;">TaskFlow</div>
-        <span class="header-credits">| Built by Subhojit & Mohit</span>
-      </div>
-      <button onclick="logout()" style="background: transparent; border: 1px solid var(--border); font-size: 0.85rem; padding: 8px 16px;">Log Out</button>
-    </header>
-
-    <main id="app-main">
-      
-      <aside class="sticky-sidebar">
-        <div class="card">
-          <h2>Create Task</h2>
-          <div class="task-form">
-            <input type="text" id="task-title" placeholder="What needs to be done?" autocomplete="off" />
-            <select id="task-priority">
-              <option value="high">High Priority</option>
-              <option value="medium" selected>Medium Priority</option>
-              <option value="low">Low Priority</option>
-            </select>
-            <input type="date" id="task-date" />
-            <button class="btn-primary" onclick="addTask()">Add Task</button>
-          </div>
+  <div id="app-view">
+    
+    <aside class="sidebar">
+      <div>
+        <div class="brand">⚡ TaskFlow</div>
+        <div class="nav-menu">
+          <div class="nav-item active">📋 Dashboard</div>
+          <div class="nav-item">📅 Calendar</div>
+          <div class="nav-item">⚙️ Settings</div>
         </div>
+      </div>
+      <div class="user-profile">
+        <div class="avatar" id="user-avatar">U</div>
+        <div>
+          <div style="font-weight: 600; font-size: 0.9rem;" id="user-display-name">User Name</div>
+          <button class="btn-text" style="padding: 0; font-size: 0.8rem; color: var(--danger);" onclick="logout()">Log Out</button>
+        </div>
+      </div>
+    </aside>
 
-        <div class="ai-box">
-          <h3>✨ AI Assistant</h3>
-          <p id="ai-insight" style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6;">
-            Add some tasks, and I'll analyze your schedule to suggest what you should tackle first!
+    <main class="main-content">
+      
+      <div class="header-bar">
+        <div>
+          <h2 id="greeting-text">Good Morning, User</h2>
+          <p style="color: var(--text-muted); font-size: 0.9rem;" id="date-display"></p>
+        </div>
+      </div>
+
+      <div id="conflict-banner" class="banner">
+        ⚠️ <strong>Schedule Conflict:</strong> Multiple tasks share the exact same due date. Reschedule to avoid burnout!
+      </div>
+
+      <div class="panel" id="form-panel">
+        <div class="panel-title">Add New Task</div>
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <input type="text" id="task-title" placeholder="E.g., Finish project presentation" autocomplete="off" />
+          <select id="task-priority">
+            <option value="high">🔴 High Priority</option>
+            <option value="medium" selected>🟡 Medium Priority</option>
+            <option value="low">🟢 Low Priority</option>
+          </select>
+          <input type="date" id="task-date" />
+          <button class="btn-primary" onclick="addTask()">Create Task</button>
+        </div>
+      </div>
+
+      <div class="panel" id="list-panel" style="grid-column: 1; grid-row: 2 / span 2;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <div class="panel-title" style="margin: 0;">Your Tasks</div>
+          <span style="font-size: 0.8rem; color: var(--text-muted);" id="task-count">0 Active</span>
+        </div>
+        <div class="task-list" id="task-container">
+          </div>
+      </div>
+
+      <div id="ai-panel" style="grid-column: 2; grid-row: 2;">
+        <div class="ai-insight">
+          <h4>✨ AI Scheduler Insight</h4>
+          <p id="ai-text" style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; margin-top: 8px;">
+            Add some tasks, and I'll analyze your workload to suggest the best priorities.
           </p>
         </div>
-      </aside>
+      </div>
 
-      <section>
-        <div id="conflict-banner" class="banner">
-          ⚠️ <strong>Schedule Conflict Detected:</strong> Multiple tasks are due on the exact same date. Consider rescheduling to avoid overload.
-        </div>
-
-        <div class="card" style="min-height: 500px;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--sp-6); border-bottom: 1px solid var(--border); padding-bottom: var(--sp-4);">
-            <h2>Your Tasks</h2>
-            <span id="task-counter" class="header-credits">0 Active Tasks</span>
-          </div>
-          <div id="task-list">
-            </div>
-        </div>
-      </section>
-      
     </main>
+
+    <nav class="mobile-nav">
+      <button class="mob-nav-item active">
+        <span class="mob-nav-icon">📋</span>
+        <span>Tasks</span>
+      </button>
+      <button class="mob-nav-item" onclick="document.getElementById('task-title').focus()">
+        <span class="mob-nav-icon">➕</span>
+        <span>Add</span>
+      </button>
+      <button class="mob-nav-item" onclick="logout()">
+        <span class="mob-nav-icon">🚪</span>
+        <span>Logout</span>
+      </button>
+    </nav>
+
   </div>
 
   <script>
     // --- STATE MANAGEMENT ---
-    let tasks = JSON.parse(localStorage.getItem('taskflow_data')) || [];
+    let isSignUpMode = false;
+    let currentUser = null;
+    let tasks = [];
 
-    // --- AUTHENTICATION ---
-    function login() {
-      document.getElementById('auth-screen').style.display = 'none';
-      document.getElementById('app-screen').style.display = 'flex';
-      renderTasks();
+    // --- INITIALIZATION ---
+    window.onload = () => {
+      // Set today's date
+      const options = { weekday: 'long', month: 'long', day: 'numeric' };
+      document.getElementById('date-display').innerText = new Date().toLocaleDateString('en-US', options);
+      
+      // Check if user is already logged in via LocalStorage
+      const savedUser = localStorage.getItem('taskflow_user');
+      if (savedUser) {
+        currentUser = JSON.parse(savedUser);
+        loadUserApp();
+      }
+    };
+
+    // --- AUTHENTICATION LOGIC (Fixing the logic error) ---
+    function toggleAuthMode() {
+      isSignUpMode = !isSignUpMode;
+      const nameInput = document.getElementById('auth-name');
+      const title = document.querySelector('.auth-header h1');
+      const subtitle = document.getElementById('auth-subtitle');
+      const btn = document.getElementById('auth-submit-btn');
+      const toggleText = document.getElementById('auth-toggle-text');
+
+      if (isSignUpMode) {
+        nameInput.style.display = 'block';
+        title.innerText = 'Create Account';
+        subtitle.innerText = 'Join TaskFlow to organize your day.';
+        btn.innerText = 'Sign Up';
+        toggleText.innerHTML = 'Already have an account? <b>Sign in</b>';
+      } else {
+        nameInput.style.display = 'none';
+        title.innerText = 'TaskFlow';
+        subtitle.innerText = 'Sign in to continue to your workspace.';
+        btn.innerText = 'Sign In';
+        toggleText.innerHTML = 'Don\'t have an account? <b>Sign up</b>';
+      }
+    }
+
+    function handleAuth() {
+      const email = document.getElementById('auth-email').value.trim();
+      const pass = document.getElementById('auth-password').value.trim();
+      const name = document.getElementById('auth-name').value.trim();
+
+      if (!email || !pass) return alert("Email and Password are required.");
+      if (isSignUpMode && !name) return alert("Please enter your name to create an account.");
+
+      // Mock User Creation / Login
+      currentUser = {
+        name: isSignUpMode ? name : (email.split('@')[0] || "User"),
+        email: email
+      };
+
+      localStorage.setItem('taskflow_user', JSON.stringify(currentUser));
+      loadUserApp();
     }
 
     function logout() {
-      document.getElementById('app-screen').style.display = 'none';
-      document.getElementById('auth-screen').style.display = 'flex';
+      localStorage.removeItem('taskflow_user');
+      document.getElementById('app-view').style.display = 'none';
+      document.getElementById('auth-view').style.display = 'flex';
+      
+      // Clear inputs
+      document.getElementById('auth-email').value = '';
+      document.getElementById('auth-password').value = '';
     }
 
-    // --- CORE LOGIC ---
+    // --- APP LOAD LOGIC ---
+    function loadUserApp() {
+      // Hide Auth, Show App
+      document.getElementById('auth-view').style.display = 'none';
+      // Use grid for desktop, flex for mobile will be handled by media query but JS sets inline style.
+      // To allow CSS media queries to work, set display: grid (the default desktop state).
+      document.getElementById('app-view').style.display = window.innerWidth <= 900 ? 'flex' : 'grid';
+
+      // Update UI with User Data
+      document.getElementById('user-display-name').innerText = currentUser.name;
+      document.getElementById('user-avatar').innerText = currentUser.name.charAt(0).toUpperCase();
+      
+      // Dynamic Greeting
+      const hour = new Date().getHours();
+      let greeting = 'Good Evening';
+      if (hour < 12) greeting = 'Good Morning';
+      else if (hour < 18) greeting = 'Good Afternoon';
+      document.getElementById('greeting-text').innerText = `${greeting}, ${currentUser.name.split(' ')[0]}`;
+
+      // Load specific user's tasks
+      tasks = JSON.parse(localStorage.getItem(`taskflow_tasks_${currentUser.email}`)) || [];
+      renderTasks();
+    }
+
+    // --- TASK LOGIC ---
     function addTask() {
       const titleInput = document.getElementById('task-title');
       const title = titleInput.value.trim();
       const priority = document.getElementById('task-priority').value;
       const date = document.getElementById('task-date').value;
 
-      if (!title) {
-        titleInput.focus();
-        return; // Prevent empty tasks silently for better UX
-      }
+      if (!title) { titleInput.focus(); return; }
 
-      tasks.push({
-        id: Date.now(),
-        title: title,
-        priority: priority,
-        dueDate: date,
-        completed: false
-      });
-
+      tasks.push({ id: Date.now(), title, priority, dueDate: date, completed: false });
       saveAndRender();
-      titleInput.value = ''; // Clear input
+      titleInput.value = ''; 
     }
 
     function toggleTask(id) {
       const task = tasks.find(t => t.id === id);
-      if(task) task.completed = !task.completed;
+      if (task) task.completed = !task.completed;
       saveAndRender();
     }
 
@@ -322,90 +495,83 @@
     }
 
     function saveAndRender() {
-      localStorage.setItem('taskflow_data', JSON.stringify(tasks));
+      localStorage.setItem(`taskflow_tasks_${currentUser.email}`, JSON.stringify(tasks));
       renderTasks();
     }
 
-    // --- AI & EDGE CASE LOGIC ---
+    // --- AI & EDGE CASE LOGIC (Criteria Match) ---
     function analyzeSchedule() {
-      const activeTasks = tasks.filter(t => !t.completed);
+      const active = tasks.filter(t => !t.completed);
       const conflictBanner = document.getElementById('conflict-banner');
-      const aiInsight = document.getElementById('ai-insight');
+      const aiInsight = document.getElementById('ai-text');
       
-      // Update Counter
-      document.getElementById('task-counter').innerText = `${activeTasks.length} Active Tasks`;
+      document.getElementById('task-count').innerText = `${active.length} Active`;
 
-      // Edge Case: Conflict Detection (Ignore empty dates)
-      const dates = activeTasks.map(t => t.dueDate).filter(d => d !== "");
+      // Conflict Edge Case
+      const dates = active.map(t => t.dueDate).filter(d => d !== "");
       const hasConflict = new Set(dates).size !== dates.length;
       conflictBanner.style.display = hasConflict ? 'block' : 'none';
 
-      // AI Logic: Priority Suggestions & Overload Handling
-      if (activeTasks.length === 0) {
+      // Priority Suggestions
+      if (active.length === 0) {
         aiInsight.innerText = "Your schedule is clear. Great job catching up!";
         return;
       }
-
-      const highPriority = activeTasks.filter(t => t.priority === 'high');
+      const highPriority = active.filter(t => t.priority === 'high');
       if (highPriority.length > 3) {
-        aiInsight.innerHTML = "<strong style='color: var(--orange)'>Overload Warning:</strong> You have too many high-priority tasks pending. Try to break them down or shift deadlines.";
+        aiInsight.innerHTML = "<span style='color: var(--danger); font-weight:bold;'>Overload Warning:</span> You have too many high-priority tasks pending. Try to delegate or shift deadlines.";
       } else if (highPriority.length > 0) {
-        aiInsight.innerHTML = `I suggest focusing on your High Priority task:<br/> <strong style="color: var(--text-primary);">"${highPriority[0].title}"</strong>`;
+        aiInsight.innerHTML = `Suggested Focus: <b>"${highPriority[0].title}"</b> based on priority levels.`;
       } else {
-        aiInsight.innerText = "Your schedule looks manageable today. Tackle the quickest task first to build momentum!";
+        aiInsight.innerText = "Schedule looks balanced. Tackle the quickest task first to build momentum.";
       }
     }
 
     // --- RENDERING ---
     function renderTasks() {
-      const list = document.getElementById('task-list');
-      list.innerHTML = '';
+      const container = document.getElementById('task-container');
+      container.innerHTML = '';
 
-      // Sorting Algorithm: 
-      // 1. Uncompleted tasks first.
-      // 2. Then sort by priority (High -> Medium -> Low).
-      const sortedTasks = [...tasks].sort((a, b) => {
+      // Sort: Pending first, then by priority High > Med > Low
+      const sorted = [...tasks].sort((a, b) => {
         if (a.completed !== b.completed) return a.completed ? 1 : -1;
-        const pVal = { high: 1, medium: 2, low: 3 };
-        return pVal[a.priority] - pVal[b.priority];
+        const p = { high: 1, medium: 2, low: 3 };
+        return p[a.priority] - p[b.priority];
       });
 
-      if (sortedTasks.length === 0) {
-        list.innerHTML = `
-          <div style="text-align: center; color: var(--text-muted); padding: 60px 20px;">
-            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.5; margin-bottom: 16px;"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path><path d="m9 12 2 2 4-4"></path></svg>
-            <p>No tasks yet. Create one from the sidebar to get started!</p>
-          </div>`;
+      if (sorted.length === 0) {
+        container.innerHTML = `<div style="text-align:center; padding: 40px; color: var(--text-muted);">No tasks found. Create one above!</div>`;
       }
 
-      sortedTasks.forEach(t => {
+      sorted.forEach(t => {
         const div = document.createElement('div');
-        div.className = 'task-item';
-        // Visual cue for completed items
-        if(t.completed) {
-          div.style.opacity = '0.5';
-          div.style.background = 'transparent';
-        }
+        div.className = `task-card ${t.completed ? 'completed' : ''}`;
         
         div.innerHTML = `
-          <label class="checkbox-wrapper">
-            <input type="checkbox" ${t.completed ? 'checked' : ''} onchange="toggleTask(${t.id})" />
-            <div class="task-info">
-              <h3 style="${t.completed ? 'text-decoration: line-through; color: var(--text-muted);' : ''}">${t.title}</h3>
-              <div class="task-meta">
-                <span class="badge ${t.priority}">${t.priority.toUpperCase()}</span>
-                ${t.dueDate ? `<span>📅 ${t.dueDate}</span>` : ''}
+          <div class="task-info">
+            <input type="checkbox" class="task-checkbox" ${t.completed ? 'checked' : ''} onchange="toggleTask(${t.id})" />
+            <div>
+              <h4 style="margin-bottom: 6px; font-weight: 500;">${t.title}</h4>
+              <div style="display: flex; gap: 10px; align-items: center;">
+                <span class="badge ${t.priority}">${t.priority}</span>
+                ${t.dueDate ? `<span style="font-size: 0.8rem; color: var(--text-muted);">📅 ${t.dueDate}</span>` : ''}
               </div>
             </div>
-          </label>
-          <button class="btn-delete" onclick="deleteTask(${t.id})">Delete</button>
+          </div>
+          <button class="btn-text" style="color: var(--danger);" onclick="deleteTask(${t.id})">Delete</button>
         `;
-        list.appendChild(div);
+        container.appendChild(div);
       });
 
-      // Run AI Analysis after rendering
       analyzeSchedule();
     }
+
+    // Handle resize to fix display issues when crossing breakpoints
+    window.addEventListener('resize', () => {
+      if(document.getElementById('app-view').style.display !== 'none') {
+        document.getElementById('app-view').style.display = window.innerWidth <= 900 ? 'flex' : 'grid';
+      }
+    });
   </script>
 </body>
 </html>
