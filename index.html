@@ -129,7 +129,7 @@ button{font-family:var(--font-ui);font-weight:600;cursor:pointer;border:none;bor
 
 .content-grid{display:grid;grid-template-columns:1fr 320px;gap:20px;align-items:start}
 .panel{background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:22px}
-.panel-title{font-weight:700;font-size:.95rem;margin-bottom:18px;color:var(--text-main}
+.panel-title{font-weight:700;font-size:.95rem;margin-bottom:18px;color:var(--text-main)}
 .form-fields{display:flex;flex-direction:column;gap:10px}
 
 .tasks-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
@@ -506,7 +506,7 @@ function toggleMode() {
   $('auth-btn').textContent = signUpMode ? 'Sign Up' : 'Sign In';
   $('auth-toggle-text').innerHTML = signUpMode
     ? 'Already have an account? <a onclick="toggleMode()">Sign in</a>'
-    : 'Don\\'t have an account? <a onclick="toggleMode()">Sign up</a>';
+    : "Don't have an account? <a onclick=\"toggleMode()\">Sign up</a>";
   $('auth-password').autocomplete = signUpMode ? 'new-password' : 'current-password';
 }
 
@@ -516,7 +516,7 @@ function handleAuth() {
   const name = $('auth-name').value.trim();
 
   if (!email || !pass) { alert('Email and password are required.'); return; }
-  if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) { alert('Please enter a valid email address.'); return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { alert('Please enter a valid email address.'); return; }
   if (signUpMode && !name) { alert('Please enter your name.'); return; }
 
   currentUser = { name: signUpMode ? name : (email.split('@')[0] || 'User'), email };
@@ -620,6 +620,7 @@ function focusAdd() {
 }
 
 function escapeHTML(str='') {
+  str = String(str);
   return str
     .replaceAll('&','&amp;')
     .replaceAll('<','&lt;')
@@ -629,7 +630,7 @@ function escapeHTML(str='') {
 }
 
 function formatDueDate(isoDate) {
-  if (!isoDate || !/^\\d{4}-\\d{2}-\\d{2}$/.test(isoDate)) return '';
+  if (!isoDate || !/^\d{4}-\d{2}-\d{2}$/.test(isoDate)) return '';
   const [y,m,d] = isoDate.split('-').map(Number);
   const dt = new Date(y, m - 1, d);
   if (Number.isNaN(dt.getTime())) return '';
@@ -752,10 +753,11 @@ function renderCalendar(){
       cell.appendChild(tag);
     });
 
-    if (tasks.filter(t=>t.dueDate===iso && !t.done).length > 3){
+    const remaining = tasks.filter(t=>t.dueDate===iso && !t.done).length - 3;
+    if (remaining > 0){
       const more = document.createElement('div');
       more.className = 'cell-task';
-      more.textContent = `+${tasks.filter(t=>t.dueDate===iso && !t.done).length - 3} more`;
+      more.textContent = `+${remaining} more`;
       cell.appendChild(more);
     }
 
