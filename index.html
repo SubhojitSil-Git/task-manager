@@ -39,7 +39,7 @@
   --accent-2: var(--c-4);
   --accent-ink: #0b1220;
 
-  --danger: #ff5b6a; /* used for high badge tone; not used in logic */
+  --danger: #ff5b6a;
   --success: #34d399;
   --warning: #fbbf24;
 
@@ -52,6 +52,17 @@
   --r-sm:10px;
   --r-md:14px;
   --r-lg:22px;
+
+  /* NEW: layout rhythm */
+  --space-1: 8px;
+  --space-2: 12px;
+  --space-3: 16px;
+  --space-4: 22px;
+  --space-5: 28px;
+  --space-6: 36px;
+
+  /* NEW: page max width for main content */
+  --main-max: 1160px;
 }
 
 *{box-sizing:border-box;margin:0;padding:0}
@@ -120,7 +131,7 @@ button{
 .btn-text:hover{color:var(--text-main)}
 
 /* =========================================================
-   AUTH VIEW (desktop: centered glass card)
+   AUTH VIEW
    ========================================================= */
 #auth-view{
   position:fixed;inset:0;
@@ -177,7 +188,7 @@ button{
 .auth-toggle a:hover{text-decoration:underline}
 
 /* =========================================================
-   APP VIEW (desktop: sidebar + main, stronger depth)
+   APP VIEW
    ========================================================= */
 #app-view{
   position:fixed;inset:0;
@@ -270,26 +281,40 @@ button{
   padding:30px 32px 30px;
   display:flex;
   flex-direction:column;
-  gap:18px;
+  gap:var(--space-4); /* NEW: more breathing room */
 }
-.top-row{display:flex;justify-content:space-between;align-items:flex-start}
+
+/* NEW: center content and reduce "congested" full-width feel */
+.main-content > .view{
+  width:100%;
+  max-width:var(--main-max);
+  margin:0 auto;
+}
+
+.top-row{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:var(--space-3);
+}
 .greeting{
   font-family:var(--font-display);
   font-size:1.85rem;
   font-weight:900;
   letter-spacing:0.2px;
+  line-height:1.15; /* NEW */
 }
-.date-sub{color:var(--text-muted);font-size:.88rem;margin-top:4px}
+.date-sub{color:var(--text-muted);font-size:.88rem;margin-top:6px} /* slightly more spacing */
 
 .panel{
   background:linear-gradient(180deg, rgba(202,229,255,0.10), rgba(202,229,255,0.06));
   border:1px solid var(--border);
   border-radius:var(--r-lg);
-  padding:20px;
+  padding:22px; /* NEW: roomier */
   box-shadow: var(--shadow-soft);
 }
 .panel-title{font-weight:900;font-size:.96rem;margin-bottom:14px;color:var(--text-main);letter-spacing:.2px}
-.form-fields{display:flex;flex-direction:column;gap:10px}
+.form-fields{display:flex;flex-direction:column;gap:12px} /* NEW: roomier */
 
 /* Progress */
 .progress-card{
@@ -297,13 +322,13 @@ button{
     radial-gradient(900px 250px at 10% 0%, rgba(172,237,255,0.12), transparent 55%),
     linear-gradient(180deg, rgba(202,229,255,0.10), rgba(202,229,255,0.06));
   border:1px solid var(--border);
-  padding:18px 20px;
+  padding:20px 22px; /* NEW */
   border-radius:var(--r-lg);
   box-shadow: var(--shadow-soft);
 }
-.progress-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}
+.progress-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;gap:var(--space-3)}
 .progress-label{font-weight:900;font-size:.95rem}
-.progress-caption{font-size:.82rem;color:var(--text-muted);margin-top:2px;max-width:520px}
+.progress-caption{font-size:.82rem;color:var(--text-muted);margin-top:4px;max-width:560px;line-height:1.5}
 .progress-pct{font-family:var(--font-display);font-size:1.55rem;font-weight:900}
 .progress-track{
   height:12px;
@@ -320,12 +345,18 @@ button{
   transition:width .7s cubic-bezier(.34,1.56,.64,1)
 }
 
-.content-grid{display:grid;grid-template-columns:1fr 340px;gap:18px;align-items:start}
+/* NEW: dashboard grid spacing + air */
+.content-grid{
+  display:grid;
+  grid-template-columns:minmax(0,1fr) 360px; /* NEW: slightly wider right rail */
+  gap:var(--space-4); /* NEW */
+  align-items:start;
+}
 
-.tasks-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.tasks-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:var(--space-2)}
 .count-badge{
   font-size:.75rem;font-weight:900;
-  padding:4px 10px;
+  padding:5px 10px;
   border-radius:999px;
   background:rgba(202,229,255,0.08);
   color:var(--text-muted);
@@ -333,12 +364,28 @@ button{
 }
 
 /* Tasks */
-.task-list{display:flex;flex-direction:column;gap:10px}
+.task-list{
+  display:flex;
+  flex-direction:column;
+  gap:12px; /* NEW */
+}
+
+/* NEW: provide a comfortable scroll area for tasks (reduces congestion) */
+#list-panel{
+  display:flex;
+  flex-direction:column;
+  min-height:360px;
+}
+#task-container{
+  flex:1;
+  overflow:auto;
+  padding-right:4px; /* room for scrollbar */
+}
+
 .task-card{
-  background:
-    linear-gradient(180deg, rgba(202,229,255,0.07), rgba(202,229,255,0.04));
+  background: linear-gradient(180deg, rgba(202,229,255,0.07), rgba(202,229,255,0.04));
   border:1px solid rgba(202,229,255,0.16);
-  border-radius:16px;
+  border-radius:18px; /* NEW: slightly softer */
   padding:14px 14px;
   display:flex;
   justify-content:space-between;
@@ -371,8 +418,8 @@ button{
 .task-check:checked::before{content:'✓';color:var(--accent-ink);font-size:13px;font-weight:900}
 
 .task-title{
-  font-weight:700;
-  font-size:.92rem;
+  font-weight:750; /* NEW: a bit stronger */
+  font-size:.95rem; /* NEW */
   margin-bottom:6px;
   white-space:nowrap;overflow:hidden;text-overflow:ellipsis
 }
@@ -428,7 +475,7 @@ button{
     radial-gradient(500px 220px at 20% 0%, rgba(172,237,255,0.18), transparent 60%),
     linear-gradient(180deg, rgba(202,229,255,0.09), rgba(202,229,255,0.05));
   border:1px solid rgba(137,187,254,.22);
-  padding:16px;
+  padding:18px; /* NEW */
   border-radius:18px;
   margin-bottom:16px;
   box-shadow: 0 14px 26px rgba(0,0,0,0.22);
@@ -450,6 +497,12 @@ button{
   box-shadow:0 0 0 4px rgba(137,187,254,0.12);
 }
 .ai-text{font-size:.88rem;color:var(--text-muted);line-height:1.55}
+
+/* NEW: make right rail sticky to reduce "hunting" + keeps layout calmer */
+.right-col{
+  position:sticky;
+  top:22px;
+}
 
 /* Conflict banner */
 .conflict-banner{
@@ -554,7 +607,7 @@ button{
   background:rgba(172,237,255,0.10);
 }
 
-/* Mobile bottom nav (kept same structure/JS, restyled) */
+/* Mobile bottom nav */
 .mob-nav{
   display:none;
   position:fixed;
@@ -588,11 +641,7 @@ button{
 }
 
 /* =========================================================
-   RESPONSIVE: Make mobile intentionally different
-   - app becomes single column
-   - panels become more "cardy"
-   - calendar gets tighter
-   - add extra bottom padding for nav
+   RESPONSIVE
    ========================================================= */
 @media(max-width:860px){
   #app-view{grid-template-columns:1fr!important}
@@ -606,10 +655,25 @@ button{
       linear-gradient(180deg, #070b14 0%, #0b1220 60%, #090f1d 100%);
   }
 
-  .main-content{padding:18px 14px 92px}
-  .content-grid{grid-template-columns:1fr}
+  .main-content{
+    padding:18px 14px 92px;
+    gap:var(--space-4);
+  }
+
+  .main-content > .view{
+    max-width: 720px; /* NEW: keeps it readable on tablets */
+  }
+
+  .content-grid{
+    grid-template-columns:1fr;
+    gap:var(--space-4);
+  }
+
   .greeting{font-size:1.45rem}
-  .right-col{order:-1}
+  .right-col{
+    order:-1;
+    position:static; /* NEW: no sticky on mobile */
+  }
 
   /* Mobile cards: slightly brighter + more rounded */
   .panel,
@@ -620,10 +684,18 @@ button{
     border:1px solid rgba(202,229,255,0.16);
   }
 
+  /* NEW: more comfy list area and touch targets */
+  #list-panel{min-height:320px}
+  #task-container{max-height:52vh} /* prevents "everything at once" feeling */
+
   .task-card{
     border-radius:20px;
-    padding:14px;
+    padding:15px 14px;
   }
+
+  .task-title{font-size:.96rem}
+  .task-check{width:24px;height:24px;border-radius:8px}
+  .del-btn{padding:8px 10px}
 
   .settings-grid{grid-template-columns:1fr}
   .calendar-grid{gap:8px}
@@ -634,6 +706,11 @@ button{
   .auth-box{padding:26px 20px}
   .calendar-grid{gap:7px}
   .calendar-cell{padding:9px;min-height:64px}
+
+  /* NEW: more air in the top area + less cramped headings */
+  .top-row{gap:var(--space-2)}
+  .date-sub{margin-top:8px}
+  .panel{padding:20px}
 }
 </style>
 </head>
@@ -868,7 +945,7 @@ function handleAuth() {
   const name = $('auth-name').value.trim();
 
   if (!email || !pass) { alert('Email and password are required.'); return; }
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { alert('Please enter a valid email address.'); return; }
+  if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) { alert('Please enter a valid email address.'); return; }
   if (signUpMode && !name) { alert('Please enter your name.'); return; }
 
   currentUser = { name: signUpMode ? name : (email.split('@')[0] || 'User'), email };
@@ -982,7 +1059,7 @@ function escapeHTML(str='') {
 }
 
 function formatDueDate(isoDate) {
-  if (!isoDate || !/^\d{4}-\d{2}-\d{2}$/.test(isoDate)) return '';
+  if (!isoDate || !/^\\d{4}-\\d{2}-\\d{2}$/.test(isoDate)) return '';
   const [y,m,d] = isoDate.split('-').map(Number);
   const dt = new Date(y, m - 1, d);
   if (Number.isNaN(dt.getTime())) return '';
