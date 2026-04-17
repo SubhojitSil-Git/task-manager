@@ -1,600 +1,465 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
-  <title>TaskFlow — AI Task Manager</title>
-  <meta name="theme-color" content="#1D3557" />
-  
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet" />
-  
-  <style>
-    /* ══════════════════════════════════════════════════════
-       TASKFLOW — New Color Palette Design System
-       Colors from uploaded image:
-       #E63946 (Red), #F1FAEE (Off-white), #A8DADC (Light Blue)
-       #457B9D (Medium Blue), #1D3557 (Navy Blue)
-    ══════════════════════════════════════════════════════ */
-    :root {
-      /* Base & Surfaces */
-      --bg-base:        #112034; /* Darker navy for background contrast */
-      --bg-surface:     #1D3557; /* Prussian Blue from palette */
-      --bg-raised:      #2b4a73; /* Slightly lighter for inputs */
-      --bg-hover:       #457B9D; /* Celadon Blue from palette */
-      --border:         #457B9D; /* Celadon Blue */
-      
-      /* Typography */
-      --text-main:      #F1FAEE; /* Honeydew from palette */
-      --text-muted:     #A8DADC; /* Powder Blue from palette */
-      
-      /* Accents */
-      --accent:         #E63946; /* Imperial Red from palette */
-      --accent-hover:   #c22c37;
-      --accent-glow:    rgba(230, 57, 70, 0.3);
-      
-      --danger:         #E63946;
-      --warning:        #f59e0b;
-      --success:        #A8DADC; 
-      
-      --font-ui:        'Plus Jakarta Sans', sans-serif;
-      --font-display:   'Space Grotesk', sans-serif;
-      
-      --radius-sm:      8px;
-      --radius-md:      12px;
-      --radius-lg:      20px;
-      
-      --shadow-float:   0 10px 30px -10px rgba(0,0,0,0.6);
-    }
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover"/>
+<title>TaskFlow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg-base:#0f1e30;
+  --bg-surface:#1a2f48;
+  --bg-raised:#223550;
+  --bg-input:#1e3a55;
+  --border:#2d5070;
+  --border-focus:#457B9D;
+  --text-main:#F1FAEE;
+  --text-muted:#A8DADC;
+  --accent:#E63946;
+  --accent-hover:#c82333;
+  --accent-soft:rgba(230,57,70,0.15);
+  --success:#2ecc71;
+  --warning:#f59e0b;
+  --font-ui:'Plus Jakarta Sans',sans-serif;
+  --font-display:'Space Grotesk',sans-serif;
+  --r-sm:8px;
+  --r-md:12px;
+  --r-lg:18px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;overflow:hidden}
+body{font-family:var(--font-ui);background:var(--bg-base);color:var(--text-main);-webkit-font-smoothing:antialiased}
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    
-    body {
-      font-family: var(--font-ui);
-      background-color: var(--bg-base);
-      color: var(--text-main);
-      -webkit-font-smoothing: antialiased;
-      overflow-x: hidden;
-    }
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
 
-    /* ── FORMS & BUTTONS ──────────────────────────────────── */
-    input, select {
-      width: 100%;
-      background: var(--bg-raised);
-      border: 1px solid var(--border);
-      color: var(--text-main);
-      padding: 14px 16px;
-      border-radius: var(--radius-md);
-      font-family: inherit;
-      font-size: 0.95rem;
-      transition: all 0.2s ease;
-    }
-    input::placeholder { color: var(--text-muted); opacity: 0.7; }
-    input:focus, select:focus {
-      outline: none;
-      border-color: var(--text-muted);
-      box-shadow: 0 0 0 3px rgba(168, 218, 220, 0.2);
-    }
-    
-    button {
-      font-family: inherit;
-      font-weight: 600;
-      cursor: pointer;
-      border: none;
-      border-radius: var(--radius-md);
-      padding: 14px 20px;
-      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-    }
-    .btn-primary {
-      background: var(--accent);
-      color: #fff;
-      width: 100%;
-    }
-    .btn-primary:hover {
-      background: var(--accent-hover);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 20px var(--accent-glow);
-    }
-    .btn-text {
-      background: transparent;
-      color: var(--text-muted);
-      padding: 8px;
-    }
-    .btn-text:hover { color: var(--text-main); }
+input,select{
+  width:100%;background:var(--bg-input);border:1px solid var(--border);
+  color:var(--text-main);padding:12px 14px;border-radius:var(--r-md);
+  font-family:var(--font-ui);font-size:0.9rem;transition:border .2s,box-shadow .2s;
+  -webkit-appearance:none;appearance:none
+}
+input::placeholder{color:var(--text-muted);opacity:.6}
+input:focus,select:focus{outline:none;border-color:var(--border-focus);box-shadow:0 0 0 3px rgba(69,123,157,.2)}
+select option{background:var(--bg-surface);color:var(--text-main)}
+input[type="date"]::-webkit-calendar-picker-indicator{filter:invert(.6)}
 
-    /* ── AUTHENTICATION SCREEN ────────────────────────────── */
-    #auth-view {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      background: radial-gradient(circle at top right, rgba(230, 57, 70, 0.15), transparent 40%), var(--bg-base);
-    }
-    .auth-box {
-      width: 100%;
-      max-width: 420px;
-      background: var(--bg-surface);
-      padding: 40px;
-      border-radius: var(--radius-lg);
-      border: 1px solid var(--border);
-      box-shadow: var(--shadow-float);
-    }
-    .auth-header { text-align: center; margin-bottom: 30px; }
-    .auth-header h1 { font-family: var(--font-display); font-size: 2rem; color: var(--text-main); }
-    .auth-header p { color: var(--text-muted); margin-top: 8px; }
-    
-    .auth-form { display: flex; flex-direction: column; gap: 16px; }
-    
-    .auth-toggle {
-      text-align: center; margin-top: 24px; font-size: 0.9rem; color: var(--text-muted);
-    }
-    .auth-toggle span { color: var(--accent); cursor: pointer; font-weight: 600; }
-    .auth-toggle span:hover { text-decoration: underline; }
+button{font-family:var(--font-ui);font-weight:600;cursor:pointer;border:none;border-radius:var(--r-md);padding:12px 18px;transition:all .2s ease}
+.btn-primary{background:var(--accent);color:#fff;width:100%;font-size:.95rem;letter-spacing:.3px}
+.btn-primary:hover{background:var(--accent-hover);transform:translateY(-1px);box-shadow:0 6px 18px rgba(230,57,70,.3)}
+.btn-primary:active{transform:translateY(0)}
+.btn-text{background:transparent;color:var(--text-muted);padding:6px}
+.btn-text:hover{color:var(--text-main)}
 
-    /* ── APP LAYOUT (DESKTOP FIRST) ───────────────────────── */
-    #app-view {
-      display: none;
-      height: 100vh;
-      grid-template-columns: 260px 1fr;
-      overflow: hidden;
-    }
+#auth-view{
+  position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+  padding:20px;background:radial-gradient(circle at 70% 20%,rgba(230,57,70,.12),transparent 50%),var(--bg-base)
+}
+.auth-box{
+  width:100%;max-width:400px;background:var(--bg-surface);
+  padding:36px;border-radius:var(--r-lg);border:1px solid var(--border)
+}
+.auth-logo{font-family:var(--font-display);font-size:1.9rem;font-weight:700;color:var(--text-main);text-align:center;margin-bottom:6px}
+.auth-logo span{color:var(--accent)}
+.auth-sub{text-align:center;color:var(--text-muted);font-size:.88rem;margin-bottom:28px}
+.auth-form{display:flex;flex-direction:column;gap:12px}
+.auth-toggle{text-align:center;margin-top:20px;font-size:.85rem;color:var(--text-muted)}
+.auth-toggle a{color:var(--accent);cursor:pointer;font-weight:600;text-decoration:none}
+.auth-toggle a:hover{text-decoration:underline}
 
-    /* Sidebar */
-    .sidebar {
-      background: var(--bg-surface);
-      border-right: 1px solid var(--border);
-      padding: 24px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .brand { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
-    .nav-menu { display: flex; flex-direction: column; gap: 8px; margin-top: 40px; }
-    .nav-item {
-      padding: 12px 16px; border-radius: var(--radius-md); color: var(--text-muted);
-      font-weight: 600; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 12px;
-    }
-    .nav-item:hover, .nav-item.active { background: var(--bg-hover); color: var(--text-main); }
-    .user-profile {
-      display: flex; align-items: center; gap: 12px; padding-top: 24px; border-top: 1px solid var(--border);
-    }
-    .avatar { width: 40px; height: 40px; border-radius: 50%; background: var(--accent); display: grid; place-items: center; font-weight: bold; color: white;}
+#app-view{
+  position:fixed;inset:0;display:none;
+  grid-template-columns:240px 1fr;grid-template-rows:100%;
+  overflow:hidden
+}
 
-    /* Main Content Area */
-    .main-content {
-      padding: 40px;
-      overflow-y: auto;
-      display: grid;
-      grid-template-columns: 1fr 350px;
-      gap: 30px;
-      align-items: start;
-    }
-    
-    .header-bar { grid-column: 1 / -1; display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-    .header-bar h2 { font-family: var(--font-display); font-size: 2rem; color: var(--text-main); }
+.sidebar{
+  background:var(--bg-surface);border-right:1px solid var(--border);
+  padding:24px 20px;display:flex;flex-direction:column;
+  justify-content:space-between;overflow:hidden
+}
+.brand{font-family:var(--font-display);font-size:1.4rem;font-weight:700;
+  color:var(--text-main);display:flex;align-items:center;gap:8px;margin-bottom:36px}
+.brand-dot{width:10px;height:10px;border-radius:50%;background:var(--accent);display:inline-block}
+.nav-item{
+  padding:11px 14px;border-radius:var(--r-md);color:var(--text-muted);
+  font-weight:600;font-size:.9rem;cursor:pointer;transition:all .2s;
+  display:flex;align-items:center;gap:10px;user-select:none;margin-bottom:4px
+}
+.nav-item:hover,.nav-item.active{background:rgba(69,123,157,.18);color:var(--text-main)}
+.nav-item.active{border-left:3px solid var(--accent);padding-left:11px}
+.nav-icon{font-size:15px;flex-shrink:0}
+.user-card{
+  border-top:1px solid var(--border);padding-top:18px;
+  display:flex;align-items:center;gap:12px
+}
+.avatar{
+  width:38px;height:38px;border-radius:50%;background:var(--accent);
+  display:grid;place-items:center;font-weight:700;font-size:.95rem;
+  color:#fff;flex-shrink:0;text-transform:uppercase
+}
+.user-name{font-weight:600;font-size:.88rem;color:var(--text-main);line-height:1.2}
+.logout-btn{font-size:.78rem;color:var(--accent);background:none;border:none;
+  cursor:pointer;padding:0;font-family:var(--font-ui);font-weight:500;transition:opacity .2s}
+.logout-btn:hover{opacity:.7}
 
-    /* ── INTERACTIVE PROGRESS TRACKER ─────────────────────── */
-    .progress-widget {
-      grid-column: 1 / -1;
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      padding: 20px 24px;
-      border-radius: var(--radius-lg);
-      margin-bottom: 10px;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-    .progress-header {
-      display: flex; justify-content: space-between; align-items: flex-end;
-    }
-    .progress-title { font-weight: 700; font-size: 1.1rem; }
-    .progress-subtitle { font-size: 0.85rem; color: var(--text-muted); }
-    .progress-bar-bg {
-      width: 100%; height: 12px; background: var(--bg-base);
-      border-radius: 6px; overflow: hidden; border: 1px solid var(--border);
-    }
-    .progress-bar-fill {
-      height: 100%; width: 0%; background: var(--accent);
-      border-radius: 6px; transition: width 0.8s cubic-bezier(0.34, 1.56, 0.64, 1); /* Bouncy interactive ease */
-    }
+.main-content{
+  overflow-y:auto;padding:32px 36px 32px;
+  display:flex;flex-direction:column;gap:20px
+}
+.top-row{display:flex;justify-content:space-between;align-items:flex-start}
+.greeting{font-family:var(--font-display);font-size:1.75rem;font-weight:700;color:var(--text-main)}
+.date-sub{color:var(--text-muted);font-size:.85rem;margin-top:4px}
 
-    /* Cards & Components */
-    .panel {
-      background: var(--bg-surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-lg);
-      padding: 24px;
-    }
-    .panel-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 20px; color: var(--text-main); }
+.progress-card{
+  background:var(--bg-surface);border:1px solid var(--border);
+  padding:20px 22px;border-radius:var(--r-lg)
+}
+.progress-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
+.progress-label{font-weight:700;font-size:.95rem}
+.progress-caption{font-size:.82rem;color:var(--text-muted);margin-top:2px}
+.progress-pct{font-family:var(--font-display);font-size:1.6rem;font-weight:700;color:var(--text-main)}
+.progress-track{height:10px;background:var(--bg-base);border-radius:5px;overflow:hidden;border:1px solid var(--border)}
+.progress-fill{
+  height:100%;width:0%;background:linear-gradient(90deg,var(--accent),#ff6b6b);
+  border-radius:5px;transition:width .7s cubic-bezier(.34,1.56,.64,1)
+}
 
-    /* Task List Styles */
-    .task-list { display: flex; flex-direction: column; gap: 12px; }
-    .task-card {
-      background: var(--bg-base); border: 1px solid var(--border);
-      border-radius: var(--radius-md); padding: 16px;
-      display: flex; justify-content: space-between; align-items: center;
-      transition: all 0.3s ease;
-    }
-    .task-card:hover { transform: translateX(4px); border-color: var(--text-muted); }
-    .task-card.completed { 
-      background: transparent; border-color: transparent; opacity: 0.6;
-      transform: scale(0.98); /* Interactive shrink effect */
-    }
-    .task-card.completed h4 { text-decoration: line-through; color: var(--text-muted); }
-    
-    .task-info { display: flex; align-items: flex-start; gap: 16px; width: 100%; }
-    .task-checkbox {
-      width: 24px; height: 24px; border-radius: 6px; border: 2px solid var(--text-muted);
-      cursor: pointer; appearance: none; display: grid; place-items: center; flex-shrink: 0; margin-top: 2px;
-      transition: all 0.2s ease;
-    }
-    .task-checkbox:checked { background: var(--accent); border-color: var(--accent); }
-    .task-checkbox:checked::before { content: '✓'; color: white; font-size: 16px; font-weight: bold; }
-    
-    .badge { padding: 4px 10px; border-radius: 20px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase;}
-    .badge.high { color: #fff; background: var(--danger); }
-    .badge.medium { color: var(--bg-base); background: var(--text-muted); }
-    .badge.low { color: var(--text-main); background: var(--bg-hover); }
+.content-grid{display:grid;grid-template-columns:1fr 320px;gap:20px;align-items:start}
 
-    /* AI & Banners */
-    .ai-insight {
-      background: linear-gradient(135deg, rgba(69, 123, 157, 0.2), transparent);
-      border: 1px solid var(--border);
-      padding: 20px; border-radius: var(--radius-md); margin-top: 20px;
-    }
-    .ai-insight h4 { color: var(--text-muted); display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-    
-    .banner {
-      grid-column: 1 / -1; background: rgba(230, 57, 70, 0.1); border-left: 4px solid var(--danger);
-      padding: 16px 20px; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin-bottom: 10px; display: none;
-    }
+.panel{background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:22px}
+.panel-title{font-weight:700;font-size:.95rem;margin-bottom:18px;color:var(--text-main)}
+.form-fields{display:flex;flex-direction:column;gap:10px}
 
-    /* Mobile Bottom Nav */
-    .mobile-nav { display: none; }
+.tasks-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+.count-badge{
+  font-size:.75rem;font-weight:700;padding:3px 10px;
+  border-radius:20px;background:var(--bg-raised);color:var(--text-muted);border:1px solid var(--border)
+}
+.task-list{display:flex;flex-direction:column;gap:10px}
+.task-card{
+  background:var(--bg-base);border:1px solid var(--border);
+  border-radius:var(--r-md);padding:14px 16px;
+  display:flex;justify-content:space-between;align-items:center;
+  transition:all .25s ease;gap:12px
+}
+.task-card:hover{border-color:var(--border-focus);transform:translateX(3px)}
+.task-card.done{opacity:.45;transform:scale(.98)}
+.task-card.done .task-title{text-decoration:line-through;color:var(--text-muted)}
+.task-body{display:flex;align-items:flex-start;gap:12px;flex:1;min-width:0}
+.task-check{
+  width:22px;height:22px;border-radius:6px;border:2px solid var(--border-focus);
+  cursor:pointer;-webkit-appearance:none;appearance:none;
+  display:grid;place-items:center;flex-shrink:0;margin-top:1px;
+  background:transparent;transition:all .2s
+}
+.task-check:checked{background:var(--accent);border-color:var(--accent)}
+.task-check:checked::before{content:'✓';color:white;font-size:13px;font-weight:700}
+.task-title{font-weight:500;font-size:.9rem;margin-bottom:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.task-meta{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.badge{padding:3px 9px;border-radius:20px;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.4px}
+.badge.high{background:rgba(230,57,70,.2);color:#ff8080;border:1px solid rgba(230,57,70,.3)}
+.badge.medium{background:rgba(69,123,157,.2);color:#A8DADC;border:1px solid rgba(69,123,157,.3)}
+.badge.low{background:rgba(168,218,220,.1);color:var(--text-muted);border:1px solid var(--border)}
+.task-date{font-size:.75rem;color:var(--text-muted)}
+.del-btn{
+  background:transparent;border:none;color:var(--border-focus);cursor:pointer;
+  font-size:1.1rem;padding:4px 6px;border-radius:6px;
+  transition:all .2s;flex-shrink:0;line-height:1
+}
+.del-btn:hover{background:var(--accent-soft);color:var(--accent)}
+.empty-state{text-align:center;padding:36px 20px;color:var(--text-muted);font-size:.88rem}
+.empty-icon{font-size:2rem;display:block;margin-bottom:10px}
 
-    /* ── MOBILE RESPONSIVE ───────────────────────── */
-    @media (max-width: 900px) {
-      #app-view {
-        display: none;
-        grid-template-columns: 1fr;
-        height: auto;
-        min-height: 100vh;
-        padding-bottom: 80px;
-      }
-      .sidebar { display: none; }
-      .main-content { grid-template-columns: 1fr; padding: 20px; gap: 20px; }
-      .header-bar h2 { font-size: 1.5rem; }
+.ai-box{
+  background:rgba(69,123,157,.08);border:1px solid rgba(69,123,157,.25);
+  padding:18px;border-radius:var(--r-md);margin-bottom:16px
+}
+.ai-heading{
+  font-size:.8rem;font-weight:700;color:var(--text-muted);
+  text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;
+  display:flex;align-items:center;gap:6px
+}
+.ai-heading::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--text-muted);display:inline-block}
+.ai-text{font-size:.87rem;color:var(--text-muted);line-height:1.6}
 
-      .mobile-nav {
-        display: flex; position: fixed; bottom: 0; left: 0; right: 0; height: 70px;
-        background: var(--bg-surface); border-top: 1px solid var(--border);
-        justify-content: space-around; align-items: center; z-index: 1000;
-      }
-      .mob-nav-item {
-        display: flex; flex-direction: column; align-items: center; gap: 4px;
-        color: var(--text-muted); font-size: 0.75rem; font-weight: 600; background: none; padding: 8px;
-      }
-      .mob-nav-item.active { color: var(--text-main); }
-      .mob-nav-icon { font-size: 1.2rem; }
-      
-      #form-panel { order: 2; }
-      #list-panel { order: 3; }
-      #ai-panel { order: 1; margin-bottom: -10px; }
-    }
-  </style>
+.conflict-banner{
+  display:none;background:rgba(230,57,70,.08);border:1px solid rgba(230,57,70,.3);
+  border-radius:var(--r-md);padding:13px 16px;
+  font-size:.85rem;color:#ff8080
+}
+.conflict-banner strong{color:var(--accent)}
+
+.mob-nav{
+  display:none;position:fixed;bottom:0;left:0;right:0;
+  background:var(--bg-surface);border-top:1px solid var(--border);
+  height:64px;justify-content:space-around;align-items:center;z-index:100
+}
+.mob-btn{
+  background:none;border:none;color:var(--text-muted);
+  display:flex;flex-direction:column;align-items:center;gap:3px;
+  font-size:.7rem;font-weight:600;cursor:pointer;padding:8px 16px;
+  transition:color .2s;font-family:var(--font-ui)
+}
+.mob-btn.active,.mob-btn:hover{color:var(--text-main)}
+.mob-btn-icon{font-size:1.1rem}
+
+@media(max-width:860px){
+  #app-view{grid-template-columns:1fr!important}
+  .sidebar{display:none!important}
+  .mob-nav{display:flex}
+  .main-content{padding:20px 16px 90px}
+  .content-grid{grid-template-columns:1fr}
+  .greeting{font-size:1.4rem}
+  .right-col{order:-1}
+}
+@media(max-width:480px){
+  .auth-box{padding:28px 22px}
+}
+</style>
 </head>
 <body>
 
-  <div id="auth-view">
-    <div class="auth-box">
-      <div class="auth-header">
-        <h1>TaskFlow</h1>
-        <p id="auth-subtitle">Sign in to your workspace.</p>
-      </div>
-      
-      <div class="auth-form">
-        <input type="text" id="auth-name" placeholder="Full Name" style="display: none;" />
-        <input type="email" id="auth-email" placeholder="Email Address" />
-        <input type="password" id="auth-password" placeholder="Password" />
-        <button class="btn-primary" id="auth-submit-btn" onclick="handleAuth()">Sign In</button>
-      </div>
-
-      <div class="auth-toggle">
-        <span id="auth-toggle-text" onclick="toggleAuthMode()">Don't have an account? <b>Sign up</b></span>
-      </div>
+<div id="auth-view">
+  <div class="auth-box">
+    <div class="auth-logo"><span>Task</span>Flow</div>
+    <p class="auth-sub" id="auth-sub">Sign in to your workspace</p>
+    <div class="auth-form">
+      <input type="text" id="auth-name" placeholder="Full Name" style="display:none"/>
+      <input type="email" id="auth-email" placeholder="Email address" autocomplete="email"/>
+      <input type="password" id="auth-password" placeholder="Password" autocomplete="current-password"/>
+      <button class="btn-primary" id="auth-btn" onclick="handleAuth()">Sign In</button>
+    </div>
+    <div class="auth-toggle">
+      <span id="auth-toggle-text">Don't have an account? <a onclick="toggleMode()">Sign up</a></span>
     </div>
   </div>
+</div>
 
-  <div id="app-view">
-    
-    <aside class="sidebar">
+<div id="app-view">
+
+  <aside class="sidebar">
+    <div>
+      <div class="brand"><span class="brand-dot"></span> TaskFlow</div>
+      <div class="nav-item active"><span class="nav-icon">▦</span> Dashboard</div>
+      <div class="nav-item"><span class="nav-icon">◷</span> Calendar</div>
+      <div class="nav-item"><span class="nav-icon">◎</span> Settings</div>
+    </div>
+    <div class="user-card">
+      <div class="avatar" id="user-avatar">U</div>
       <div>
-        <div class="brand">⚡ TaskFlow</div>
-        <div class="nav-menu">
-          <div class="nav-item active">📋 Dashboard</div>
-          <div class="nav-item">📅 Calendar</div>
-          <div class="nav-item">⚙️ Settings</div>
-        </div>
+        <div class="user-name" id="user-name">User</div>
+        <button class="logout-btn" onclick="logout()">Log out</button>
       </div>
-      <div class="user-profile">
-        <div class="avatar" id="user-avatar">U</div>
+    </div>
+  </aside>
+
+  <main class="main-content" id="main-scroll">
+
+    <div class="top-row">
+      <div>
+        <div class="greeting" id="greeting">Good Morning</div>
+        <div class="date-sub" id="date-sub"></div>
+      </div>
+    </div>
+
+    <div class="progress-card">
+      <div class="progress-head">
         <div>
-          <div style="font-weight: 600; font-size: 0.9rem; color: var(--text-main);" id="user-display-name">User</div>
-          <button class="btn-text" style="padding: 0; font-size: 0.8rem; color: var(--danger);" onclick="logout()">Log Out</button>
+          <div class="progress-label">Daily Progress</div>
+          <div class="progress-caption" id="progress-caption">Add a task to get started</div>
         </div>
+        <div class="progress-pct" id="progress-pct">0%</div>
       </div>
-    </aside>
-
-    <main class="main-content">
-      
-      <div class="header-bar">
-        <div>
-          <h2 id="greeting-text">Good Morning</h2>
-          <p style="color: var(--text-muted); font-size: 0.9rem;" id="date-display"></p>
-        </div>
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-fill"></div>
       </div>
+    </div>
 
-      <div class="progress-widget">
-        <div class="progress-header">
-          <div>
-            <div class="progress-title">Daily Progress</div>
-            <div class="progress-subtitle" id="progress-text">Let's get started!</div>
+    <div class="conflict-banner" id="conflict-banner">
+      <strong>Schedule conflict:</strong> Multiple tasks share the same due date — consider spreading them out.
+    </div>
+
+    <div class="content-grid">
+
+      <div>
+        <div class="panel" id="list-panel">
+          <div class="tasks-header">
+            <div class="panel-title" style="margin:0">Your Tasks</div>
+            <span class="count-badge" id="task-count">0 active</span>
           </div>
-          <div style="font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: var(--text-main);" id="progress-percent">0%</div>
-        </div>
-        <div class="progress-bar-bg">
-          <div class="progress-bar-fill" id="progress-fill"></div>
+          <div class="task-list" id="task-container"></div>
         </div>
       </div>
 
-      <div id="conflict-banner" class="banner">
-        ⚠️ <strong>Schedule Conflict:</strong> Multiple tasks share the same due date. Reschedule to avoid burnout!
-      </div>
-
-      <div class="panel" id="form-panel">
-        <div class="panel-title">Add New Task</div>
-        <div style="display: flex; flex-direction: column; gap: 12px;">
-          <input type="text" id="task-title" placeholder="E.g., Finish project presentation" autocomplete="off" />
-          <select id="task-priority">
-            <option value="high">🔴 High Priority</option>
-            <option value="medium" selected>🔵 Medium Priority</option>
-            <option value="low">⚪ Low Priority</option>
-          </select>
-          <input type="date" id="task-date" />
-          <button class="btn-primary" onclick="addTask()">Create Task</button>
-        </div>
-      </div>
-
-      <div class="panel" id="list-panel" style="grid-column: 1; grid-row: 3 / span 2;">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-          <div class="panel-title" style="margin: 0;">Your Tasks</div>
-          <span style="font-size: 0.8rem; color: var(--text-muted);" id="task-count">0 Active</span>
-        </div>
-        <div class="task-list" id="task-container">
+      <div class="right-col">
+        <div class="panel">
+          <div class="panel-title">Add Task</div>
+          <div class="form-fields">
+            <input type="text" id="task-title" placeholder="e.g. Finish project report" autocomplete="off"/>
+            <select id="task-priority">
+              <option value="high">High Priority</option>
+              <option value="medium" selected>Medium Priority</option>
+              <option value="low">Low Priority</option>
+            </select>
+            <input type="date" id="task-date"/>
+            <button class="btn-primary" onclick="addTask()">Add Task</button>
           </div>
-      </div>
+        </div>
 
-      <div id="ai-panel" style="grid-column: 2; grid-row: 3;">
-        <div class="ai-insight">
-          <h4>✨ AI Scheduler Insight</h4>
-          <p id="ai-text" style="font-size: 0.9rem; color: var(--text-muted); line-height: 1.5; margin-top: 8px;">
-            Add some tasks, and I'll analyze your workload to suggest the best priorities.
-          </p>
+        <div class="ai-box" style="margin-top:16px">
+          <div class="ai-heading">AI Insight</div>
+          <div class="ai-text" id="ai-text">Add some tasks and I'll suggest the best place to start.</div>
         </div>
       </div>
 
-    </main>
+    </div>
+  </main>
 
-    <nav class="mobile-nav">
-      <button class="mob-nav-item active">
-        <span class="mob-nav-icon">📋</span>
-        <span>Tasks</span>
-      </button>
-      <button class="mob-nav-item" onclick="document.getElementById('task-title').focus()">
-        <span class="mob-nav-icon">➕</span>
-        <span>Add</span>
-      </button>
-      <button class="mob-nav-item" onclick="logout()">
-        <span class="mob-nav-icon">🚪</span>
-        <span>Logout</span>
-      </button>
-    </nav>
+  <nav class="mob-nav">
+    <button class="mob-btn active">
+      <span class="mob-btn-icon">▦</span>
+      <span>Tasks</span>
+    </button>
+    <button class="mob-btn" onclick="focusAdd()">
+      <span class="mob-btn-icon">+</span>
+      <span>Add</span>
+    </button>
+    <button class="mob-btn" onclick="logout()">
+      <span class="mob-btn-icon">⇢</span>
+      <span>Logout</span>
+    </button>
+  </nav>
+</div>
 
-  </div>
+<script>
+let signUpMode=false,currentUser=null,tasks=[];
 
-  <script>
-    let isSignUpMode = false;
-    let currentUser = null;
-    let tasks = [];
+window.onload=()=>{
+  const d=new Date();
+  document.getElementById('date-sub').textContent=d.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'});
+  const saved=localStorage.getItem('tf_user');
+  if(saved){currentUser=JSON.parse(saved);showApp()}
+};
 
-    window.onload = () => {
-      const options = { weekday: 'long', month: 'long', day: 'numeric' };
-      document.getElementById('date-display').innerText = new Date().toLocaleDateString('en-US', options);
-      
-      const savedUser = localStorage.getItem('taskflow_user');
-      if (savedUser) {
-        currentUser = JSON.parse(savedUser);
-        loadUserApp();
-      }
-    };
+function toggleMode(){
+  signUpMode=!signUpMode;
+  const n=document.getElementById('auth-name');
+  n.style.display=signUpMode?'block':'none';
+  document.getElementById('auth-sub').textContent=signUpMode?'Create your account':'Sign in to your workspace';
+  document.getElementById('auth-btn').textContent=signUpMode?'Sign Up':'Sign In';
+  document.getElementById('auth-toggle-text').innerHTML=signUpMode
+    ?'Already have an account? <a onclick="toggleMode()">Sign in</a>'
+    :'Don\'t have an account? <a onclick="toggleMode()">Sign up</a>';
+}
 
-    function toggleAuthMode() {
-      isSignUpMode = !isSignUpMode;
-      const nameInput = document.getElementById('auth-name');
-      const title = document.querySelector('.auth-header h1');
-      const subtitle = document.getElementById('auth-subtitle');
-      const btn = document.getElementById('auth-submit-btn');
-      const toggleText = document.getElementById('auth-toggle-text');
+function handleAuth(){
+  const email=document.getElementById('auth-email').value.trim();
+  const pass=document.getElementById('auth-password').value.trim();
+  const name=document.getElementById('auth-name').value.trim();
+  if(!email||!pass){alert('Email and password are required.');return}
+  if(signUpMode&&!name){alert('Please enter your name.');return}
+  currentUser={name:signUpMode?name:email.split('@')[0]||'User',email};
+  localStorage.setItem('tf_user',JSON.stringify(currentUser));
+  showApp();
+}
 
-      if (isSignUpMode) {
-        nameInput.style.display = 'block';
-        title.innerText = 'Create Account';
-        subtitle.innerText = 'Join TaskFlow to organize your day.';
-        btn.innerText = 'Sign Up';
-        toggleText.innerHTML = 'Already have an account? <b>Sign in</b>';
-      } else {
-        nameInput.style.display = 'none';
-        title.innerText = 'TaskFlow';
-        subtitle.innerText = 'Sign in to your workspace.';
-        btn.innerText = 'Sign In';
-        toggleText.innerHTML = 'Don\'t have an account? <b>Sign up</b>';
-      }
-    }
+function showApp(){
+  document.getElementById('auth-view').style.display='none';
+  const app=document.getElementById('app-view');
+  app.style.display='grid';
+  document.getElementById('user-name').textContent=currentUser.name;
+  document.getElementById('user-avatar').textContent=currentUser.name.charAt(0).toUpperCase();
+  const h=new Date().getHours();
+  const g=h<12?'Good Morning':h<18?'Good Afternoon':'Good Evening';
+  document.getElementById('greeting').textContent=`${g}, ${currentUser.name.split(' ')[0]}`;
+  tasks=JSON.parse(localStorage.getItem('tf_tasks_'+currentUser.email)||'[]');
+  render();
+}
 
-    function handleAuth() {
-      const email = document.getElementById('auth-email').value.trim();
-      const pass = document.getElementById('auth-password').value.trim();
-      const name = document.getElementById('auth-name').value.trim();
+function logout(){
+  localStorage.removeItem('tf_user');
+  document.getElementById('app-view').style.display='none';
+  document.getElementById('auth-view').style.display='flex';
+  document.getElementById('auth-email').value='';
+  document.getElementById('auth-password').value='';
+  currentUser=null;tasks=[];
+}
 
-      if (!email || !pass) return alert("Email and Password are required.");
-      if (isSignUpMode && !name) return alert("Please enter your name.");
+function addTask(){
+  const ti=document.getElementById('task-title');
+  const title=ti.value.trim();
+  if(!title){ti.focus();return}
+  tasks.push({id:Date.now(),title,priority:document.getElementById('task-priority').value,dueDate:document.getElementById('task-date').value,done:false});
+  save();ti.value='';ti.focus();
+}
 
-      currentUser = { name: isSignUpMode ? name : (email.split('@')[0] || "User"), email: email };
-      localStorage.setItem('taskflow_user', JSON.stringify(currentUser));
-      loadUserApp();
-    }
+function toggleTask(id){const t=tasks.find(x=>x.id===id);if(t)t.done=!t.done;save()}
+function deleteTask(id){tasks=tasks.filter(x=>x.id!==id);save()}
+function save(){localStorage.setItem('tf_tasks_'+currentUser.email,JSON.stringify(tasks));render()}
+function focusAdd(){document.getElementById('task-title').focus();document.getElementById('main-scroll').scrollTo({top:0,behavior:'smooth'})}
 
-    function logout() {
-      localStorage.removeItem('taskflow_user');
-      document.getElementById('app-view').style.display = 'none';
-      document.getElementById('auth-view').style.display = 'flex';
-      document.getElementById('auth-email').value = '';
-      document.getElementById('auth-password').value = '';
-    }
+function render(){
+  const active=tasks.filter(t=>!t.done);
+  const total=tasks.length,done=tasks.filter(t=>t.done).length;
+  const pct=total?Math.round(done/total*100):0;
 
-    function loadUserApp() {
-      document.getElementById('auth-view').style.display = 'none';
-      document.getElementById('app-view').style.display = window.innerWidth <= 900 ? 'flex' : 'grid';
+  document.getElementById('progress-fill').style.width=pct+'%';
+  document.getElementById('progress-pct').textContent=pct+'%';
+  const cap=document.getElementById('progress-caption');
+  if(!total)cap.textContent='Add a task to get started';
+  else if(pct===0)cap.textContent="Let's get going!";
+  else if(pct<50)cap.textContent='Making progress — keep it up!';
+  else if(pct<100)cap.textContent='Almost there!';
+  else cap.textContent='All done for today 🎉';
 
-      document.getElementById('user-display-name').innerText = currentUser.name;
-      document.getElementById('user-avatar').innerText = currentUser.name.charAt(0).toUpperCase();
-      
-      const hour = new Date().getHours();
-      let greeting = 'Good Evening';
-      if (hour < 12) greeting = 'Good Morning';
-      else if (hour < 18) greeting = 'Good Afternoon';
-      document.getElementById('greeting-text').innerText = `${greeting}, ${currentUser.name.split(' ')[0]}`;
+  document.getElementById('task-count').textContent=active.length+' active';
 
-      tasks = JSON.parse(localStorage.getItem(`taskflow_tasks_${currentUser.email}`)) || [];
-      renderTasks();
-    }
+  const dates=active.map(t=>t.dueDate).filter(Boolean);
+  document.getElementById('conflict-banner').style.display=
+    new Set(dates).size!==dates.length?'block':'none';
 
-    function addTask() {
-      const titleInput = document.getElementById('task-title');
-      const title = titleInput.value.trim();
-      const priority = document.getElementById('task-priority').value;
-      const date = document.getElementById('task-date').value;
+  const ai=document.getElementById('ai-text');
+  if(!active.length){ai.textContent='Your schedule is clear. Great work!'}
+  else{
+    const hi=active.filter(t=>t.priority==='high');
+    if(hi.length>3)ai.innerHTML='<span style="color:var(--accent);font-weight:600">Overload warning:</span> Too many high-priority tasks. Consider rescheduling some.';
+    else if(hi.length)ai.innerHTML='Suggested focus: <strong style="color:var(--text-main)">'+hi[0].title+'</strong>';
+    else ai.textContent='Schedule looks balanced. Tackle the quickest task first!';
+  }
 
-      if (!title) { titleInput.focus(); return; }
+  const sorted=[...tasks].sort((a,b)=>{
+    if(a.done!==b.done)return a.done?1:-1;
+    return{high:1,medium:2,low:3}[a.priority]-{high:1,medium:2,low:3}[b.priority];
+  });
 
-      tasks.push({ id: Date.now(), title, priority, dueDate: date, completed: false });
-      saveAndRender();
-      titleInput.value = ''; 
-    }
-
-    function toggleTask(id) {
-      const task = tasks.find(t => t.id === id);
-      if (task) task.completed = !task.completed;
-      saveAndRender();
-    }
-
-    function deleteTask(id) {
-      tasks = tasks.filter(t => t.id !== id);
-      saveAndRender();
-    }
-
-    function saveAndRender() {
-      localStorage.setItem(`taskflow_tasks_${currentUser.email}`, JSON.stringify(tasks));
-      renderTasks();
-    }
-
-    // --- INTERACTIVE PROGRESS LOGIC ---
-    function updateProgress() {
-      const total = tasks.length;
-      const completed = tasks.filter(t => t.completed).length;
-      let percentage = total === 0 ? 0 : Math.round((completed / total) * 100);
-      
-      // Update UI Elements dynamically
-      document.getElementById('progress-fill').style.width = `${percentage}%`;
-      document.getElementById('progress-percent').innerText = `${percentage}%`;
-      
-      const progressText = document.getElementById('progress-text');
-      if (total === 0) progressText.innerText = "Add a task to begin.";
-      else if (percentage === 0) progressText.innerText = "Let's get started!";
-      else if (percentage < 50) progressText.innerText = "Making good progress!";
-      else if (percentage < 100) progressText.innerText = "Almost there, keep going!";
-      else progressText.innerText = "All done for today! 🎉";
-    }
-
-    function analyzeSchedule() {
-      const active = tasks.filter(t => !t.completed);
-      document.getElementById('task-count').innerText = `${active.length} Active`;
-
-      const conflictBanner = document.getElementById('conflict-banner');
-      const dates = active.map(t => t.dueDate).filter(d => d !== "");
-      conflictBanner.style.display = (new Set(dates).size !== dates.length) ? 'block' : 'none';
-
-      const aiInsight = document.getElementById('ai-text');
-      if (active.length === 0) {
-        aiInsight.innerText = "Your schedule is clear. Enjoy your free time!";
-        return;
-      }
-      const highPriority = active.filter(t => t.priority === 'high');
-      if (highPriority.length > 3) {
-        aiInsight.innerHTML = "<span style='color: var(--danger); font-weight:bold;'>Overload Warning:</span> You have too many high-priority tasks pending.";
-      } else if (highPriority.length > 0) {
-        aiInsight.innerHTML = `Suggested Focus: <b style="color: var(--text-main);">"${highPriority[0].title}"</b>`;
-      } else {
-        aiInsight.innerText = "Schedule looks balanced. Tackle the quickest task first!";
-      }
-    }
-
-    function renderTasks() {
-      const container = document.getElementById('task-container');
-      container.innerHTML = '';
-
-      const sorted = [...tasks].sort((a, b) => {
-        if (a.completed !== b.completed) return a.completed ? 1 : -1;
-        const p = { high: 1, medium: 2, low: 3 };
-        return p[a.priority] - p[b.priority];
-      });
-
-      if (sorted.length === 0) {
-        container.innerHTML = `<div style="text-align:center; padding: 40px; color: var(--text-muted);">No tasks yet.</div>`;
-      }
-
-      sorted.forEach(t => {
-        const div = document.createElement('div');
-        div.className = `task-card ${t.completed ? 'completed' : ''}`;
-        
-        div.innerHTML = `
-          <div class="task-info">
-            <input type="checkbox" class="task-checkbox" ${t.completed ? 'checked' : ''} onchange="toggleTask(${t.id})" />
-            <div>
-              <h4 style="margin-bottom: 6px; font-weight: 500;">${t.title}</h4>
-              <div style="display: flex; gap: 10px; align-items: center;">
-                <span class="badge ${t.priority}">${t.priority}</span>
-                ${t.dueDate ? `<span style="font-size: 0.8rem; color: var(--text-muted);">📅 ${t.dueDate}</span>` : ''}
-              </div>
-            </div>
+  const c=document.getElementById('task-container');
+  if(!sorted.length){
+    c.innerHTML='<div class="empty-state"><span class="empty-icon">✓</span>No tasks yet. Add one above!</div>';
+    return;
+  }
+  c.innerHTML='';
+  sorted.forEach(t=>{
+    const d=document.createElement('div');
+    d.className='task-card'+(t.done?' done':'');
+    const fd=t.dueDate?new Date(t.dueDate+'T00:00:00').toLocaleDateString('en-US',{month:'short',day:'numeric'}):'';
+    d.innerHTML=`
+      <div class="task-body">
+        <input type="checkbox" class="task-check" ${t.done?'checked':''} onchange="toggleTask(${t.id})"/>
+        <div style="min-width:0;flex:1">
+          <div class="task-title">${t.title}</div>
+          <div class="task-meta">
+            <span class="badge ${t.priority}">${t.priority}</span>
+            ${fd?`<span class="task-date">${fd}</span>`:''}
           </div>
-          <button class="btn-text" style="color: var(--danger); font-weight: bold; font-size: 1.2rem; padding: 0 10px;" onclick="deleteTask(${t.id})">×</button>
-        `;
-        container.appendChild(div);
-      });
-
-      updateProgress();
-      analyzeSchedule();
-    }
-
-    window.addEventListener('resize', () => {
-      if(document.getElementById('app-view').style.display !== 'none') {
-        document.getElementById('app-view').style.display = window.innerWidth <= 900 ? 'flex' : 'grid';
-      }
-    });
-  </script>
+        </div>
+      </div>
+      <button class="del-btn" onclick="deleteTask(${t.id})" title="Delete task">✕</button>`;
+    c.appendChild(d);
+  });
+}
+</script>
 </body>
 </html>
