@@ -141,6 +141,24 @@ button{
     radial-gradient(900px 550px at 70% 20%, rgba(137,187,254,.22), transparent 60%),
     radial-gradient(700px 500px at 25% 75%, rgba(172,237,255,.18), transparent 60%);
 }
+
+/* NEW: subtle animated aurora glow behind auth card */
+#auth-view::before{
+  content:"";
+  position:absolute; inset:-120px;
+  background:
+    radial-gradient(600px 360px at 20% 30%, rgba(172,237,255,0.16), transparent 60%),
+    radial-gradient(540px 360px at 80% 40%, rgba(137,187,254,0.14), transparent 62%),
+    radial-gradient(520px 360px at 55% 85%, rgba(111,138,183,0.12), transparent 60%);
+  filter: blur(8px);
+  animation: auroraShift 10s ease-in-out infinite alternate;
+  pointer-events:none;
+}
+@keyframes auroraShift{
+  0%{ transform: translate3d(-10px, -6px, 0) scale(1); opacity:.9}
+  100%{ transform: translate3d(14px, 10px, 0) scale(1.04); opacity:1}
+}
+
 .auth-box{
   width:100%;
   max-width:420px;
@@ -151,7 +169,15 @@ button{
   box-shadow: var(--shadow);
   position:relative;
   overflow:hidden;
+  /* NEW: enter animation */
+  animation: popIn .55s cubic-bezier(.2,1.2,.3,1) both;
+  transform-origin:center;
 }
+@keyframes popIn{
+  from{ transform: translateY(10px) scale(.985); opacity:0}
+  to{ transform: translateY(0) scale(1); opacity:1}
+}
+
 .auth-box::before{
   content:"";
   position:absolute; inset:-2px;
@@ -208,7 +234,14 @@ button{
   justify-content:space-between;
   overflow:hidden;
   box-shadow: 10px 0 30px rgba(0,0,0,0.20);
+  /* NEW: slide in */
+  animation: sidebarIn .55s cubic-bezier(.2,1.1,.3,1) both;
 }
+@keyframes sidebarIn{
+  from{ transform: translateX(-10px); opacity:0}
+  to{ transform: translateX(0); opacity:1}
+}
+
 .brand{
   font-family:var(--font-display);
   font-size:1.35rem;
@@ -282,6 +315,12 @@ button{
   display:flex;
   flex-direction:column;
   gap:var(--space-4); /* NEW: more breathing room */
+  /* NEW: fade in */
+  animation: contentIn .55s cubic-bezier(.2,1.1,.3,1) both;
+}
+@keyframes contentIn{
+  from{ transform: translateY(6px); opacity:0}
+  to{ transform: translateY(0); opacity:1}
 }
 
 /* NEW: center content and reduce "congested" full-width feel */
@@ -330,6 +369,17 @@ button{
 .progress-label{font-weight:900;font-size:.95rem}
 .progress-caption{font-size:.82rem;color:var(--text-muted);margin-top:4px;max-width:560px;line-height:1.5}
 .progress-pct{font-family:var(--font-display);font-size:1.55rem;font-weight:900}
+
+/* NEW: pulse when progress changes */
+.progress-card.pulse{
+  animation: pulseCard .45s ease;
+}
+@keyframes pulseCard{
+  0%{ transform: translateY(0); box-shadow: var(--shadow-soft); }
+  45%{ transform: translateY(-1px); box-shadow: 0 18px 34px rgba(0,0,0,0.28); }
+  100%{ transform: translateY(0); box-shadow: var(--shadow-soft); }
+}
+
 .progress-track{
   height:12px;
   background:rgba(97,93,108,0.22);
@@ -480,6 +530,17 @@ button{
   margin-bottom:16px;
   box-shadow: 0 14px 26px rgba(0,0,0,0.22);
 }
+
+/* NEW: subtle float and shine */
+.ai-box.float{
+  animation: floaty 6.5s ease-in-out infinite;
+}
+@keyframes floaty{
+  0%{ transform: translateY(0) }
+  50%{ transform: translateY(-4px) }
+  100%{ transform: translateY(0) }
+}
+
 .ai-heading{
   font-size:.78rem;
   font-weight:900;
@@ -520,6 +581,17 @@ button{
 .view{display:none}
 .view.active{display:block}
 
+/* NEW: view crossfade */
+.view{
+  opacity:0;
+  transform: translateY(4px);
+  transition: opacity .22s ease, transform .22s ease;
+}
+.view.active{
+  opacity:1;
+  transform: translateY(0);
+}
+
 /* Calendar */
 .calendar-grid{
   display:grid;
@@ -542,6 +614,14 @@ button{
   font-weight:900;
   letter-spacing:.4px;
 }
+.calendar-cell{
+  transition: transform .15s ease, border-color .2s ease, background .2s ease;
+}
+.calendar-cell:hover{
+  transform: translateY(-1px);
+  border-color: rgba(137,187,254,0.35);
+}
+
 .cell-date{
   font-size:.82rem;
   color:var(--text-muted);
@@ -579,11 +659,11 @@ button{
 }
 .cell-task.medium{
   background:rgba(137,187,254,.16);
-  border-color:rgba(137,187,254,.22);
+  border-color:rgba(137,187,254,.22)
 }
 .cell-task.low{
   background:rgba(97,93,108,.22);
-  border-color:rgba(202,229,255,.14);
+  border-color:rgba(202,229,255,.14)
 }
 
 /* Settings */
@@ -712,6 +792,11 @@ button{
   .date-sub{margin-top:8px}
   .panel{padding:20px}
 }
+
+/* NEW: Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  *{ animation:none!important; transition:none!important; scroll-behavior:auto!important; }
+}
 </style>
 </head>
 <body>
@@ -760,7 +845,7 @@ button{
         </div>
       </div>
 
-      <div class="progress-card">
+      <div class="progress-card" id="progress-card">
         <div class="progress-head">
           <div>
             <div class="progress-label">Daily Progress</div>
@@ -803,7 +888,7 @@ button{
             </div>
           </div>
 
-          <div class="ai-box" style="margin-top:16px">
+          <div class="ai-box" id="ai-box" style="margin-top:16px">
             <div class="ai-heading">AI Insight</div>
             <div class="ai-text" id="ai-text">Add some tasks and I'll suggest the best place to start.</div>
           </div>
@@ -882,8 +967,79 @@ let signUpMode = false, currentUser = null, tasks = [], currentView = 'dashboard
 
 const $ = (id) => document.getElementById(id);
 
+/* NEW: small helper for ripple + haptics-like feedback */
+function ripple(e){
+  const btn = e.currentTarget;
+  if (!btn) return;
+
+  const r = document.createElement('span');
+  r.style.position = 'absolute';
+  r.style.inset = '0';
+  r.style.borderRadius = getComputedStyle(btn).borderRadius || '14px';
+  r.style.pointerEvents = 'none';
+  r.style.overflow = 'hidden';
+
+  const dot = document.createElement('span');
+  const rect = btn.getBoundingClientRect();
+  const x = (e.clientX ?? (rect.left + rect.width/2)) - rect.left;
+  const y = (e.clientY ?? (rect.top + rect.height/2)) - rect.top;
+  const size = Math.max(rect.width, rect.height) * 1.2;
+
+  dot.style.position = 'absolute';
+  dot.style.left = (x - size/2) + 'px';
+  dot.style.top = (y - size/2) + 'px';
+  dot.style.width = size + 'px';
+  dot.style.height = size + 'px';
+  dot.style.borderRadius = '999px';
+  dot.style.background = 'rgba(202,229,255,0.35)';
+  dot.style.transform = 'scale(0.2)';
+  dot.style.opacity = '0.0';
+  dot.style.transition = 'transform .45s ease, opacity .45s ease';
+  r.appendChild(dot);
+
+  btn.style.position = 'relative';
+  btn.appendChild(r);
+
+  requestAnimationFrame(()=>{
+    dot.style.opacity = '1';
+    dot.style.transform = 'scale(1)';
+  });
+
+  setTimeout(()=>{ r.remove(); }, 520);
+}
+
+/* NEW: entrance animation for new task cards */
+function animateIn(el){
+  if (!el) return;
+  el.animate(
+    [
+      { transform:'translateY(6px) scale(.99)', opacity:0 },
+      { transform:'translateY(0) scale(1)', opacity:1 }
+    ],
+    { duration: 260, easing: 'cubic-bezier(.2,1.1,.3,1)', fill:'both' }
+  );
+}
+
+/* NEW: shake animation for invalid input */
+function shake(el){
+  if (!el) return;
+  el.animate(
+    [
+      { transform:'translateX(0)' },
+      { transform:'translateX(-6px)' },
+      { transform:'translateX(6px)' },
+      { transform:'translateX(-4px)' },
+      { transform:'translateX(4px)' },
+      { transform:'translateX(0)' }
+    ],
+    { duration: 260, easing:'ease-in-out' }
+  );
+}
+
 window.onload = () => {
   bindNav();
+  bindInteractions();
+
   const d = new Date();
   const dateSub = $('date-sub');
   if (dateSub) {
@@ -900,6 +1056,48 @@ window.onload = () => {
     }
   }
 };
+
+function bindInteractions(){
+  // Ripple on primary buttons (home page + auth)
+  document.querySelectorAll('.btn-primary').forEach(b=>{
+    b.addEventListener('click', ripple);
+  });
+
+  // Keyboard shortcuts on dashboard:
+  // - Enter on title adds task
+  // - "/" focuses title (like a command palette vibe)
+  document.addEventListener('keydown', (e)=>{
+    if (currentUser && currentView === 'dashboard'){
+      if (e.key === '/' && !e.metaKey && !e.ctrlKey && !e.altKey){
+        const ae = document.activeElement;
+        const isTyping = ae && (ae.tagName === 'INPUT' || ae.tagName === 'TEXTAREA' || ae.tagName === 'SELECT');
+        if (!isTyping){
+          e.preventDefault();
+          focusAdd();
+        }
+      }
+      if (e.key === 'Enter' && document.activeElement === $('task-title')){
+        e.preventDefault();
+        addTask();
+      }
+      if (e.key === 'Escape'){
+        $('task-title')?.blur();
+      }
+    }
+  });
+
+  // Micro interaction: if user changes priority/date, we gently "wake up" AI box
+  ['task-priority','task-date'].forEach(id=>{
+    const el = $(id);
+    if (el){
+      el.addEventListener('change', ()=>{
+        const box = $('ai-box');
+        box?.classList.add('float');
+        setTimeout(()=>box?.classList.remove('float'), 2200);
+      });
+    }
+  });
+}
 
 function bindNav(){
   document.querySelectorAll('.nav-item[data-view]').forEach(el=>{
@@ -925,6 +1123,9 @@ function switchView(view){
 
   if (view === 'calendar') renderCalendar();
   if (view === 'settings') renderSettings();
+
+  // NEW: subtle scroll-to-top on view switch for a calmer feel
+  $('main-scroll')?.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
 function toggleMode() {
@@ -937,6 +1138,16 @@ function toggleMode() {
     ? 'Already have an account? <a onclick="toggleMode()">Sign in</a>'
     : "Don't have an account? <a onclick=\"toggleMode()\">Sign up</a>";
   $('auth-password').autocomplete = signUpMode ? 'new-password' : 'current-password';
+
+  // NEW: animate auth card on mode toggle
+  document.querySelector('.auth-box')?.animate(
+    [
+      { transform:'translateY(0) scale(1)', opacity:1 },
+      { transform:'translateY(-2px) scale(1.01)', opacity:1 },
+      { transform:'translateY(0) scale(1)', opacity:1 }
+    ],
+    { duration: 220, easing:'ease-out' }
+  );
 }
 
 function handleAuth() {
@@ -945,7 +1156,7 @@ function handleAuth() {
   const name = $('auth-name').value.trim();
 
   if (!email || !pass) { alert('Email and password are required.'); return; }
-  if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email)) { alert('Please enter a valid email address.'); return; }
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { alert('Please enter a valid email address.'); return; }
   if (signUpMode && !name) { alert('Please enter your name.'); return; }
 
   currentUser = { name: signUpMode ? name : (email.split('@')[0] || 'User'), email };
@@ -975,6 +1186,11 @@ function showApp() {
 
   render();
   switchView('dashboard');
+
+  // NEW: AI box subtle float on entry
+  const box = $('ai-box');
+  box?.classList.add('float');
+  setTimeout(()=>box?.classList.remove('float'), 2600);
 }
 
 function logout() {
@@ -996,7 +1212,11 @@ function addTask() {
   if (!currentUser) return;
   const ti = $('task-title');
   const title = ti.value.trim();
-  if (!title) { ti.focus(); return; }
+  if (!title) {
+    ti.focus();
+    shake(ti);
+    return;
+  }
 
   const priority = $('task-priority').value || 'medium';
   const dueDate = $('task-date').value || '';
@@ -1010,8 +1230,18 @@ function addTask() {
   });
 
   save();
+
+  // NEW: clear + focus + little "success" animation on input
   ti.value = '';
   ti.focus();
+  ti.animate(
+    [
+      { boxShadow:'0 0 0 0 rgba(52,211,153,0)' },
+      { boxShadow:'0 0 0 5px rgba(52,211,153,0.18)' },
+      { boxShadow:'0 0 0 0 rgba(52,211,153,0)' }
+    ],
+    { duration: 420, easing:'ease-out' }
+  );
 }
 
 function toggleTask(id) {
@@ -1021,6 +1251,24 @@ function toggleTask(id) {
 }
 
 function deleteTask(id) {
+  // NEW: animate removal
+  const c = $('task-container');
+  const card = c?.querySelector(`[data-task-id="${CSS.escape(id)}"]`);
+  if (card){
+    card.animate(
+      [
+        { transform:'translateY(0)', opacity:1, height: card.getBoundingClientRect().height + 'px' },
+        { transform:'translateY(-2px)', opacity:0, height:'0px', marginTop:'0px', marginBottom:'0px', paddingTop:'0px', paddingBottom:'0px' }
+      ],
+      { duration: 220, easing:'ease-in', fill:'forwards' }
+    );
+    setTimeout(()=>{
+      tasks = tasks.filter(x => x.id !== id);
+      save();
+    }, 200);
+    return;
+  }
+
   tasks = tasks.filter(x => x.id !== id);
   save();
 }
@@ -1059,12 +1307,14 @@ function escapeHTML(str='') {
 }
 
 function formatDueDate(isoDate) {
-  if (!isoDate || !/^\\d{4}-\\d{2}-\\d{2}$/.test(isoDate)) return '';
+  if (!isoDate || !/^\d{4}-\d{2}-\d{2}$/.test(isoDate)) return '';
   const [y,m,d] = isoDate.split('-').map(Number);
   const dt = new Date(y, m - 1, d);
   if (Number.isNaN(dt.getTime())) return '';
   return dt.toLocaleDateString('en-US', { month:'short', day:'numeric' });
 }
+
+let lastPct = null;
 
 function render() {
   const active = tasks.filter(t => !t.done);
@@ -1074,6 +1324,17 @@ function render() {
 
   $('progress-fill').style.width = pct + '%';
   $('progress-pct').textContent = pct + '%';
+
+  // NEW: pulse progress card only when pct changes
+  const pc = $('progress-card');
+  if (pc && lastPct !== null && pct !== lastPct){
+    pc.classList.remove('pulse');
+    // force reflow
+    void pc.offsetWidth;
+    pc.classList.add('pulse');
+    setTimeout(()=>pc.classList.remove('pulse'), 520);
+  }
+  lastPct = pct;
 
   const cap = $('progress-caption');
   if (!total) cap.textContent = 'Add a task to get started';
@@ -1106,11 +1367,16 @@ function render() {
   if (!sorted.length) {
     c.innerHTML = '<div class="empty-state"><span class="empty-icon">✓</span>No tasks yet. Add one above!</div>';
   } else {
+    const existingIds = new Set([...c.querySelectorAll('[data-task-id]')].map(x=>x.getAttribute('data-task-id')));
+
     c.innerHTML = '';
     sorted.forEach(t=>{
       const d = document.createElement('div');
       d.className = 'task-card' + (t.done ? ' done' : '');
+      d.setAttribute('data-task-id', t.id);
+
       const fd = formatDueDate(t.dueDate);
+
       d.innerHTML = `
         <div class="task-body">
           <input type="checkbox" class="task-check" ${t.done ? 'checked' : ''}/>
@@ -1123,9 +1389,16 @@ function render() {
           </div>
         </div>
         <button class="del-btn" title="Delete task" aria-label="Delete task">✕</button>`;
+
       d.querySelector('.task-check').addEventListener('change',()=>toggleTask(t.id));
-      d.querySelector('.del-btn').addEventListener('click',()=>deleteTask(t.id));
+      d.querySelector('.del-btn').addEventListener('click',(e)=>{ ripple(e); deleteTask(t.id); });
+
       c.appendChild(d);
+
+      // NEW: animate only newly added items (best effort)
+      if (!existingIds.has(t.id) && !t.done){
+        animateIn(d);
+      }
     });
   }
 
@@ -1189,6 +1462,16 @@ function renderCalendar(){
       more.textContent = `+${remaining} more`;
       cell.appendChild(more);
     }
+
+    // NEW: clicking a calendar day jumps to add task + pre-fills date
+    cell.addEventListener('click', ()=>{
+      switchView('dashboard');
+      $('task-date').value = iso;
+      focusAdd();
+      const box = $('ai-box');
+      box?.classList.add('float');
+      setTimeout(()=>box?.classList.remove('float'), 1600);
+    });
 
     grid.appendChild(cell);
   }
