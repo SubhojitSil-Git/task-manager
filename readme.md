@@ -24,7 +24,7 @@ This project was specifically engineered to fulfill the requirements of **Proble
 
 ### Criteria 2: Overall Architecture
 * **Frontend:** Built with vanilla HTML5, CSS3 (Custom variables, Flexbox/Grid, Glassmorphism), and JavaScript. Fully responsive for both desktop and mobile screens.
-* **Backend (Local Storage Simulation):** Uses browser `localStorage` as a lightweight, lightning-fast persistence layer, meaning no external server setup is required to run the app.
+* **Backend :superbase** Uses browser `localStorage` as a lightweight, lightning-fast persistence layer, meaning no external server setup is required to run the app.
 * **AI Module:** Integrated simulated AI interface that processes current task loads, pending deadlines, and overdue tasks to provide actionable insights.
 
 ### Criteria 3: Handling Edge Cases
