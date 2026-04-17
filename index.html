@@ -5,2081 +5,407 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>TaskFlow — AI Task Manager</title>
   <meta name="theme-color" content="#0f0f11" />
-  <meta name="mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-  <meta name="description" content="AI-powered daily task manager with priority suggestions, deadline management, and smart scheduling." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet" />
+  <meta name="description" content="AI-powered daily task manager by Subhojit and Mohit." />
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=IBM+Plex+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet" />
+  
   <style>
-/* ══════════════════════════════════════════════════════
-   TASKFLOW — Dark Industrial-Minimal Design System
-══════════════════════════════════════════════════════ */
-:root {
-  --bg-base:        #0f0f11;
-  --bg-surface:     #16161a;
-  --bg-raised:      #1e1e24;
-  --bg-hover:       #252530;
-  --bg-active:      #2a2a38;
-  --border:         #2a2a35;
-  --border-light:   #3a3a48;
-  --text-primary:   #f0f0f4;
-  --text-secondary: #9090a8;
-  --text-muted:     #5a5a72;
-  --text-inverse:   #0f0f11;
-  --accent:         #f5a623;
-  --accent-dim:     rgba(245,166,35,0.15);
-  --accent-glow:    rgba(245,166,35,0.35);
-  --green:          #22c55e;
-  --green-dim:      rgba(34,197,94,0.12);
-  --red:            #ef4444;
-  --red-dim:        rgba(239,68,68,0.12);
-  --blue:           #60a5fa;
-  --blue-dim:       rgba(96,165,250,0.12);
-  --purple:         #a78bfa;
-  --purple-dim:     rgba(167,139,250,0.12);
-  --orange:         #fb923c;
-  --orange-dim:     rgba(251,146,60,0.12);
-  --priority-high:  #ef4444;
-  --priority-medium:#f5a623;
-  --priority-low:   #22c55e;
-  --font-display:   'Syne', sans-serif;
-  --font-body:      'DM Sans', sans-serif;
-  --font-mono:      'IBM Plex Mono', monospace;
-  --sp-1:4px;--sp-2:8px;--sp-3:12px;--sp-4:16px;--sp-5:20px;--sp-6:24px;--sp-8:32px;--sp-10:40px;--sp-12:48px;
-  --r-sm:4px;--r-md:8px;--r-lg:12px;--r-xl:16px;--r-full:9999px;
-  --shadow-sm:0 1px 3px rgba(0,0,0,.4);
-  --shadow-md:0 4px 16px rgba(0,0,0,.5);
-  --shadow-lg:0 8px 32px rgba(0,0,0,.6);
-  --shadow-accent:0 0 20px var(--accent-glow);
-  --ease:cubic-bezier(.4,0,.2,1);
-  --t-fast:120ms;--t-mid:200ms;--t-slow:350ms;
-  --nav-h:60px;--status-h:36px;--mob-nav-h:64px;
-}
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html{font-size:16px;scroll-behavior:smooth;-webkit-text-size-adjust:100%}
-body{font-family:var(--font-body);font-size:.9375rem;line-height:1.6;color:var(--text-primary);background-color:var(--bg-base);min-height:100vh;min-height:100dvh;overscroll-behavior:none}
+    /* ══════════════════════════════════════════════════════
+       TASKFLOW — Premium Dark Theme Variables
+    ══════════════════════════════════════════════════════ */
+    :root {
+      --bg-base:        #0a0a0c;
+      --bg-surface:     #141419;
+      --bg-raised:      #1c1c24;
+      --bg-hover:       #252530;
+      --border:         #2a2a35;
+      --border-light:   #3a3a48;
+      
+      --text-primary:   #f0f0f4;
+      --text-secondary: #9090a8;
+      --text-muted:     #5a5a72;
+      
+      --accent:         #f5a623;
+      --accent-glow:    rgba(245, 166, 35, 0.2);
+      --green:          #10b981;
+      --red:            #ef4444;
+      --orange:         #f97316;
+      --purple:         #8b5cf6;
+      
+      --font-display:   'Syne', sans-serif;
+      --font-body:      'DM Sans', sans-serif;
+      --font-mono:      'IBM Plex Mono', monospace;
+      
+      --sp-2: 8px; --sp-3: 12px; --sp-4: 16px; --sp-6: 24px; --sp-8: 32px;
+      --r-md: 10px; --r-lg: 16px; --r-xl: 24px;
+      
+      --shadow-sm: 0 4px 6px rgba(0,0,0,0.3);
+      --shadow-lg: 0 12px 40px rgba(0,0,0,0.6);
+      --nav-h: 70px;
+    }
 
-/* ── AUTH SCREEN ──────────────────────────────────────── */
-#auth-screen {
-  min-height:100vh;min-height:100dvh;
-  display:flex;align-items:center;justify-content:center;
-  padding:var(--sp-4);
-  background:var(--bg-base);
-  background-image:
-    radial-gradient(ellipse 80% 60% at 50% -10%, rgba(245,166,35,.08) 0%, transparent 60%),
-    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-}
-.auth-card {
-  width:100%;max-width:420px;
-  background:var(--bg-surface);
-  border:1px solid var(--border-light);
-  border-radius:var(--r-xl);
-  box-shadow:var(--shadow-lg);
-  overflow:hidden;
-  animation:auth-rise .4s var(--ease) both;
-}
-@keyframes auth-rise{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
-.auth-top {
-  background:linear-gradient(135deg,var(--bg-raised),var(--bg-active));
-  border-bottom:1px solid var(--border);
-  padding:var(--sp-8) var(--sp-6) var(--sp-6);
-  text-align:center;
-}
-.auth-logo {
-  display:inline-flex;align-items:center;gap:var(--sp-2);
-  font-family:var(--font-display);font-size:1.5rem;font-weight:800;
-  letter-spacing:-.03em;color:var(--text-primary);
-  margin-bottom:var(--sp-5);
-}
-.auth-logo-mark {
-  width:34px;height:34px;
-  background:var(--accent);border-radius:var(--r-md);
-  display:grid;place-items:center;color:var(--text-inverse);
-  font-size:1rem;font-weight:800;box-shadow:var(--shadow-accent);
-}
-.auth-tabs {
-  display:flex;background:var(--bg-base);border-radius:var(--r-lg);padding:3px;gap:3px;
-}
-.auth-tab {
-  flex:1;padding:var(--sp-2) var(--sp-3);border:none;border-radius:var(--r-md);
-  font-family:var(--font-body);font-size:.875rem;font-weight:500;cursor:pointer;
-  color:var(--text-muted);background:transparent;
-  transition:all var(--t-fast) var(--ease);
-}
-.auth-tab.active{color:var(--text-primary);background:var(--bg-raised);box-shadow:var(--shadow-sm);}
-.auth-body{padding:var(--sp-6);}
-.auth-tagline{font-size:.8125rem;color:var(--text-muted);margin-bottom:var(--sp-5);}
-.auth-form{display:flex;flex-direction:column;gap:var(--sp-4);}
-.auth-field{display:flex;flex-direction:column;gap:var(--sp-2);}
-.auth-field label{font-size:.8125rem;font-weight:500;color:var(--text-secondary);}
-.auth-field input {
-  width:100%;background:var(--bg-raised);border:1px solid var(--border);border-radius:var(--r-md);
-  color:var(--text-primary);font-family:var(--font-body);font-size:.9rem;
-  padding:var(--sp-3) var(--sp-4);transition:border-color var(--t-fast) var(--ease),box-shadow var(--t-fast) var(--ease);outline:none;
-}
-.auth-field input:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-dim);}
-.auth-field input::placeholder{color:var(--text-muted);}
-.auth-btn {
-  width:100%;padding:var(--sp-3) var(--sp-4);
-  background:var(--accent);color:var(--text-inverse);
-  border:none;border-radius:var(--r-md);
-  font-family:var(--font-body);font-size:.9375rem;font-weight:600;
-  cursor:pointer;transition:all var(--t-fast) var(--ease);
-  display:flex;align-items:center;justify-content:center;gap:var(--sp-2);
-}
-.auth-btn:hover{background:#f0a020;box-shadow:var(--shadow-accent);}
-.auth-btn:active{transform:scale(.98);}
-.auth-btn:disabled{opacity:.5;cursor:not-allowed;transform:none;}
-.auth-divider{display:flex;align-items:center;gap:var(--sp-3);color:var(--text-muted);font-size:.8125rem;}
-.auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:var(--border);}
-.auth-error {
-  background:var(--red-dim);border:1px solid rgba(239,68,68,.4);border-radius:var(--r-md);
-  padding:var(--sp-3);font-size:.8125rem;color:var(--red);display:none;
-}
-.auth-error.show{display:block;}
-.auth-success {
-  background:var(--green-dim);border:1px solid rgba(34,197,94,.4);border-radius:var(--r-md);
-  padding:var(--sp-3);font-size:.8125rem;color:var(--green);display:none;text-align:center;
-}
-.auth-success.show{display:block;}
-.auth-footer{font-size:.75rem;color:var(--text-muted);text-align:center;padding:var(--sp-4) var(--sp-6) var(--sp-5);border-top:1px solid var(--border);}
-.auth-features{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-2);margin-bottom:var(--sp-5);}
-.auth-feature{
-  background:var(--bg-raised);border:1px solid var(--border);border-radius:var(--r-md);
-  padding:var(--sp-3);display:flex;flex-direction:column;gap:var(--sp-1);
-}
-.auth-feature-icon{font-size:1.125rem;}
-.auth-feature-text{font-size:.75rem;color:var(--text-secondary);font-weight:500;}
+    /* ── BASE STYLES ──────────────────────────────────────── */
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: var(--font-body);
+      background-color: var(--bg-base);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+    }
 
-/* ── APP SCREEN ──────────────────────────────────────── */
-#app-screen{display:none;min-height:100vh;min-height:100dvh;flex-direction:column;}
-#app-screen.visible{display:flex;}
+    /* ── FORMS & BUTTONS ──────────────────────────────────── */
+    input, select, button {
+      font-family: inherit;
+      font-size: 0.95rem;
+      border: 1px solid var(--border);
+      background: var(--bg-raised);
+      color: var(--text-primary);
+      padding: 12px 16px;
+      border-radius: var(--r-md);
+      outline: none;
+      transition: all 0.2s ease;
+    }
+    input:focus, select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-glow);
+    }
+    input[type="date"] { color: var(--text-secondary); }
+    
+    button { cursor: pointer; font-weight: 600; }
+    button:hover { background: var(--bg-hover); }
+    
+    .btn-primary {
+      background: var(--accent);
+      color: #000;
+      border: none;
+      box-shadow: 0 4px 12px var(--accent-glow);
+    }
+    .btn-primary:hover {
+      background: #ffb742;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px var(--accent-glow);
+    }
 
-/* Status bar */
-#system-status-bar {
-  height:var(--status-h);background:var(--bg-surface);border-bottom:1px solid var(--border);
-  display:flex;align-items:center;gap:var(--sp-6);padding:0 var(--sp-6);
-  font-family:var(--font-mono);font-size:.75rem;color:var(--text-muted);
-  overflow-x:auto;white-space:nowrap;flex-shrink:0;
-}
-#system-status-bar span{display:flex;align-items:center;gap:var(--sp-2);}
-.status-dot{width:7px;height:7px;border-radius:50%;background:var(--text-muted);flex-shrink:0;}
-.status-dot.online{background:var(--green);box-shadow:0 0 6px var(--green);animation:pulse-dot 2s ease-in-out infinite;}
-.status-dot.offline{background:var(--red);}
-@keyframes pulse-dot{0%,100%{opacity:1}50%{opacity:.5}}
-#status-task-count{margin-left:auto;color:var(--accent);font-weight:500;}
-#user-email-display{color:var(--text-secondary);font-size:.7rem;max-width:140px;overflow:hidden;text-overflow:ellipsis;}
+    /* ── AUTH SCREEN ──────────────────────────────────────── */
+    #auth-screen {
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      flex: 1; padding: var(--sp-4);
+      background: radial-gradient(circle at 50% -20%, var(--bg-surface), var(--bg-base) 70%);
+      animation: fadeIn 0.5s ease;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    
+    .auth-card {
+      width: 100%; max-width: 400px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-light);
+      border-radius: var(--r-xl);
+      box-shadow: var(--shadow-lg);
+      overflow: hidden;
+    }
+    .auth-top { padding: var(--sp-8) var(--sp-6) var(--sp-4); text-align: center; }
+    .auth-logo { font-family: var(--font-display); font-size: 2rem; font-weight: 800; color: var(--accent); letter-spacing: -0.5px; }
+    .auth-body { padding: var(--sp-6); display: flex; flex-direction: column; gap: var(--sp-4); }
+    .auth-footer { 
+      padding: var(--sp-4); text-align: center; font-size: 0.85rem; 
+      color: var(--text-muted); border-top: 1px solid var(--border); 
+      background: var(--bg-raised);
+    }
+    
+    /* ── APP SCREEN & LAYOUT ──────────────────────────────── */
+    #app-screen { display: none; flex: 1; flex-direction: column; }
+    
+    #main-header {
+      height: var(--nav-h); background: rgba(20, 20, 25, 0.8);
+      backdrop-filter: blur(12px); border-bottom: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: space-between; padding: 0 var(--sp-6);
+      position: sticky; top: 0; z-index: 100;
+    }
+    .header-left { display: flex; align-items: baseline; gap: var(--sp-3); }
+    .header-credits { font-size: 0.85rem; color: var(--text-muted); font-family: var(--font-mono); }
+    
+    #app-main {
+      max-width: 1100px; margin: 0 auto; padding: var(--sp-8) var(--sp-4); width: 100%;
+      display: grid; grid-template-columns: 320px 1fr; gap: var(--sp-8); align-items: start;
+    }
+    
+    /* Desktop Sticky Sidebar */
+    .sticky-sidebar { position: sticky; top: calc(var(--nav-h) + var(--sp-8)); display: flex; flex-direction: column; gap: var(--sp-6); }
 
-/* Header */
-#main-header {
-  height:var(--nav-h);background:var(--bg-surface);border-bottom:1px solid var(--border);
-  display:flex;align-items:center;justify-content:space-between;padding:0 var(--sp-6);
-  position:sticky;top:0;z-index:100;gap:var(--sp-4);flex-shrink:0;
-}
-.logo{font-family:var(--font-display);font-size:1.375rem;font-weight:800;letter-spacing:-.03em;color:var(--text-primary);text-decoration:none;display:flex;align-items:center;gap:var(--sp-2);flex-shrink:0;}
-.logo-mark{width:28px;height:28px;background:var(--accent);border-radius:var(--r-sm);display:grid;place-items:center;color:var(--text-inverse);font-size:.875rem;font-weight:800;}
-#main-nav{display:flex;align-items:center;gap:var(--sp-1);flex:1;justify-content:center;}
-.nav-btn{font-family:var(--font-body);font-size:.875rem;font-weight:500;color:var(--text-secondary);background:transparent;border:none;border-radius:var(--r-md);padding:var(--sp-2) var(--sp-4);cursor:pointer;transition:color var(--t-fast) var(--ease),background var(--t-fast) var(--ease);display:flex;align-items:center;gap:var(--sp-2);white-space:nowrap;}
-.nav-btn:hover{color:var(--text-primary);background:var(--bg-hover);}
-.nav-btn.active{color:var(--accent);background:var(--accent-dim);}
-#header-actions{display:flex;align-items:center;gap:var(--sp-2);flex-shrink:0;}
-#current-date{font-size:.8125rem;color:var(--text-muted);font-family:var(--font-mono);}
-.btn-logout{font-family:var(--font-mono);font-size:.75rem;color:var(--text-muted);background:transparent;border:1px solid var(--border);border-radius:var(--r-md);padding:var(--sp-1) var(--sp-3);cursor:pointer;transition:all var(--t-fast) var(--ease);}
-.btn-logout:hover{color:var(--red);border-color:var(--red);background:var(--red-dim);}
+    @media(max-width: 860px) {
+      #app-main { grid-template-columns: 1fr; padding: var(--sp-6) var(--sp-4); gap: var(--sp-6); }
+      .sticky-sidebar { position: static; }
+      .header-credits { display: none; }
+      .auth-logo { font-size: 1.5rem; }
+    }
 
-/* Main */
-#app-main{max-width:1100px;margin:0 auto;padding:var(--sp-8) var(--sp-6);flex:1;width:100%;padding-bottom:calc(var(--sp-8) + var(--mob-nav-h));}
-.view{animation:fade-in var(--t-mid) var(--ease) both;}
-.view[hidden]{display:none!important;}
-@keyframes fade-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-h1.section-title{font-family:var(--font-display);font-size:1.75rem;font-weight:800;letter-spacing:-.03em;color:var(--text-primary);margin-bottom:var(--sp-6);}
-h2{font-family:var(--font-display);font-size:1.125rem;font-weight:700;letter-spacing:-.02em;color:var(--text-primary);}
-h3{font-family:var(--font-display);font-size:.9375rem;font-weight:600;color:var(--text-primary);}
+    /* ── CARDS & COMPONENTS ───────────────────────────────── */
+    .card {
+      background: var(--bg-surface); border: 1px solid var(--border);
+      border-radius: var(--r-lg); padding: var(--sp-6);
+      box-shadow: var(--shadow-sm);
+    }
+    .card h2 { font-family: var(--font-display); margin-bottom: var(--sp-4); font-size: 1.25rem; font-weight: 700; }
+    
+    .task-form { display: flex; flex-direction: column; gap: var(--sp-3); }
+    
+    /* Task List */
+    .task-item {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: var(--sp-4); border-bottom: 1px solid var(--border);
+      transition: background 0.2s, transform 0.2s;
+      border-radius: var(--r-md);
+    }
+    .task-item:hover { background: var(--bg-hover); transform: translateX(4px); }
+    .task-item:last-child { border-bottom: none; }
+    
+    /* Custom Checkbox */
+    .checkbox-wrapper { display: flex; align-items: center; gap: var(--sp-4); flex: 1; cursor: pointer; }
+    .checkbox-wrapper input[type="checkbox"] { 
+      width: 20px; height: 20px; cursor: pointer; accent-color: var(--accent); flex-shrink: 0;
+    }
+    
+    .task-info h3 { font-size: 1.05rem; font-weight: 500; margin-bottom: 4px; transition: color 0.2s; }
+    .task-meta { font-size: 0.8rem; color: var(--text-muted); font-family: var(--font-mono); display: flex; gap: 10px; align-items: center;}
+    
+    .badge { padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.5px; }
+    .badge.high { background: rgba(239,68,68,0.15); color: var(--red); border: 1px solid rgba(239,68,68,0.3); }
+    .badge.medium { background: rgba(245,166,35,0.15); color: var(--accent); border: 1px solid rgba(245,166,35,0.3); }
+    .badge.low { background: rgba(16,185,129,0.15); color: var(--green); border: 1px solid rgba(16,185,129,0.3); }
+    
+    .btn-delete {
+      color: var(--text-muted); background: transparent; border: none; font-size: 0.85rem; padding: 6px 10px;
+    }
+    .btn-delete:hover { color: var(--red); background: rgba(239,68,68,0.1); }
 
-/* Warning banners */
-.warning-banner{display:none;align-items:flex-start;gap:var(--sp-3);background:var(--orange-dim);border:1px solid var(--orange);border-radius:var(--r-md);padding:var(--sp-3) var(--sp-4);margin-bottom:var(--sp-4);font-size:.875rem;color:var(--text-primary);animation:slide-down var(--t-mid) var(--ease);}
-.warning-banner.show{display:flex;}
-.warning-banner.conflict{background:var(--red-dim);border-color:var(--red);}
-.warning-banner .banner-icon{font-size:1.125rem;flex-shrink:0;margin-top:1px;}
-.warning-banner .banner-text{flex:1;}
-.warning-banner strong{display:block;font-weight:600;margin-bottom:2px;color:var(--orange);}
-.warning-banner.conflict strong{color:var(--red);}
-.warning-banner .btn-dismiss-banner{background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:1.1rem;padding:0;line-height:1;flex-shrink:0;transition:color var(--t-fast) var(--ease);}
-.warning-banner .btn-dismiss-banner:hover{color:var(--text-primary);}
-@keyframes slide-down{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+    /* Banners & AI */
+    .banner {
+      background: rgba(239,68,68,0.1); border-left: 4px solid var(--red); color: var(--text-primary);
+      padding: var(--sp-4); border-radius: 0 var(--r-md) var(--r-md) 0; margin-bottom: var(--sp-6);
+      display: none; font-size: 0.95rem; animation: fadeIn 0.3s ease;
+    }
 
-/* Stats */
-.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:var(--sp-4);margin-bottom:var(--sp-8);}
-.stat-card{background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:var(--sp-5);display:flex;flex-direction:column;gap:var(--sp-2);transition:border-color var(--t-mid) var(--ease),transform var(--t-fast) var(--ease);cursor:default;}
-.stat-card:hover{border-color:var(--border-light);transform:translateY(-2px);}
-.stat-label{font-size:.75rem;font-weight:500;text-transform:uppercase;letter-spacing:.08em;color:var(--text-muted);font-family:var(--font-mono);}
-.stat-value{font-family:var(--font-display);font-size:2rem;font-weight:800;letter-spacing:-.04em;line-height:1;color:var(--text-primary);}
-.stat-card.accent-card .stat-value{color:var(--accent);}
-.stat-card.green-card .stat-value{color:var(--green);}
-.stat-card.red-card .stat-value{color:var(--red);}
-
-/* Dashboard grid */
-.dashboard-grid{display:grid;grid-template-columns:400px 1fr;gap:var(--sp-6);align-items:start;}
-@media(max-width:860px){.dashboard-grid{grid-template-columns:1fr;}}
-
-/* Card */
-.card{background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--r-lg);overflow:hidden;}
-.card-header{padding:var(--sp-4) var(--sp-5);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3);}
-.card-body{padding:var(--sp-5);}
-
-/* Form */
-#add-task-form{display:flex;flex-direction:column;gap:var(--sp-4);}
-.field-group{display:flex;flex-direction:column;gap:var(--sp-2);}
-.field-row{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-3);}
-label{font-size:.8125rem;font-weight:500;color:var(--text-secondary);letter-spacing:.01em;}
-.field-hint{font-size:.75rem;color:var(--text-muted);font-family:var(--font-mono);margin-top:2px;}
-.inline-hint{display:none;font-size:.75rem;font-family:var(--font-mono);color:var(--red);margin-top:var(--sp-1);animation:fade-in var(--t-fast) var(--ease);}
-.inline-hint.show,.inline-hint:not([hidden]){display:block;}
-.inline-hint.warn{color:var(--orange);}
-
-/* Inputs */
-input[type=text],input[type=date],input[type=number],input[type=time],input[type=email],input[type=password],select,textarea{
-  width:100%;background:var(--bg-raised);border:1px solid var(--border);border-radius:var(--r-md);
-  color:var(--text-primary);font-family:var(--font-body);font-size:.9rem;padding:var(--sp-2) var(--sp-3);
-  transition:border-color var(--t-fast) var(--ease),box-shadow var(--t-fast) var(--ease);outline:none;
-  -webkit-appearance:none;appearance:none;
-}
-input::placeholder,textarea::placeholder{color:var(--text-muted);}
-input:focus,select:focus,textarea:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-dim);}
-select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%235a5a72' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;padding-right:32px;cursor:pointer;}
-input[type=date]::-webkit-calendar-picker-indicator{filter:invert(.5);cursor:pointer;}
-textarea{resize:vertical;min-height:72px;line-height:1.5;}
-
-/* Buttons */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--sp-2);border:none;border-radius:var(--r-md);font-family:var(--font-body);font-size:.875rem;font-weight:500;padding:var(--sp-2) var(--sp-4);cursor:pointer;transition:background var(--t-fast) var(--ease),color var(--t-fast) var(--ease),box-shadow var(--t-fast) var(--ease),transform var(--t-fast) var(--ease);white-space:nowrap;user-select:none;}
-.btn:active{transform:scale(.97);}
-.btn-primary{background:var(--accent);color:var(--text-inverse);font-weight:600;}
-.btn-primary:hover{background:#f0a020;box-shadow:var(--shadow-accent);}
-.btn-secondary{background:var(--bg-raised);color:var(--text-secondary);border:1px solid var(--border);}
-.btn-secondary:hover{background:var(--bg-hover);color:var(--text-primary);border-color:var(--border-light);}
-.btn-ghost{background:transparent;color:var(--text-secondary);border:1px solid var(--border);}
-.btn-ghost:hover{background:var(--bg-raised);color:var(--text-primary);}
-.btn-ghost.active{color:var(--accent);background:var(--accent-dim);border-color:var(--accent);}
-.btn-danger{background:var(--red-dim);color:var(--red);border:1px solid var(--red);}
-.btn-danger:hover{background:var(--red);color:#fff;}
-.btn-ai{background:var(--purple-dim);color:var(--purple);border:1px solid var(--purple);}
-.btn-ai:hover{background:var(--purple);color:#fff;}
-.btn-sm{font-size:.8125rem;padding:calc(var(--sp-1) + 2px) var(--sp-3);}
-.btn-full{width:100%;}
-.btn-icon{padding:var(--sp-2);width:32px;height:32px;}
-
-/* AI priority result */
-#ai-priority-result{display:none;background:var(--purple-dim);border:1px solid var(--purple);border-radius:var(--r-md);padding:var(--sp-3) var(--sp-4);gap:var(--sp-3);align-items:flex-start;animation:fade-in var(--t-mid) var(--ease);}
-#ai-priority-result.show{display:flex;}
-.ai-result-icon{font-size:1.25rem;flex-shrink:0;}
-.ai-result-body{flex:1;}
-.ai-result-body p{font-size:.875rem;color:var(--text-secondary);margin-top:var(--sp-1);}
-.ai-result-actions{display:flex;gap:var(--sp-2);margin-top:var(--sp-2);}
-
-/* Progress bar */
-.progress-bar-wrap{margin-bottom:var(--sp-4);}
-.progress-label{display:flex;justify-content:space-between;font-size:.8125rem;color:var(--text-muted);margin-bottom:var(--sp-2);}
-.progress-bar{height:6px;background:var(--bg-raised);border-radius:var(--r-full);overflow:hidden;}
-.progress-fill{height:100%;background:var(--accent);border-radius:var(--r-full);transition:width .6s var(--ease);width:0%;}
-
-/* Filter bar */
-.filter-bar{display:flex;flex-wrap:wrap;align-items:center;gap:var(--sp-2);padding:var(--sp-3) var(--sp-5);border-bottom:1px solid var(--border);background:var(--bg-raised);}
-.filter-bar input[type=text]{flex:1;min-width:120px;background:var(--bg-surface);}
-.filter-group{display:flex;gap:var(--sp-2);align-items:center;flex-wrap:wrap;}
-
-/* Task list */
-#task-list{list-style:none;display:flex;flex-direction:column;}
-.task-item{display:flex;align-items:center;gap:var(--sp-3);padding:var(--sp-3) var(--sp-5);border-bottom:1px solid var(--border);transition:background var(--t-fast) var(--ease);animation:fade-in var(--t-mid) var(--ease) both;}
-.task-item:last-child{border-bottom:none;}
-.task-item:hover{background:var(--bg-raised);}
-.task-item.done{opacity:.5;}
-.task-item.done .task-title{text-decoration:line-through;color:var(--text-muted);}
-.task-item.overdue{border-left:3px solid var(--red);}
-.task-check{width:18px;height:18px;border-radius:var(--r-sm);border:2px solid var(--border-light);background:transparent;cursor:pointer;flex-shrink:0;display:grid;place-items:center;transition:border-color var(--t-fast) var(--ease),background var(--t-fast) var(--ease);appearance:none;-webkit-appearance:none;}
-.task-check:checked{border-color:var(--green);background:var(--green);}
-.task-check:checked::after{content:'✓';font-size:.75rem;color:#fff;font-weight:700;}
-.task-check:hover:not(:checked){border-color:var(--text-secondary);}
-.task-body{flex:1;min-width:0;}
-.task-title{font-weight:500;color:var(--text-primary);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:.9375rem;}
-.task-meta{display:flex;flex-wrap:wrap;gap:var(--sp-2);margin-top:3px;align-items:center;}
-.task-actions{display:flex;gap:var(--sp-1);opacity:0;transition:opacity var(--t-fast) var(--ease);flex-shrink:0;}
-.task-item:hover .task-actions,.task-item:focus-within .task-actions{opacity:1;}
-@media(hover:none){.task-actions{opacity:1;}} /* always visible on touch */
-
-/* Badges */
-.badge{display:inline-flex;align-items:center;padding:2px var(--sp-2);border-radius:var(--r-full);font-family:var(--font-mono);font-size:.6875rem;font-weight:500;letter-spacing:.03em;white-space:nowrap;}
-.badge-priority-high{background:var(--red-dim);color:var(--red);border:1px solid rgba(239,68,68,.3);}
-.badge-priority-medium{background:var(--accent-dim);color:var(--accent);border:1px solid rgba(245,166,35,.3);}
-.badge-priority-low{background:var(--green-dim);color:var(--green);border:1px solid rgba(34,197,94,.3);}
-.badge-category{background:var(--blue-dim);color:var(--blue);border:1px solid rgba(96,165,250,.25);}
-.badge-tag{background:var(--bg-active);color:var(--text-secondary);border:1px solid var(--border);}
-.badge-overdue{background:var(--red-dim);color:var(--red);border:1px solid rgba(239,68,68,.3);}
-.badge-conflict{background:var(--orange-dim);color:var(--orange);border:1px solid rgba(251,146,60,.3);}
-.task-due{font-size:.75rem;color:var(--text-muted);font-family:var(--font-mono);}
-
-/* Empty state */
-.empty-state{display:flex;flex-direction:column;align-items:center;padding:var(--sp-12) var(--sp-6);text-align:center;gap:var(--sp-3);}
-.empty-icon{font-size:3rem;opacity:.3;}
-.empty-text{color:var(--text-muted);font-size:.9375rem;}
-
-/* All tasks table */
-.table-wrapper{overflow-x:auto;border-radius:var(--r-lg);border:1px solid var(--border);}
-.tasks-table{width:100%;border-collapse:collapse;font-size:.875rem;}
-.tasks-table thead{background:var(--bg-raised);position:sticky;top:0;z-index:2;}
-.tasks-table th{padding:var(--sp-3) var(--sp-4);text-align:left;font-family:var(--font-mono);font-size:.75rem;font-weight:500;text-transform:uppercase;letter-spacing:.07em;color:var(--text-muted);border-bottom:1px solid var(--border);white-space:nowrap;}
-.tasks-table td{padding:var(--sp-3) var(--sp-4);border-bottom:1px solid var(--border);vertical-align:middle;color:var(--text-primary);}
-.tasks-table tr:last-child td{border-bottom:none;}
-.tasks-table tbody tr{transition:background var(--t-fast) var(--ease);}
-.tasks-table tbody tr:hover{background:var(--bg-raised);}
-.tasks-table tbody tr.done td{opacity:.45;}
-.table-actions{display:flex;gap:var(--sp-2);align-items:center;}
-.view-controls{display:flex;flex-wrap:wrap;gap:var(--sp-3);margin-bottom:var(--sp-5);align-items:center;}
-.view-controls select{max-width:160px;}
-
-/* AI insights */
-.ai-insights-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-6);margin-bottom:var(--sp-6);}
-@media(max-width:720px){.ai-insights-grid{grid-template-columns:1fr;}}
-#ai-module-info{background:var(--bg-raised);border:1px solid var(--border);border-radius:var(--r-md);padding:var(--sp-3) var(--sp-4);display:flex;align-items:center;gap:var(--sp-3);font-size:.8125rem;font-family:var(--font-mono);margin-bottom:var(--sp-6);color:var(--text-secondary);}
-.ai-output-block{background:var(--bg-raised);border:1px solid var(--border);border-radius:var(--r-md);padding:var(--sp-4);min-height:120px;font-size:.9rem;line-height:1.7;color:var(--text-secondary);white-space:pre-wrap;}
-.ai-spinner{display:inline-block;width:16px;height:16px;border:2px solid var(--border-light);border-top-color:var(--purple);border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0;}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-/* AI Chat */
-#ai-chat-section{margin-top:var(--sp-6);}
-#ai-chat-log{background:var(--bg-raised);border:1px solid var(--border);border-radius:var(--r-lg) var(--r-lg) 0 0;padding:var(--sp-4);min-height:180px;max-height:300px;overflow-y:auto;display:flex;flex-direction:column;gap:var(--sp-3);}
-.chat-msg{display:flex;gap:var(--sp-3);align-items:flex-start;animation:fade-in var(--t-mid) var(--ease);}
-.chat-msg.user{flex-direction:row-reverse;}
-.chat-avatar{width:28px;height:28px;border-radius:50%;background:var(--bg-active);border:1px solid var(--border-light);display:grid;place-items:center;font-size:.75rem;flex-shrink:0;}
-.chat-msg.user .chat-avatar{background:var(--accent-dim);border-color:var(--accent);color:var(--accent);}
-.chat-bubble{max-width:75%;background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--r-md);padding:var(--sp-2) var(--sp-3);font-size:.875rem;line-height:1.6;color:var(--text-primary);}
-.chat-msg.user .chat-bubble{background:var(--accent-dim);border-color:var(--accent);}
-.chat-input-row{display:flex;border:1px solid var(--border);border-top:none;border-radius:0 0 var(--r-lg) var(--r-lg);overflow:hidden;background:var(--bg-surface);}
-.chat-input-row input{flex:1;border:none;border-radius:0;background:transparent;padding:var(--sp-3) var(--sp-4);}
-.chat-input-row input:focus{box-shadow:none;border:none;}
-.chat-input-row .btn{border-radius:0;padding:var(--sp-3) var(--sp-5);border-left:1px solid var(--border);}
-
-/* Preferences */
-.prefs-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp-6);}
-@media(max-width:640px){.prefs-grid{grid-template-columns:1fr;}}
-.pref-section{background:var(--bg-surface);border:1px solid var(--border);border-radius:var(--r-lg);padding:var(--sp-5);display:flex;flex-direction:column;gap:var(--sp-4);}
-.pref-section h3{padding-bottom:var(--sp-3);border-bottom:1px solid var(--border);margin-bottom:var(--sp-1);}
-
-/* Modals */
-dialog{background:var(--bg-surface);border:1px solid var(--border-light);border-radius:var(--r-xl);color:var(--text-primary);padding:0;width:min(480px,92vw);max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg);outline:none;}
-dialog::backdrop{background:rgba(0,0,0,.65);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);}
-dialog[open]{animation:modal-in var(--t-slow) var(--ease) both;}
-@keyframes modal-in{from{opacity:0;transform:scale(.94) translateY(8px)}to{opacity:1;transform:scale(1) translateY(0)}}
-.modal-header{display:flex;align-items:center;justify-content:space-between;padding:var(--sp-4) var(--sp-5);border-bottom:1px solid var(--border);}
-.modal-body{padding:var(--sp-5);display:flex;flex-direction:column;gap:var(--sp-4);}
-.modal-footer{padding:var(--sp-4) var(--sp-5);border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:var(--sp-3);}
-.delete-icon{font-size:2.5rem;opacity:.6;}
-.delete-msg{color:var(--text-secondary);font-size:.9375rem;max-width:300px;}
-#modal-delete-confirm .modal-body{text-align:center;padding:var(--sp-8) var(--sp-5);align-items:center;}
-
-/* Toasts */
-#toast-container{position:fixed;bottom:calc(var(--sp-6) + var(--mob-nav-h));right:var(--sp-6);z-index:9999;display:flex;flex-direction:column;gap:var(--sp-3);pointer-events:none;}
-.toast{background:var(--bg-surface);border:1px solid var(--border-light);border-radius:var(--r-md);padding:var(--sp-3) var(--sp-4);font-size:.875rem;color:var(--text-primary);display:flex;align-items:center;gap:var(--sp-2);box-shadow:var(--shadow-md);pointer-events:all;animation:toast-in .25s var(--ease) both;max-width:320px;}
-.toast.success{border-left:3px solid var(--green);}
-.toast.error{border-left:3px solid var(--red);}
-.toast.info{border-left:3px solid var(--blue);}
-.toast.warn{border-left:3px solid var(--orange);}
-@keyframes toast-in{from{opacity:0;transform:translateX(24px)}to{opacity:1;transform:translateX(0)}}
-@keyframes toast-out{to{opacity:0;transform:translateX(24px)}}
-.toast.hiding{animation:toast-out .2s var(--ease) both;}
-
-/* ── MOBILE NAV BAR ──────────────────────────────────── */
-#mob-nav {
-  display:none;
-  position:fixed;bottom:0;left:0;right:0;
-  height:var(--mob-nav-h);
-  background:var(--bg-surface);
-  border-top:1px solid var(--border);
-  z-index:200;
-  padding:0 var(--sp-2);
-  padding-bottom:env(safe-area-inset-bottom);
-}
-.mob-nav-inner{display:flex;height:var(--mob-nav-h);align-items:center;justify-content:space-around;}
-.mob-nav-btn{display:flex;flex-direction:column;align-items:center;gap:3px;padding:var(--sp-1) var(--sp-3);border:none;background:none;color:var(--text-muted);cursor:pointer;border-radius:var(--r-md);transition:all var(--t-fast) var(--ease);flex:1;font-size:.625rem;font-family:var(--font-mono);font-weight:500;text-transform:uppercase;letter-spacing:.04em;}
-.mob-nav-btn .mob-icon{font-size:1.25rem;line-height:1;}
-.mob-nav-btn.active{color:var(--accent);}
-.mob-nav-btn:active{transform:scale(.92);}
-
-/* Scrollbar */
-::-webkit-scrollbar{width:6px;height:6px;}
-::-webkit-scrollbar-track{background:transparent;}
-::-webkit-scrollbar-thumb{background:var(--border-light);border-radius:var(--r-full);}
-::-webkit-scrollbar-thumb:hover{background:var(--text-muted);}
-
-/* Utility */
-.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0;}
-.hidden{display:none!important;}
-.flex{display:flex;}
-.flex-col{display:flex;flex-direction:column;}
-.items-center{align-items:center;}
-.gap-2{gap:var(--sp-2);}
-.gap-3{gap:var(--sp-3);}
-.gap-4{gap:var(--sp-4);}
-.mt-4{margin-top:var(--sp-4);}
-.mb-4{margin-bottom:var(--sp-4);}
-.text-muted{color:var(--text-muted);}
-.text-sm{font-size:.875rem;}
-.mono{font-family:var(--font-mono);}
-.justify-center{justify-content:center;}
-
-/* ── RESPONSIVE ──────────────────────────────────────── */
-@media(max-width:768px) {
-  #main-nav{display:none;}
-  #mob-nav{display:block;}
-  #app-main{padding:var(--sp-5) var(--sp-4);padding-bottom:calc(var(--sp-5) + var(--mob-nav-h) + 16px);}
-  #main-header{padding:0 var(--sp-4);}
-  #toast-container{bottom:calc(var(--mob-nav-h) + var(--sp-3));right:var(--sp-3);left:var(--sp-3);}
-  .toast{max-width:100%;}
-  #current-date{display:none;}
-  .btn-logout{font-size:.7rem;padding:var(--sp-1) var(--sp-2);}
-  h1.section-title{font-size:1.375rem;}
-  #system-status-bar{padding:0 var(--sp-4);gap:var(--sp-4);font-size:.7rem;}
-  #user-email-display{display:none;}
-}
-@media(max-width:600px) {
-  .stats-grid{grid-template-columns:1fr 1fr;}
-  .field-row{grid-template-columns:1fr;}
-  .stat-value{font-size:1.5rem;}
-}
-@media(max-width:440px) {
-  .logo span:last-child{display:none;}
-  .stats-grid{grid-template-columns:1fr 1fr;}
-}
-
-/* Light theme */
-[data-theme=light] {
-  --bg-base:#f4f4f6;--bg-surface:#fff;--bg-raised:#ebebef;--bg-hover:#e0e0e8;--bg-active:#d8d8e8;
-  --text-primary:#111118;--text-secondary:#44445a;--text-muted:#888899;
-  --border:#d4d4de;--border-light:#c0c0cc;
-}
-
-/* Focus */
-:focus-visible{outline:2px solid var(--accent);outline-offset:2px;}
-button:focus:not(:focus-visible),input:focus:not(:focus-visible){outline:none;}
-
-/* Skeleton */
-.skeleton{background-color:var(--bg-raised);background-image:linear-gradient(90deg,rgba(255,255,255,0) 0,rgba(255,255,255,.04) 20%,rgba(255,255,255,.04) 60%,rgba(255,255,255,0));background-size:200% 100%;background-repeat:no-repeat;animation:shimmer 1.5s infinite linear;border-radius:var(--r-md);color:transparent!important;pointer-events:none;}
-.skeleton-text{height:1rem;width:100%;margin-bottom:var(--sp-2);border-radius:var(--r-sm);}
-@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+    .ai-box { 
+      background: linear-gradient(145deg, rgba(139,92,246,0.1) 0%, rgba(20,20,25,1) 100%); 
+      border: 1px solid rgba(139,92,246,0.3); 
+      padding: var(--sp-6); border-radius: var(--r-lg); 
+      box-shadow: inset 0 0 20px rgba(139,92,246,0.05);
+    }
+    .ai-box h3 { color: var(--purple); font-size: 1rem; margin-bottom: var(--sp-2); display: flex; align-items: center; gap: 8px; font-family: var(--font-display); }
   </style>
 </head>
 <body>
 
-<!-- ══════════════════════════════════════════════════════
-     AUTH SCREEN
-══════════════════════════════════════════════════════ -->
-<div id="auth-screen">
-  <div class="auth-card">
-    <div class="auth-top">
-      <div class="auth-logo">
-        <div class="auth-logo-mark">⚡</div>
-        TaskFlow
+  <div id="auth-screen">
+    <div class="auth-card">
+      <div class="auth-top">
+        <div class="auth-logo">TaskFlow</div>
+        <p style="color: var(--text-muted); font-size: 0.95rem; margin-top: 8px;">AI-Powered Task Management</p>
       </div>
-      <div class="auth-features">
-        <div class="auth-feature"><div class="auth-feature-icon">🔄</div><div class="auth-feature-text">Cross-device sync</div></div>
-        <div class="auth-feature"><div class="auth-feature-icon">✨</div><div class="auth-feature-text">AI Priority hints</div></div>
-        <div class="auth-feature"><div class="auth-feature-icon">📅</div><div class="auth-feature-text">Smart scheduling</div></div>
-        <div class="auth-feature"><div class="auth-feature-icon">🔒</div><div class="auth-feature-text">Secure & private</div></div>
+      <div class="auth-body">
+        <input type="email" id="login-email" placeholder="Email Address" value="user@taskflow.ai" />
+        <input type="password" id="login-pass" placeholder="Password" value="password123" />
+        <button class="btn-primary" onclick="login()" style="margin-top: 8px;">Access Dashboard</button>
       </div>
-      <div class="auth-tabs">
-        <button class="auth-tab active" id="tab-login" onclick="switchAuthTab('login')">Sign In</button>
-        <button class="auth-tab" id="tab-signup" onclick="switchAuthTab('signup')">Create Account</button>
+      <div class="auth-footer">
+        Created by Subhojit and Mohit
       </div>
-    </div>
-
-    <div class="auth-body">
-      <!-- Login Form -->
-      <div id="login-form-wrap">
-        <p class="auth-tagline">Welcome back! Sign in to access your tasks on any device.</p>
-        <div id="login-error" class="auth-error"></div>
-        <div class="auth-form">
-          <div class="auth-field">
-            <label for="login-email">Email</label>
-            <input type="email" id="login-email" placeholder="you@example.com" autocomplete="email" />
-          </div>
-          <div class="auth-field">
-            <label for="login-password">Password</label>
-            <input type="password" id="login-password" placeholder="Your password" autocomplete="current-password" />
-          </div>
-          <button class="auth-btn" id="btn-login" onclick="handleLogin()">
-            <span id="login-btn-text">Sign In →</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Signup Form -->
-      <div id="signup-form-wrap" style="display:none;">
-        <p class="auth-tagline">Create your free account — tasks sync instantly across all devices.</p>
-        <div id="signup-error" class="auth-error"></div>
-        <div id="signup-success" class="auth-success">✅ Check your email to confirm your account, then sign in!</div>
-        <div class="auth-form">
-          <div class="auth-field">
-            <label for="signup-email">Email</label>
-            <input type="email" id="signup-email" placeholder="you@example.com" autocomplete="email" />
-          </div>
-          <div class="auth-field">
-            <label for="signup-password">Password</label>
-            <input type="password" id="signup-password" placeholder="Min. 6 characters" autocomplete="new-password" />
-          </div>
-          <button class="auth-btn" id="btn-signup" onclick="handleSignup()">
-            <span id="signup-btn-text">Create Account →</span>
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <div class="auth-footer">
-      Your tasks are stored securely in Supabase and sync in real-time across all your devices.
     </div>
   </div>
-</div>
 
-<!-- ══════════════════════════════════════════════════════
-     APP SCREEN
-══════════════════════════════════════════════════════ -->
-<div id="app-screen">
-
-  <div id="system-status-bar" role="status" aria-live="polite">
-    <span class="status-item">
-      <span class="status-dot online" id="ai-status-dot"></span>
-      DB: <span id="ai-status-text">Connected</span>
-    </span>
-    <span class="status-sep">|</span>
-    <span class="status-item">
-      <span class="status-dot online" id="storage-status-dot"></span>
-      Sync: Real-time
-    </span>
-    <span class="status-item" id="user-email-display"></span>
-    <span class="status-item" id="status-task-count">
-      Tasks: <span id="loaded-tasks-count">0</span>
-    </span>
-  </div>
-
-  <header id="main-header">
-    <a href="#" class="logo"><div class="logo-mark">⚡</div><span>TaskFlow</span></a>
-    <nav id="main-nav" aria-label="Main navigation">
-      <button class="nav-btn active" data-view="dashboard">Dashboard</button>
-      <button class="nav-btn" data-view="tasks">All Tasks</button>
-      <button class="nav-btn" data-view="ai-suggestions">AI Insights</button>
-      <button class="nav-btn" data-view="preferences">Preferences</button>
-    </nav>
-    <div id="header-actions" class="flex items-center gap-2">
-      <span id="current-date" class="text-sm text-muted"></span>
-      <button class="nav-btn" id="theme-toggle" aria-label="Toggle theme">🌙</button>
-      <button class="btn-logout" id="btn-logout" onclick="handleLogout()">Sign Out</button>
-    </div>
-  </header>
-
-  <main id="app-main">
-
-    <!-- ── DASHBOARD VIEW ── -->
-    <section id="view-dashboard" class="view" aria-labelledby="dash-h">
-      <h1 id="dash-h" class="section-title">Dashboard</h1>
-
-      <div id="overload-warning" class="warning-banner" role="alert">
-        <span class="banner-icon">⚠️</span>
-        <div class="banner-text"><strong>Task Overload Detected</strong><p id="overload-detail"></p></div>
-        <button class="btn-dismiss-banner" id="btn-dismiss-overload">✕</button>
+  <div id="app-screen">
+    <header id="main-header">
+      <div class="header-left">
+        <div class="auth-logo" style="font-size: 1.5rem;">TaskFlow</div>
+        <span class="header-credits">| Built by Subhojit & Mohit</span>
       </div>
-      <div id="conflict-warning" class="warning-banner conflict" role="alert">
-        <span class="banner-icon">🔥</span>
-        <div class="banner-text"><strong>Deadline Conflict Detected</strong><p id="conflict-detail"></p></div>
-        <button class="btn-dismiss-banner" id="btn-dismiss-conflict">✕</button>
-      </div>
+      <button onclick="logout()" style="background: transparent; border: 1px solid var(--border); font-size: 0.85rem; padding: 8px 16px;">Log Out</button>
+    </header>
 
-      <div class="stats-grid">
-        <div class="stat-card"><span class="stat-label">Total Tasks</span><span class="stat-value" id="stat-total-num">0</span></div>
-        <div class="stat-card green-card"><span class="stat-label">Completed</span><span class="stat-value" id="stat-done-num">0</span></div>
-        <div class="stat-card"><span class="stat-label">Pending</span><span class="stat-value" id="stat-pending-num">0</span></div>
-        <div class="stat-card accent-card"><span class="stat-label">High Priority</span><span class="stat-value" id="stat-high-num">0</span></div>
-        <div class="stat-card red-card"><span class="stat-label">Overdue</span><span class="stat-value" id="stat-overdue-num">0</span></div>
-      </div>
-
-      <div class="dashboard-grid">
-        <!-- Add Task Panel -->
-        <div class="card" id="add-task-panel">
-          <div class="card-header"><h2>Add New Task</h2></div>
-          <div class="card-body">
-            <form id="add-task-form" novalidate>
-              <div class="field-group">
-                <label for="task-title">Task Title <span class="text-muted">*</span></label>
-                <input type="text" id="task-title" placeholder="e.g. Study OOP chapter 3" autocomplete="off" required />
-                <span class="field-hint">Be specific — AI uses this for priority suggestions.</span>
-                <span class="inline-hint hidden" id="task-title-error">Title is required.</span>
-              </div>
-              <div class="field-group">
-                <label for="task-desc">Description</label>
-                <textarea id="task-desc" rows="2" placeholder="Optional details, subtasks, or context..."></textarea>
-              </div>
-              <div class="field-row">
-                <div class="field-group">
-                  <label for="task-priority">Priority</label>
-                  <select id="task-priority">
-                    <option value="low">🟢 Low</option>
-                    <option value="medium" selected>🟡 Medium</option>
-                    <option value="high">🔴 High</option>
-                  </select>
-                </div>
-                <div class="field-group">
-                  <label for="task-category">Category</label>
-                  <select id="task-category">
-                    <option value="study">📚 Study</option>
-                    <option value="work">💼 Work</option>
-                    <option value="personal">🧡 Personal</option>
-                    <option value="health">🏃 Health</option>
-                    <option value="other">📌 Other</option>
-                  </select>
-                </div>
-              </div>
-              <div class="field-row">
-                <div class="field-group">
-                  <label for="task-due">Deadline</label>
-                  <input type="date" id="task-due" />
-                  <span class="inline-hint warn hidden" id="due-conflict-hint">⚠️ Conflict detected on this date.</span>
-                </div>
-                <div class="field-group">
-                  <label for="task-duration">Est. Duration (min)</label>
-                  <input type="number" id="task-duration" min="5" step="5" placeholder="30" />
-                  <span class="inline-hint warn hidden" id="duration-overload-hint">⚠️ May exceed daily hours.</span>
-                </div>
-              </div>
-              <div class="field-group">
-                <label for="task-tags">Tags</label>
-                <input type="text" id="task-tags" placeholder="e.g. exam, urgent, revision" />
-              </div>
-              <div class="field-row mt-4">
-                <button type="submit" id="btn-add-task" class="btn btn-primary btn-full">Add Task</button>
-                <button type="button" id="btn-ai-suggest-priority" class="btn btn-ai btn-full">✨ AI Priority</button>
-              </div>
-              <div id="ai-priority-result">
-                <span class="ai-result-icon">✨</span>
-                <div class="ai-result-body">
-                  <p id="ai-priority-text">AI suggested priority will appear here.</p>
-                  <div class="ai-result-actions">
-                    <button type="button" id="btn-apply-ai-priority" class="btn btn-sm btn-primary">Apply</button>
-                    <button type="button" id="btn-dismiss-ai-priority" class="btn btn-sm btn-ghost">Dismiss</button>
-                  </div>
-                </div>
-              </div>
-            </form>
-          </div>
-        </div>
-
-        <!-- Today's Tasks Panel -->
-        <div class="card" id="today-tasks-panel">
-          <div class="card-header"><h2>Today's Tasks</h2></div>
-          <div class="filter-bar">
-            <div class="filter-group">
-              <button class="btn btn-ghost btn-sm active filter-btn" data-filter="all">All</button>
-              <button class="btn btn-ghost btn-sm filter-btn" data-filter="pending">Pending</button>
-              <button class="btn btn-ghost btn-sm filter-btn" data-filter="completed">Done</button>
-              <button class="btn btn-danger btn-sm filter-btn" data-filter="conflict">⚡ Conflicts</button>
-            </div>
-            <input type="text" id="task-search" placeholder="Search tasks…" autocomplete="off" />
-          </div>
-          <div class="card-body">
-            <div class="progress-bar-wrap">
-              <div class="progress-label"><span>Daily Progress</span><span id="progress-label-text">0%</span></div>
-              <div class="progress-bar"><div class="progress-fill" id="progress-bar-fill" style="width:0%"></div></div>
-            </div>
-            <ul id="task-list">
-              <li class="task-item" id="loading-skeleton">
-                <div class="skeleton" style="width:18px;height:18px;border-radius:4px"></div>
-                <div class="task-body">
-                  <div class="skeleton skeleton-text"></div>
-                  <div class="skeleton skeleton-text" style="width:60%;height:.75rem;margin-top:4px"></div>
-                </div>
-              </li>
-            </ul>
-            <div class="flex gap-2 mt-4">
-              <button id="btn-clear-completed" class="btn btn-secondary btn-sm">🗑 Clear Completed</button>
-              <button id="btn-resolve-conflicts" class="btn btn-danger btn-sm">🔥 Resolve Conflicts</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ── ALL TASKS VIEW ── -->
-    <section id="view-tasks" class="view" hidden>
-      <h1 class="section-title">All Tasks</h1>
-      <div class="view-controls">
-        <select id="sort-by">
-          <option value="date-desc">Newest First</option>
-          <option value="date-asc">Oldest First</option>
-          <option value="priority">By Priority</option>
-          <option value="due">By Due Date</option>
-          <option value="category">By Category</option>
-          <option value="duration">By Duration</option>
-        </select>
-        <select id="filter-category">
-          <option value="all">All Categories</option>
-          <option value="study">📚 Study</option>
-          <option value="work">💼 Work</option>
-          <option value="personal">🧡 Personal</option>
-          <option value="health">🏃 Health</option>
-          <option value="other">📌 Other</option>
-        </select>
-        <select id="filter-priority">
-          <option value="all">All Priorities</option>
-          <option value="high">🔴 High</option>
-          <option value="medium">🟡 Medium</option>
-          <option value="low">🟢 Low</option>
-        </select>
-        <select id="filter-status">
-          <option value="all">All Statuses</option>
-          <option value="pending">Pending</option>
-          <option value="completed">Completed</option>
-          <option value="overdue">Overdue</option>
-          <option value="conflict">Conflicts</option>
-        </select>
-        <button id="btn-export-tasks" class="btn btn-secondary btn-sm">📦 Export JSON</button>
-      </div>
-      <div class="table-wrapper">
-        <table class="tasks-table" aria-label="All tasks">
-          <thead>
-            <tr>
-              <th>✓</th>
-              <th>Title</th>
-              <th>Tags</th>
-              <th>Category</th>
-              <th>Priority</th>
-              <th>Due Date</th>
-              <th>Duration</th>
-              <th>Conflict</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody id="all-tasks-tbody"></tbody>
-        </table>
-      </div>
-    </section>
-
-    <!-- ── AI INSIGHTS VIEW ── -->
-    <section id="view-ai-suggestions" class="view" hidden>
-      <h1 class="section-title">AI Insights</h1>
-      <div id="ai-module-info">
-        <span class="status-dot online" id="ai-module-dot"></span>
-        <span>Claude claude-sonnet-4-20250514 — AI-powered task analysis, scheduling, and conflict resolution</span>
-      </div>
-      <div class="ai-insights-grid">
+    <main id="app-main">
+      
+      <aside class="sticky-sidebar">
         <div class="card">
-          <div class="card-header"><h2>AI Actions</h2></div>
-          <div class="card-body flex flex-col gap-3">
-            <button id="btn-analyze-all" class="btn btn-ai btn-full">📊 Analyze & Re-prioritize All Tasks</button>
-            <button id="btn-suggest-schedule" class="btn btn-ai btn-full">📅 Suggest Today's Schedule</button>
-            <button id="btn-productivity-tips" class="btn btn-ai btn-full">💡 Productivity Tips for Me</button>
-            <button id="btn-resolve-ai-conflicts" class="btn btn-danger btn-full">🔥 Resolve Deadline Conflicts</button>
+          <h2>Create Task</h2>
+          <div class="task-form">
+            <input type="text" id="task-title" placeholder="What needs to be done?" autocomplete="off" />
+            <select id="task-priority">
+              <option value="high">High Priority</option>
+              <option value="medium" selected>Medium Priority</option>
+              <option value="low">Low Priority</option>
+            </select>
+            <input type="date" id="task-date" />
+            <button class="btn-primary" onclick="addTask()">Add Task</button>
           </div>
         </div>
-        <div class="card">
-          <div class="card-header">
-            <h2>AI Output</h2>
-            <div class="ai-spinner hidden" id="ai-loading"></div>
-          </div>
-          <div class="card-body">
-            <div class="ai-output-block" id="ai-output"><span id="ai-placeholder" style="color:var(--text-muted)">Click an action above to get AI insights about your tasks…</span></div>
-          </div>
-        </div>
-      </div>
-      <div class="card" id="ai-chat-section">
-        <div class="card-header"><h2>💬 Chat with TaskFlow AI</h2></div>
-        <div id="ai-chat-log">
-          <div class="chat-msg ai">
-            <div class="chat-avatar">🤖</div>
-            <div class="chat-bubble">Hi! I'm your TaskFlow AI. Ask me anything about your tasks, schedule, or productivity.</div>
-          </div>
-        </div>
-        <div class="chat-input-row">
-          <input type="text" id="ai-chat-input" placeholder="Ask about your tasks…" autocomplete="off" />
-          <button class="btn btn-primary" id="btn-ai-chat-send">Send</button>
-        </div>
-      </div>
-    </section>
 
-    <!-- ── PREFERENCES VIEW ── -->
-    <section id="view-preferences" class="view" hidden>
-      <h1 class="section-title">Preferences</h1>
-      <form id="preferences-form">
-        <div class="prefs-grid">
-          <div class="pref-section">
-            <h3>⏰ Work Schedule</h3>
-            <div class="field-group"><label for="pref-start-time">Work Start Time</label><input type="time" id="pref-start-time" value="09:00" /></div>
-            <div class="field-group"><label for="pref-end-time">Work End Time</label><input type="time" id="pref-end-time" value="18:00" /></div>
-            <div class="field-group"><label for="pref-max-tasks">Max Tasks per Day</label><input type="number" id="pref-max-tasks" min="1" max="50" value="8" /></div>
-            <div class="field-group"><label for="pref-max-hours">Max Focus Hours</label><input type="number" id="pref-max-hours" min="1" max="24" step=".5" value="6" /></div>
+        <div class="ai-box">
+          <h3>✨ AI Assistant</h3>
+          <p id="ai-insight" style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6;">
+            Add some tasks, and I'll analyze your schedule to suggest what you should tackle first!
+          </p>
+        </div>
+      </aside>
+
+      <section>
+        <div id="conflict-banner" class="banner">
+          ⚠️ <strong>Schedule Conflict Detected:</strong> Multiple tasks are due on the exact same date. Consider rescheduling to avoid overload.
+        </div>
+
+        <div class="card" style="min-height: 500px;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: var(--sp-6); border-bottom: 1px solid var(--border); padding-bottom: var(--sp-4);">
+            <h2>Your Tasks</h2>
+            <span id="task-counter" class="header-credits">0 Active Tasks</span>
           </div>
-          <div class="pref-section">
-            <h3>🤖 AI Settings</h3>
-            <div class="field-group">
-              <label for="pref-focus-category">Focus Category</label>
-              <select id="pref-focus-category">
-                <option value="none">No preference</option>
-                <option value="study">📚 Study</option>
-                <option value="work">💼 Work</option>
-                <option value="personal">🧡 Personal</option>
-                <option value="health">🏃 Health</option>
-              </select>
+          <div id="task-list">
             </div>
-            <div class="field-group">
-              <label for="pref-ai-style">AI Suggestion Style</label>
-              <select id="pref-ai-style">
-                <option value="balanced">Balanced</option>
-                <option value="aggressive">Aggressive (push harder)</option>
-                <option value="relaxed">Relaxed (ease up)</option>
-              </select>
+        </div>
+      </section>
+      
+    </main>
+  </div>
+
+  <script>
+    // --- STATE MANAGEMENT ---
+    let tasks = JSON.parse(localStorage.getItem('taskflow_data')) || [];
+
+    // --- AUTHENTICATION ---
+    function login() {
+      document.getElementById('auth-screen').style.display = 'none';
+      document.getElementById('app-screen').style.display = 'flex';
+      renderTasks();
+    }
+
+    function logout() {
+      document.getElementById('app-screen').style.display = 'none';
+      document.getElementById('auth-screen').style.display = 'flex';
+    }
+
+    // --- CORE LOGIC ---
+    function addTask() {
+      const titleInput = document.getElementById('task-title');
+      const title = titleInput.value.trim();
+      const priority = document.getElementById('task-priority').value;
+      const date = document.getElementById('task-date').value;
+
+      if (!title) {
+        titleInput.focus();
+        return; // Prevent empty tasks silently for better UX
+      }
+
+      tasks.push({
+        id: Date.now(),
+        title: title,
+        priority: priority,
+        dueDate: date,
+        completed: false
+      });
+
+      saveAndRender();
+      titleInput.value = ''; // Clear input
+    }
+
+    function toggleTask(id) {
+      const task = tasks.find(t => t.id === id);
+      if(task) task.completed = !task.completed;
+      saveAndRender();
+    }
+
+    function deleteTask(id) {
+      tasks = tasks.filter(t => t.id !== id);
+      saveAndRender();
+    }
+
+    function saveAndRender() {
+      localStorage.setItem('taskflow_data', JSON.stringify(tasks));
+      renderTasks();
+    }
+
+    // --- AI & EDGE CASE LOGIC ---
+    function analyzeSchedule() {
+      const activeTasks = tasks.filter(t => !t.completed);
+      const conflictBanner = document.getElementById('conflict-banner');
+      const aiInsight = document.getElementById('ai-insight');
+      
+      // Update Counter
+      document.getElementById('task-counter').innerText = `${activeTasks.length} Active Tasks`;
+
+      // Edge Case: Conflict Detection (Ignore empty dates)
+      const dates = activeTasks.map(t => t.dueDate).filter(d => d !== "");
+      const hasConflict = new Set(dates).size !== dates.length;
+      conflictBanner.style.display = hasConflict ? 'block' : 'none';
+
+      // AI Logic: Priority Suggestions & Overload Handling
+      if (activeTasks.length === 0) {
+        aiInsight.innerText = "Your schedule is clear. Great job catching up!";
+        return;
+      }
+
+      const highPriority = activeTasks.filter(t => t.priority === 'high');
+      if (highPriority.length > 3) {
+        aiInsight.innerHTML = "<strong style='color: var(--orange)'>Overload Warning:</strong> You have too many high-priority tasks pending. Try to break them down or shift deadlines.";
+      } else if (highPriority.length > 0) {
+        aiInsight.innerHTML = `I suggest focusing on your High Priority task:<br/> <strong style="color: var(--text-primary);">"${highPriority[0].title}"</strong>`;
+      } else {
+        aiInsight.innerText = "Your schedule looks manageable today. Tackle the quickest task first to build momentum!";
+      }
+    }
+
+    // --- RENDERING ---
+    function renderTasks() {
+      const list = document.getElementById('task-list');
+      list.innerHTML = '';
+
+      // Sorting Algorithm: 
+      // 1. Uncompleted tasks first.
+      // 2. Then sort by priority (High -> Medium -> Low).
+      const sortedTasks = [...tasks].sort((a, b) => {
+        if (a.completed !== b.completed) return a.completed ? 1 : -1;
+        const pVal = { high: 1, medium: 2, low: 3 };
+        return pVal[a.priority] - pVal[b.priority];
+      });
+
+      if (sortedTasks.length === 0) {
+        list.innerHTML = `
+          <div style="text-align: center; color: var(--text-muted); padding: 60px 20px;">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.5; margin-bottom: 16px;"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"></path><path d="m9 12 2 2 4-4"></path></svg>
+            <p>No tasks yet. Create one from the sidebar to get started!</p>
+          </div>`;
+      }
+
+      sortedTasks.forEach(t => {
+        const div = document.createElement('div');
+        div.className = 'task-item';
+        // Visual cue for completed items
+        if(t.completed) {
+          div.style.opacity = '0.5';
+          div.style.background = 'transparent';
+        }
+        
+        div.innerHTML = `
+          <label class="checkbox-wrapper">
+            <input type="checkbox" ${t.completed ? 'checked' : ''} onchange="toggleTask(${t.id})" />
+            <div class="task-info">
+              <h3 style="${t.completed ? 'text-decoration: line-through; color: var(--text-muted);' : ''}">${t.title}</h3>
+              <div class="task-meta">
+                <span class="badge ${t.priority}">${t.priority.toUpperCase()}</span>
+                ${t.dueDate ? `<span>📅 ${t.dueDate}</span>` : ''}
+              </div>
             </div>
-            <div class="field-group"><label><input type="checkbox" id="pref-notify-overload" checked /> Warn on task overload</label></div>
-            <div class="field-group"><label><input type="checkbox" id="pref-notify-conflict" checked /> Warn on deadline conflicts</label></div>
-            <div class="field-group"><label><input type="checkbox" id="pref-notify-overdue" checked /> Warn on overdue tasks</label></div>
-          </div>
-        </div>
-        <div class="flex gap-3 mt-4">
-          <button type="submit" class="btn btn-primary">💾 Save Preferences</button>
-          <button type="button" id="btn-reset-prefs" class="btn btn-ghost">↩️ Reset to Defaults</button>
-        </div>
-        <p id="pref-save-status" class="hidden" style="color:var(--green);font-size:.875rem;margin-top:var(--sp-3)"></p>
-      </form>
-    </section>
+          </label>
+          <button class="btn-delete" onclick="deleteTask(${t.id})">Delete</button>
+        `;
+        list.appendChild(div);
+      });
 
-  </main>
-
-  <!-- Mobile bottom nav -->
-  <nav id="mob-nav">
-    <div class="mob-nav-inner">
-      <button class="mob-nav-btn active" data-view="dashboard"><span class="mob-icon">📋</span>Dashboard</button>
-      <button class="mob-nav-btn" data-view="tasks"><span class="mob-icon">📝</span>Tasks</button>
-      <button class="mob-nav-btn" data-view="ai-suggestions"><span class="mob-icon">✨</span>AI</button>
-      <button class="mob-nav-btn" data-view="preferences"><span class="mob-icon">⚙️</span>Settings</button>
-    </div>
-  </nav>
-
-</div>
-
-<!-- Modals -->
-<dialog id="edit-task-modal" aria-labelledby="edit-modal-title">
-  <div class="modal-header">
-    <h2 id="edit-modal-title">Edit Task</h2>
-    <button class="btn btn-ghost btn-sm btn-icon" id="modal-close">✕</button>
-  </div>
-  <form id="edit-task-form">
-    <input type="hidden" id="edit-task-id" />
-    <div class="modal-body">
-      <div class="field-group">
-        <label for="edit-title">Title *</label>
-        <input type="text" id="edit-title" required />
-        <span class="inline-hint hidden" id="edit-title-error">Title is required.</span>
-      </div>
-      <div class="field-group"><label for="edit-desc">Description</label><textarea id="edit-desc" rows="2"></textarea></div>
-      <div class="field-row">
-        <div class="field-group">
-          <label for="edit-priority">Priority</label>
-          <select id="edit-priority"><option value="low">🟢 Low</option><option value="medium">🟡 Medium</option><option value="high">🔴 High</option></select>
-        </div>
-        <div class="field-group">
-          <label for="edit-category">Category</label>
-          <select id="edit-category"><option value="study">📚 Study</option><option value="work">💼 Work</option><option value="personal">🧡 Personal</option><option value="health">🏃 Health</option><option value="other">📌 Other</option></select>
-        </div>
-      </div>
-      <div class="field-row">
-        <div class="field-group">
-          <label for="edit-due">Deadline</label>
-          <input type="date" id="edit-due" />
-          <span class="inline-hint warn hidden" id="edit-due-conflict">⚠️ Conflict on this date.</span>
-        </div>
-        <div class="field-group"><label for="edit-duration">Duration (min)</label><input type="number" id="edit-duration" min="5" step="5" /></div>
-      </div>
-      <div class="field-group"><label for="edit-tags">Tags (comma-separated)</label><input type="text" id="edit-tags" /></div>
-    </div>
-    <div class="modal-footer">
-      <button type="button" id="btn-cancel-edit" class="btn btn-ghost">Cancel</button>
-      <button type="submit" class="btn btn-primary">Save Changes</button>
-    </div>
-  </form>
-</dialog>
-
-<dialog id="delete-confirm-modal">
-  <div class="modal-body" style="text-align:center;align-items:center;padding:var(--sp-8) var(--sp-5);">
-    <div class="delete-icon">🗑</div>
-    <h2>Delete Task?</h2>
-    <p class="delete-msg" id="delete-modal-msg">This cannot be undone.</p>
-  </div>
-  <div class="modal-footer">
-    <button id="btn-cancel-delete" class="btn btn-ghost">Cancel</button>
-    <button id="btn-confirm-delete" class="btn btn-danger">Delete</button>
-  </div>
-</dialog>
-
-<div id="toast-container" aria-live="polite"></div>
-
-<!-- ══════════════════════════════════════════════════════
-     JAVASCRIPT
-══════════════════════════════════════════════════════ -->
-<script>
-'use strict';
-
-/* ─── Config ──────────────────────────────────────────── */
-const SUPABASE_URL = 'https://obwrmpbrwzhbjynhyzav.supabase.co';
-const SUPABASE_KEY = 'sb_publishable_J7XYzPxysJPO7U4Vt6DT8A_1rdStBgY';
-const ANTHROPIC_API = 'https://api.anthropic.com/v1/messages';
-const AI_MODEL = 'claude-sonnet-4-20250514';
-
-/* ─── State ──────────────────────────────────────────── */
-let tasks = [];
-let prefs = {};
-let currentUser = null;
-let pendingDeleteId = null;
-let aiSuggestedPriority = null;
-let chatHistory = [];
-let currentFilter = 'all';
-let searchQuery = '';
-
-const DEFAULT_PREFS = {
-  startTime:'09:00',endTime:'18:00',maxTasks:8,maxHours:6,
-  focusCategory:'none',aiStyle:'balanced',
-  notifyOverload:true,notifyConflict:true,notifyOverdue:true,
-};
-
-/* ═══════════════════════════════════════════════════════
-   SUPABASE THIN CLIENT
-═══════════════════════════════════════════════════════ */
-const sb = {
-  get headers() {
-    const h = {
-      'apikey': SUPABASE_KEY,
-      'Content-Type': 'application/json',
-      'Prefer': 'return=representation',
-    };
-    if (currentUser?.access_token) h['Authorization'] = `Bearer ${currentUser.access_token}`;
-    else h['Authorization'] = `Bearer ${SUPABASE_KEY}`;
-    return h;
-  },
-  async select(table, filter='') {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?${filter}&order=created_at.desc`, { headers: this.headers });
-    if (!res.ok) throw new Error(await res.text());
-    return res.json();
-  },
-  async insert(table, data) {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}`, { method:'POST', headers: this.headers, body: JSON.stringify(data) });
-    if (!res.ok) throw new Error(await res.text());
-    return res.json();
-  },
-  async update(table, id, data) {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?id=eq.${id}`, { method:'PATCH', headers: this.headers, body: JSON.stringify(data) });
-    if (!res.ok) throw new Error(await res.text());
-    return res.json();
-  },
-  async delete(table, id) {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?id=eq.${id}`, { method:'DELETE', headers: this.headers });
-    if (!res.ok) throw new Error(await res.text());
-    return true;
-  },
-  async upsert(table, data, onConflict) {
-    const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?on_conflict=${onConflict}`, {
-      method:'POST',
-      headers: { ...this.headers, 'Prefer':'return=representation,resolution=merge-duplicates' },
-      body: JSON.stringify(data)
-    });
-    if (!res.ok) throw new Error(await res.text());
-    return res.json();
-  },
-};
-
-/* ═══════════════════════════════════════════════════════
-   AUTH
-═══════════════════════════════════════════════════════ */
-function switchAuthTab(tab) {
-  document.getElementById('tab-login').classList.toggle('active', tab === 'login');
-  document.getElementById('tab-signup').classList.toggle('active', tab === 'signup');
-  document.getElementById('login-form-wrap').style.display = tab === 'login' ? '' : 'none';
-  document.getElementById('signup-form-wrap').style.display = tab === 'signup' ? '' : 'none';
-}
-
-async function handleLogin() {
-  const email = document.getElementById('login-email').value.trim();
-  const password = document.getElementById('login-password').value;
-  const errEl = document.getElementById('login-error');
-  const btn = document.getElementById('btn-login');
-  const btnText = document.getElementById('login-btn-text');
-
-  if (!email || !password) { showAuthError(errEl, 'Please enter your email and password.'); return; }
-
-  btn.disabled = true;
-  btnText.textContent = 'Signing in…';
-  errEl.classList.remove('show');
-
-  try {
-    const res = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=password`, {
-      method: 'POST',
-      headers: { 'apikey': SUPABASE_KEY, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error_description || data.msg || 'Login failed');
-    currentUser = { access_token: data.access_token, refresh_token: data.refresh_token, email: data.user?.email };
-    localStorage.setItem('tf_session', JSON.stringify(currentUser));
-    await launchApp();
-  } catch (e) {
-    showAuthError(errEl, e.message);
-  } finally {
-    btn.disabled = false;
-    btnText.textContent = 'Sign In →';
-  }
-}
-
-async function handleSignup() {
-  const email = document.getElementById('signup-email').value.trim();
-  const password = document.getElementById('signup-password').value;
-  const errEl = document.getElementById('signup-error');
-  const successEl = document.getElementById('signup-success');
-  const btn = document.getElementById('btn-signup');
-  const btnText = document.getElementById('signup-btn-text');
-
-  if (!email || !password) { showAuthError(errEl, 'Please fill in all fields.'); return; }
-  if (password.length < 6) { showAuthError(errEl, 'Password must be at least 6 characters.'); return; }
-
-  btn.disabled = true;
-  btnText.textContent = 'Creating account…';
-  errEl.classList.remove('show');
-  successEl.classList.remove('show');
-
-  try {
-    const res = await fetch(`${SUPABASE_URL}/auth/v1/signup`, {
-      method: 'POST',
-      headers: { 'apikey': SUPABASE_KEY, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
-    });
-    const data = await res.json();
-    if (!res.ok) throw new Error(data.error_description || data.msg || 'Signup failed');
-
-    // If email confirmation is disabled, user is already logged in
-    if (data.access_token) {
-      currentUser = { access_token: data.access_token, refresh_token: data.refresh_token, email: data.user?.email };
-      localStorage.setItem('tf_session', JSON.stringify(currentUser));
-      await launchApp();
-    } else {
-      successEl.classList.add('show');
+      // Run AI Analysis after rendering
+      analyzeSchedule();
     }
-  } catch (e) {
-    showAuthError(errEl, e.message);
-  } finally {
-    btn.disabled = false;
-    btnText.textContent = 'Create Account →';
-  }
-}
-
-function showAuthError(el, msg) {
-  el.textContent = msg;
-  el.classList.add('show');
-}
-
-async function handleLogout() {
-  try {
-    await fetch(`${SUPABASE_URL}/auth/v1/logout`, {
-      method: 'POST',
-      headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${currentUser?.access_token}` }
-    });
-  } catch(e) {}
-  currentUser = null;
-  localStorage.removeItem('tf_session');
-  tasks = [];
-  document.getElementById('app-screen').classList.remove('visible');
-  document.getElementById('auth-screen').style.display = 'flex';
-  showToast('Signed out successfully.', 'info');
-}
-
-/* ─── Check saved session on load ──────────────────── */
-async function tryAutoLogin() {
-  const saved = localStorage.getItem('tf_session');
-  if (!saved) return;
-  try {
-    const session = JSON.parse(saved);
-    // Refresh token
-    const res = await fetch(`${SUPABASE_URL}/auth/v1/token?grant_type=refresh_token`, {
-      method: 'POST',
-      headers: { 'apikey': SUPABASE_KEY, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ refresh_token: session.refresh_token })
-    });
-    if (!res.ok) throw new Error('Token expired');
-    const data = await res.json();
-    currentUser = { access_token: data.access_token, refresh_token: data.refresh_token, email: data.user?.email };
-    localStorage.setItem('tf_session', JSON.stringify(currentUser));
-    await launchApp();
-  } catch(e) {
-    localStorage.removeItem('tf_session');
-  }
-}
-
-/* ─── Launch app ──────────────────────────────────── */
-async function launchApp() {
-  document.getElementById('auth-screen').style.display = 'none';
-  document.getElementById('app-screen').classList.add('visible');
-
-  // Show user email
-  const emailEl = document.getElementById('user-email-display');
-  if (emailEl && currentUser?.email) emailEl.textContent = currentUser.email;
-
-  setCurrentDate();
-  loadPrefsFromStorage();
-  setupNavigation();
-  setupMobileNav();
-  setupTaskForm();
-  setupFilterBar();
-  setupSearch();
-  setupBulkActions();
-  setupAllTasksView();
-  setupAIInsightsView();
-  setupPreferencesForm();
-  setupModals();
-  setupThemeToggle();
-  setupBannerDismiss();
-
-  await loadTasks();
-  await loadPrefsFromSupabase();
-  showToast('TaskFlow ready ⚡ Tasks synced!', 'success');
-}
-
-/* ═══════════════════════════════════════════════════════
-   INIT
-═══════════════════════════════════════════════════════ */
-document.addEventListener('DOMContentLoaded', async () => {
-  // Enter key on auth forms
-  ['login-email','login-password'].forEach(id => {
-    document.getElementById(id)?.addEventListener('keydown', e => { if (e.key === 'Enter') handleLogin(); });
-  });
-  ['signup-email','signup-password'].forEach(id => {
-    document.getElementById(id)?.addEventListener('keydown', e => { if (e.key === 'Enter') handleSignup(); });
-  });
-  await tryAutoLogin();
-});
-
-/* ─── Date display ──────────────────────────────────── */
-function setCurrentDate() {
-  const el = document.getElementById('current-date');
-  if (el) el.textContent = new Date().toLocaleDateString('en-IN', { weekday:'short', day:'numeric', month:'short', year:'numeric' });
-}
-
-/* ═══════════════════════════════════════════════════════
-   TASKS — LOAD / SAVE
-═══════════════════════════════════════════════════════ */
-async function loadTasks() {
-  document.getElementById('loading-skeleton')?.removeAttribute('hidden');
-  try {
-    // Filter tasks by user if RLS is enabled; otherwise filter client-side by user_id
-    const filter = currentUser ? `user_id=eq.${encodeURIComponent(getUserId())}` : '';
-    let data;
-    try {
-      data = await sb.select('tasks', filter);
-    } catch(e) {
-      // Try without user filter (no RLS)
-      data = await sb.select('tasks', '');
-    }
-    tasks = data.map(normalizeTask);
-    updateLoadedCount();
-    renderAll();
-  } catch(e) {
-    console.error('Load tasks failed:', e);
-    tasks = JSON.parse(localStorage.getItem('tf_tasks') || '[]');
-    renderAll();
-    showToast('Using local cache (DB offline)', 'warn');
-  }
-  document.getElementById('loading-skeleton')?.setAttribute('hidden','');
-}
-
-function getUserId() {
-  // Decode JWT to get user ID
-  try {
-    const payload = JSON.parse(atob(currentUser.access_token.split('.')[1]));
-    return payload.sub;
-  } catch(e) { return null; }
-}
-
-function normalizeTask(raw) {
-  return {
-    id:          raw.id,
-    title:       raw.title || '',
-    description: raw.description || '',
-    priority:    raw.priority || 'medium',
-    category:    raw.category || 'other',
-    dueDate:     raw.due_date || '',
-    duration:    raw.duration_min || 0,
-    tags:        Array.isArray(raw.tags) ? raw.tags : (raw.tags ? raw.tags.split(',').map(t => t.trim()).filter(Boolean) : []),
-    completed:   !!raw.completed,
-    createdAt:   raw.created_at || new Date().toISOString(),
-  };
-}
-
-function saveLocalCache() {
-  localStorage.setItem('tf_tasks', JSON.stringify(tasks));
-}
-
-/* ═══════════════════════════════════════════════════════
-   RENDER ALL
-═══════════════════════════════════════════════════════ */
-function renderAll() {
-  renderStats();
-  renderTaskList();
-  checkEdgeCases();
-  saveLocalCache();
-}
-
-function updateLoadedCount() {
-  const el = document.getElementById('loaded-tasks-count');
-  if (el) el.textContent = tasks.length;
-}
-
-/* ─── Stats ─────────────────────────────────────────── */
-function renderStats() {
-  const total   = tasks.length;
-  const done    = tasks.filter(t => t.completed).length;
-  const pending = tasks.filter(t => !t.completed).length;
-  const high    = tasks.filter(t => t.priority === 'high' && !t.completed).length;
-  const overdue = tasks.filter(t => isOverdue(t)).length;
-  setText('stat-total-num', total);
-  setText('stat-done-num', done);
-  setText('stat-pending-num', pending);
-  setText('stat-high-num', high);
-  setText('stat-overdue-num', overdue);
-  const pct = total ? Math.round((done / total) * 100) : 0;
-  const fill = document.getElementById('progress-bar-fill');
-  const lbl = document.getElementById('progress-label-text');
-  if (fill) fill.style.width = pct + '%';
-  if (lbl) lbl.textContent = pct + '%';
-  updateLoadedCount();
-}
-
-/* ─── Task List ─────────────────────────────────────── */
-function setupFilterBar() {
-  document.querySelectorAll('.filter-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      currentFilter = btn.dataset.filter;
-      renderTaskList();
-    });
-  });
-}
-
-function setupSearch() {
-  const input = document.getElementById('task-search');
-  if (input) {
-    input.addEventListener('input', () => {
-      searchQuery = input.value.trim().toLowerCase();
-      renderTaskList();
-    });
-  }
-}
-
-function getFilteredTasks() {
-  let list = [...tasks];
-  if (currentFilter === 'pending')   list = list.filter(t => !t.completed && !isOverdue(t));
-  if (currentFilter === 'completed') list = list.filter(t => t.completed);
-  if (currentFilter === 'overdue')   list = list.filter(t => isOverdue(t));
-  if (currentFilter === 'conflict')  list = list.filter(t => hasConflict(t));
-  if (searchQuery) list = list.filter(t =>
-    t.title.toLowerCase().includes(searchQuery) ||
-    t.category.toLowerCase().includes(searchQuery) ||
-    t.tags.join(' ').toLowerCase().includes(searchQuery)
-  );
-  return list;
-}
-
-function renderTaskList() {
-  const ul = document.getElementById('task-list');
-  if (!ul) return;
-  const list = getFilteredTasks();
-  ul.innerHTML = '';
-  if (list.length === 0) {
-    const li = document.createElement('li');
-    li.className = 'empty-state';
-    li.innerHTML = `<span class="empty-icon">📭</span><span class="empty-text">${tasks.length === 0 ? 'No tasks yet. Add your first task!' : 'No tasks match this filter.'}</span>`;
-    ul.appendChild(li);
-    return;
-  }
-  list.forEach(task => ul.appendChild(createTaskListItem(task)));
-}
-
-function createTaskListItem(task) {
-  const li = document.createElement('li');
-  li.className = `task-item${task.completed ? ' done' : ''}${isOverdue(task) ? ' overdue' : ''}`;
-  li.dataset.id = task.id;
-  const tags = task.tags.slice(0, 3).map(t => `<span class="badge badge-tag">${escHtml(t)}</span>`).join('');
-  const dueBadge = task.dueDate
-    ? `<span class="task-due">📅 ${formatDate(task.dueDate)}${isOverdue(task) ? ' <span class="badge badge-overdue">overdue</span>' : ''}</span>`
-    : '';
-  const conflictBadge = hasConflict(task) ? `<span class="badge badge-conflict">⚡ conflict</span>` : '';
-  li.innerHTML = `
-    <input type="checkbox" class="task-check" ${task.completed ? 'checked' : ''} aria-label="Mark complete">
-    <div class="task-body">
-      <div class="task-title">${escHtml(task.title)}</div>
-      <div class="task-meta">
-        <span class="badge badge-priority-${task.priority}">${priorityLabel(task.priority)}</span>
-        <span class="badge badge-category">${categoryIcon(task.category)} ${task.category}</span>
-        ${tags}${dueBadge}${conflictBadge}
-        ${task.duration ? `<span class="badge badge-tag">⏱ ${task.duration}min</span>` : ''}
-      </div>
-    </div>
-    <div class="task-actions">
-      <button class="btn btn-sm btn-ghost btn-icon btn-edit" title="Edit">✏️</button>
-      <button class="btn btn-sm btn-danger btn-icon btn-delete" title="Delete">🗑</button>
-    </div>`;
-  li.querySelector('.task-check').addEventListener('change', e => toggleTask(task.id, e.target.checked));
-  li.querySelector('.btn-edit').addEventListener('click', () => openEditModal(task.id));
-  li.querySelector('.btn-delete').addEventListener('click', () => openDeleteModal(task.id));
-  return li;
-}
-
-/* ═══════════════════════════════════════════════════════
-   ADD TASK
-═══════════════════════════════════════════════════════ */
-function setupTaskForm() {
-  const form = document.getElementById('add-task-form');
-  if (!form) return;
-  document.getElementById('task-due')?.addEventListener('change', e => checkInlineConflict(e.target.value, null));
-  document.getElementById('task-duration')?.addEventListener('input', e => checkInlineOverload(+e.target.value));
-  document.getElementById('btn-ai-suggest-priority')?.addEventListener('click', handleAISuggestPriority);
-  document.getElementById('btn-apply-ai-priority')?.addEventListener('click', applyAIPriority);
-  document.getElementById('btn-dismiss-ai-priority')?.addEventListener('click', () => {
-    document.getElementById('ai-priority-result').classList.remove('show');
-    aiSuggestedPriority = null;
-  });
-  form.addEventListener('submit', async e => {
-    e.preventDefault();
-    if (!validateAddForm()) return;
-    await handleAddTask();
-  });
-}
-
-function validateAddForm() {
-  const title = document.getElementById('task-title').value.trim();
-  const errEl = document.getElementById('task-title-error');
-  if (!title) {
-    errEl?.classList.remove('hidden');
-    document.getElementById('task-title').focus();
-    return false;
-  }
-  errEl?.classList.add('hidden');
-  return true;
-}
-
-async function handleAddTask() {
-  const title    = document.getElementById('task-title').value.trim();
-  const desc     = document.getElementById('task-desc').value.trim();
-  const priority = document.getElementById('task-priority').value;
-  const category = document.getElementById('task-category').value;
-  const dueDate  = document.getElementById('task-due').value || null;
-  const duration = parseInt(document.getElementById('task-duration').value, 10) || 0;
-  const tags     = document.getElementById('task-tags').value.split(',').map(t => t.trim()).filter(Boolean);
-  const btn      = document.getElementById('btn-add-task');
-
-  btn.textContent = 'Adding…';
-  btn.disabled = true;
-
-  const payload = {
-    title, description: desc, priority, category,
-    due_date: dueDate, duration_min: duration, tags, completed: false,
-  };
-
-  // Add user_id if available (for RLS)
-  const uid = getUserId();
-  if (uid) payload.user_id = uid;
-
-  try {
-    const [inserted] = await sb.insert('tasks', payload);
-    tasks.unshift(normalizeTask(inserted));
-    showToast(`✅ "${title}" added!`, 'success');
-  } catch(e) {
-    console.warn('Insert to DB failed, saving locally:', e.message);
-    const local = {
-      id: `local-${Date.now()}`, title, description: desc, priority, category,
-      dueDate: dueDate || '', duration, tags, completed: false,
-      createdAt: new Date().toISOString(),
-    };
-    tasks.unshift(local);
-    showToast('Saved locally (DB offline)', 'warn');
-  }
-
-  document.getElementById('add-task-form').reset();
-  document.getElementById('ai-priority-result').classList.remove('show');
-  document.getElementById('due-conflict-hint').classList.add('hidden');
-  document.getElementById('duration-overload-hint').classList.add('hidden');
-  aiSuggestedPriority = null;
-  btn.textContent = 'Add Task';
-  btn.disabled = false;
-  renderAll();
-}
-
-function checkInlineConflict(dateVal, excludeId) {
-  if (!dateVal) { document.getElementById('due-conflict-hint').classList.add('hidden'); return false; }
-  const conflict = tasks.some(t => t.dueDate === dateVal && t.id !== excludeId && !t.completed);
-  document.getElementById('due-conflict-hint')?.classList.toggle('hidden', !conflict);
-  return conflict;
-}
-
-function checkInlineOverload(newDuration) {
-  const today = todayStr();
-  const totalMin = tasks.filter(t => t.dueDate === today && !t.completed).reduce((sum, t) => sum + t.duration, 0) + newDuration;
-  document.getElementById('duration-overload-hint')?.classList.toggle('hidden', totalMin <= prefs.maxHours * 60);
-}
-
-/* ═══════════════════════════════════════════════════════
-   EDGE CASES
-═══════════════════════════════════════════════════════ */
-function checkEdgeCases() {
-  checkOverloadBanner();
-  checkConflictBanner();
-}
-
-function checkOverloadBanner() {
-  if (!prefs.notifyOverload) { setShow('overload-warning', false); return; }
-  const today = todayStr();
-  const todayPending = tasks.filter(t => !t.completed && t.dueDate === today);
-  const totalMin = todayPending.reduce((sum, t) => sum + t.duration, 0);
-  const taskOverload = todayPending.length > prefs.maxTasks;
-  const hourOverload = totalMin > prefs.maxHours * 60;
-  const banner = document.getElementById('overload-warning');
-  const detail = document.getElementById('overload-detail');
-  if ((taskOverload || hourOverload) && banner) {
-    if (detail) detail.textContent = taskOverload
-      ? `You have ${todayPending.length} tasks due today (limit: ${prefs.maxTasks}). Consider rescheduling.`
-      : `Today's tasks total ${(totalMin/60).toFixed(1)}h (limit: ${prefs.maxHours}h). Consider splitting tasks.`;
-    banner.classList.add('show');
-  } else {
-    banner?.classList.remove('show');
-  }
-}
-
-function checkConflictBanner() {
-  if (!prefs.notifyConflict) { setShow('conflict-warning', false); return; }
-  const dueCounts = {};
-  tasks.filter(t => t.dueDate && !t.completed).forEach(t => { dueCounts[t.dueDate] = (dueCounts[t.dueDate] || 0) + 1; });
-  const hasAnyConflict = Object.values(dueCounts).some(v => v > 1);
-  const banner = document.getElementById('conflict-warning');
-  const detail = document.getElementById('conflict-detail');
-  if (hasAnyConflict && banner) {
-    const conflictDates = Object.entries(dueCounts).filter(([,v]) => v > 1).map(([d]) => formatDate(d)).join(', ');
-    if (detail) detail.textContent = `Conflicting deadlines on: ${conflictDates}.`;
-    banner.classList.add('show');
-  } else {
-    banner?.classList.remove('show');
-  }
-}
-
-function setupBannerDismiss() {
-  document.getElementById('btn-dismiss-overload')?.addEventListener('click', () => document.getElementById('overload-warning').classList.remove('show'));
-  document.getElementById('btn-dismiss-conflict')?.addEventListener('click', () => document.getElementById('conflict-warning').classList.remove('show'));
-}
-
-function isOverdue(task) {
-  if (!task.dueDate || task.completed) return false;
-  return task.dueDate < todayStr();
-}
-
-function hasConflict(task) {
-  if (!task.dueDate || task.completed) return false;
-  return tasks.filter(t => t.dueDate === task.dueDate && !t.completed && t.id !== task.id).length > 0;
-}
-
-/* ═══════════════════════════════════════════════════════
-   TOGGLE / BULK
-═══════════════════════════════════════════════════════ */
-async function toggleTask(id, completed) {
-  const task = tasks.find(t => t.id === id);
-  if (!task) return;
-  task.completed = completed;
-  try { await sb.update('tasks', id, { completed }); } catch(e) { console.warn('Toggle failed remotely', e.message); }
-  renderAll();
-  showToast(completed ? '✅ Task completed!' : '↩️ Task marked pending', 'info');
-}
-
-function setupBulkActions() {
-  document.getElementById('btn-clear-completed')?.addEventListener('click', clearCompleted);
-  document.getElementById('btn-export-tasks')?.addEventListener('click', exportJSON);
-  document.getElementById('btn-resolve-conflicts')?.addEventListener('click', () => {
-    switchView('ai-suggestions');
-    setTimeout(() => document.getElementById('btn-resolve-ai-conflicts')?.click(), 300);
-  });
-}
-
-async function clearCompleted() {
-  const completed = tasks.filter(t => t.completed);
-  if (!completed.length) { showToast('No completed tasks to clear.', 'info'); return; }
-  const ids = completed.map(t => t.id).filter(id => !id.startsWith('local-'));
-  tasks = tasks.filter(t => !t.completed);
-  try { for (const id of ids) await sb.delete('tasks', id); } catch(e) { console.warn('Batch delete failed:', e.message); }
-  renderAll();
-  showToast(`🗑 Cleared ${completed.length} completed task(s).`, 'success');
-}
-
-function exportJSON() {
-  const blob = new Blob([JSON.stringify(tasks, null, 2)], { type:'application/json' });
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = `taskflow-export-${todayStr()}.json`;
-  a.click();
-  URL.revokeObjectURL(a.href);
-  showToast('📦 Tasks exported!', 'success');
-}
-
-/* ═══════════════════════════════════════════════════════
-   ALL TASKS VIEW
-═══════════════════════════════════════════════════════ */
-function setupAllTasksView() {
-  ['sort-by','filter-category','filter-priority','filter-status'].forEach(id => {
-    document.getElementById(id)?.addEventListener('change', renderAllTasksTable);
-  });
-}
-
-function renderAllTasksTable() {
-  const tbody = document.getElementById('all-tasks-tbody');
-  if (!tbody) return;
-  const sortBy     = document.getElementById('sort-by')?.value || 'date-desc';
-  const filterCat  = document.getElementById('filter-category')?.value || 'all';
-  const filterPri  = document.getElementById('filter-priority')?.value || 'all';
-  const filterStat = document.getElementById('filter-status')?.value || 'all';
-  let list = [...tasks];
-  if (filterCat  !== 'all') list = list.filter(t => t.category  === filterCat);
-  if (filterPri  !== 'all') list = list.filter(t => t.priority  === filterPri);
-  if (filterStat === 'pending')   list = list.filter(t => !t.completed && !isOverdue(t));
-  if (filterStat === 'completed') list = list.filter(t => t.completed);
-  if (filterStat === 'overdue')   list = list.filter(t => isOverdue(t));
-  if (filterStat === 'conflict')  list = list.filter(t => hasConflict(t));
-  list.sort((a, b) => {
-    if (sortBy === 'date-asc')  return new Date(a.createdAt) - new Date(b.createdAt);
-    if (sortBy === 'date-desc') return new Date(b.createdAt) - new Date(a.createdAt);
-    if (sortBy === 'priority')  return priorityWeight(b.priority) - priorityWeight(a.priority);
-    if (sortBy === 'due')       return (a.dueDate||'9999') < (b.dueDate||'9999') ? -1 : 1;
-    if (sortBy === 'category')  return a.category.localeCompare(b.category);
-    if (sortBy === 'duration')  return b.duration - a.duration;
-    return 0;
-  });
-  tbody.innerHTML = '';
-  if (!list.length) {
-    tbody.innerHTML = `<tr><td colspan="9" style="text-align:center;color:var(--text-muted);padding:var(--sp-8)">No tasks match the selected filters.</td></tr>`;
-    return;
-  }
-  list.forEach(task => {
-    const tr = document.createElement('tr');
-    if (task.completed) tr.classList.add('done');
-    tr.innerHTML = `
-      <td><input type="checkbox" class="task-check" ${task.completed ? 'checked' : ''} /></td>
-      <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${escHtml(task.title)}</td>
-      <td>${task.tags.map(t => `<span class="badge badge-tag">${escHtml(t)}</span>`).join(' ')}</td>
-      <td><span class="badge badge-category">${categoryIcon(task.category)} ${task.category}</span></td>
-      <td><span class="badge badge-priority-${task.priority}">${priorityLabel(task.priority)}</span></td>
-      <td style="font-family:var(--font-mono);font-size:.8rem;color:var(--text-muted)">${task.dueDate ? formatDate(task.dueDate) : '—'}${isOverdue(task) ? ' <span class="badge badge-overdue">late</span>' : ''}</td>
-      <td style="font-family:var(--font-mono);font-size:.8rem;color:var(--text-muted)">${task.duration ? task.duration + 'min' : '—'}</td>
-      <td>${hasConflict(task) ? '<span class="badge badge-conflict">⚡ yes</span>' : '<span style="color:var(--text-muted)">—</span>'}</td>
-      <td><div style="display:flex;gap:8px"><button class="btn btn-sm btn-ghost btn-icon btn-edit" title="Edit">✏️</button><button class="btn btn-sm btn-danger btn-icon btn-delete" title="Delete">🗑</button></div></td>`;
-    tr.querySelector('.task-check').addEventListener('change', e => toggleTask(task.id, e.target.checked));
-    tr.querySelector('.btn-edit').addEventListener('click', () => openEditModal(task.id));
-    tr.querySelector('.btn-delete').addEventListener('click', () => openDeleteModal(task.id));
-    tbody.appendChild(tr);
-  });
-}
-
-/* ═══════════════════════════════════════════════════════
-   EDIT MODAL
-═══════════════════════════════════════════════════════ */
-function setupModals() {
-  document.getElementById('modal-close')?.addEventListener('click', closeEditModal);
-  document.getElementById('btn-cancel-edit')?.addEventListener('click', closeEditModal);
-  document.getElementById('edit-task-form')?.addEventListener('submit', handleEditSave);
-  document.getElementById('edit-due')?.addEventListener('change', e => {
-    const id = document.getElementById('edit-task-id').value;
-    document.getElementById('edit-due-conflict')?.classList.toggle('hidden', !checkInlineConflict(e.target.value, id));
-  });
-  document.getElementById('btn-confirm-delete')?.addEventListener('click', handleConfirmDelete);
-  document.getElementById('btn-cancel-delete')?.addEventListener('click', () => {
-    document.getElementById('delete-confirm-modal')?.close();
-    pendingDeleteId = null;
-  });
-  document.getElementById('edit-task-modal')?.addEventListener('click', e => {
-    if (e.target === document.getElementById('edit-task-modal')) closeEditModal();
-  });
-  document.getElementById('delete-confirm-modal')?.addEventListener('click', e => {
-    if (e.target === document.getElementById('delete-confirm-modal')) {
-      document.getElementById('delete-confirm-modal').close();
-      pendingDeleteId = null;
-    }
-  });
-}
-
-function openEditModal(id) {
-  const task = tasks.find(t => t.id === id);
-  if (!task) return;
-  setValue('edit-task-id', task.id);
-  setValue('edit-title', task.title);
-  setValue('edit-desc', task.description);
-  setValue('edit-priority', task.priority);
-  setValue('edit-category', task.category);
-  setValue('edit-due', task.dueDate);
-  setValue('edit-duration', task.duration || '');
-  setValue('edit-tags', task.tags.join(', '));
-  document.getElementById('edit-due-conflict')?.classList.add('hidden');
-  document.getElementById('edit-title-error')?.classList.add('hidden');
-  document.getElementById('edit-task-modal')?.showModal();
-}
-
-function closeEditModal() { document.getElementById('edit-task-modal')?.close(); }
-
-async function handleEditSave(e) {
-  e.preventDefault();
-  const id    = document.getElementById('edit-task-id').value;
-  const title = document.getElementById('edit-title').value.trim();
-  if (!title) { document.getElementById('edit-title-error')?.classList.remove('hidden'); return; }
-  const payload = {
-    title, description: document.getElementById('edit-desc').value.trim(),
-    priority: document.getElementById('edit-priority').value,
-    category: document.getElementById('edit-category').value,
-    due_date: document.getElementById('edit-due').value || null,
-    duration_min: parseInt(document.getElementById('edit-duration').value, 10) || 0,
-    tags: document.getElementById('edit-tags').value.split(',').map(t => t.trim()).filter(Boolean),
-  };
-  try {
-    await sb.update('tasks', id, payload);
-  } catch(e) { console.warn('Edit update failed remotely'); }
-  const idx = tasks.findIndex(t => t.id === id);
-  if (idx > -1) tasks[idx] = { ...tasks[idx], ...normalizeTask({ id, ...payload, tags: payload.tags }) };
-  closeEditModal();
-  renderAll();
-  renderAllTasksTable();
-  showToast('✏️ Task updated!', 'success');
-}
-
-/* ─── Delete modal ──────────────────────────────────── */
-function openDeleteModal(id) {
-  pendingDeleteId = id;
-  const task = tasks.find(t => t.id === id);
-  const msg = document.getElementById('delete-modal-msg');
-  if (msg && task) msg.textContent = `Delete "${task.title}"? This cannot be undone.`;
-  document.getElementById('delete-confirm-modal')?.showModal();
-}
-
-async function handleConfirmDelete() {
-  if (!pendingDeleteId) return;
-  const id = pendingDeleteId;
-  document.getElementById('delete-confirm-modal')?.close();
-  try { if (!id.startsWith('local-')) await sb.delete('tasks', id); } catch(e) { console.warn('Delete failed remotely'); }
-  tasks = tasks.filter(t => t.id !== id);
-  pendingDeleteId = null;
-  renderAll();
-  renderAllTasksTable();
-  showToast('🗑 Task deleted.', 'info');
-}
-
-/* ═══════════════════════════════════════════════════════
-   AI PRIORITY SUGGESTION
-═══════════════════════════════════════════════════════ */
-async function handleAISuggestPriority() {
-  const title    = document.getElementById('task-title').value.trim();
-  const desc     = document.getElementById('task-desc').value.trim();
-  const category = document.getElementById('task-category').value;
-  const due      = document.getElementById('task-due').value;
-  const tags     = document.getElementById('task-tags').value;
-  if (!title) { showToast('Enter a task title first.', 'warn'); document.getElementById('task-title').focus(); return; }
-  const btn = document.getElementById('btn-ai-suggest-priority');
-  btn.textContent = '⏳ Thinking…';
-  btn.disabled = true;
-  const prompt = `You are a productivity AI. Suggest the best priority level for this task.
-
-Task: "${title}"
-${desc ? `Description: ${desc}` : ''}
-Category: ${category}
-${due ? `Deadline: ${due}` : 'No deadline set'}
-${tags ? `Tags: ${tags}` : ''}
-
-User's current task load:
-${buildTaskContext()}
-
-User preferences: Focus on ${prefs.focusCategory !== 'none' ? prefs.focusCategory : 'no specific category'}, style: ${prefs.aiStyle}.
-
-Respond in this exact format:
-PRIORITY: [high|medium|low]
-REASON: [one concise sentence explaining why]`;
-  try {
-    const res = await callAI(prompt);
-    const priorityMatch = res.match(/PRIORITY:\s*(high|medium|low)/i);
-    const reasonMatch   = res.match(/REASON:\s*(.+)/i);
-    if (priorityMatch) {
-      aiSuggestedPriority = priorityMatch[1].toLowerCase();
-      const reason = reasonMatch ? reasonMatch[1] : 'Based on your current task load and context.';
-      document.getElementById('ai-priority-text').textContent = `✨ Suggested: ${aiSuggestedPriority.toUpperCase()} — ${reason}`;
-      document.getElementById('ai-priority-result').classList.add('show');
-    } else {
-      showToast('AI response unclear. Try again.', 'warn');
-    }
-  } catch(e) {
-    showToast(`AI Error: ${e.message}`, 'error');
-  } finally {
-    btn.textContent = '✨ AI Priority';
-    btn.disabled = false;
-  }
-}
-
-function applyAIPriority() {
-  if (!aiSuggestedPriority) return;
-  setValue('task-priority', aiSuggestedPriority);
-  document.getElementById('ai-priority-result').classList.remove('show');
-  aiSuggestedPriority = null;
-  showToast(`Priority set to ${aiSuggestedPriority || 'AI suggestion'}`, 'success');
-}
-
-/* ═══════════════════════════════════════════════════════
-   AI INSIGHTS VIEW
-═══════════════════════════════════════════════════════ */
-function setupAIInsightsView() {
-  document.getElementById('btn-analyze-all')?.addEventListener('click', handleAnalyzeAll);
-  document.getElementById('btn-suggest-schedule')?.addEventListener('click', handleSuggestSchedule);
-  document.getElementById('btn-productivity-tips')?.addEventListener('click', handleProductivityTips);
-  document.getElementById('btn-resolve-ai-conflicts')?.addEventListener('click', handleResolveConflicts);
-  document.getElementById('btn-ai-chat-send')?.addEventListener('click', handleAIChat);
-  document.getElementById('ai-chat-input')?.addEventListener('keydown', e => {
-    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); handleAIChat(); }
-  });
-}
-
-async function handleAnalyzeAll() {
-  if (!tasks.filter(t => !t.completed).length) { showToast('No pending tasks to analyze.', 'info'); return; }
-  await streamAIToOutput(`You are a task management AI. Analyze this task list and suggest a re-prioritized order with reasoning.
-
-User preferences: Style=${prefs.aiStyle}, Focus=${prefs.focusCategory}.
-
-${buildFullTaskList()}
-
-Return a numbered list with: task title, suggested priority (high/medium/low), and a brief reason.
-Be concise. Use plain text, no markdown headers.`);
-}
-
-async function handleSuggestSchedule() {
-  const today = todayStr();
-  const todayTasks = tasks.filter(t => !t.completed && (t.dueDate === today || !t.dueDate));
-  if (!todayTasks.length) { setAIOutput("You have no tasks due today. Great time to plan ahead!"); return; }
-  await streamAIToOutput(`You are a productivity AI. Create a realistic time-blocked schedule for today's tasks.
-
-Working hours: ${prefs.startTime} to ${prefs.endTime}
-Max focus hours: ${prefs.maxHours}h
-
-Tasks due today or unscheduled:
-${todayTasks.map(t => `- "${t.title}" | ${t.priority} priority | ${t.duration || '?'}min | ${t.category}`).join('\n')}
-
-Suggest a time-blocked schedule with start times, include short breaks. Keep it practical.
-Format each block as: HH:MM - HH:MM | Task name | (any tip)`);
-}
-
-async function handleProductivityTips() {
-  await streamAIToOutput(`You are a productivity coach. Analyze this task list and give 5 specific, actionable improvement tips.
-
-${buildFullTaskList()}
-
-User stats:
-- Completed: ${tasks.filter(t => t.completed).length} tasks
-- Pending: ${tasks.filter(t => !t.completed).length} tasks
-- Overdue: ${tasks.filter(t => isOverdue(t)).length} tasks
-- Most common category: ${mostCommonCategory()}
-- AI style preference: ${prefs.aiStyle}
-
-Give tips specific to THIS person's task patterns, not generic advice.`);
-}
-
-async function handleResolveConflicts() {
-  const conflictDates = getConflictDates();
-  if (!conflictDates.length) { setAIOutput("✅ No deadline conflicts detected! Your schedule looks clean."); return; }
-  const conflictingTasks = tasks.filter(t => hasConflict(t));
-  await streamAIToOutput(`You are a task management AI. The user has deadline conflicts on: ${conflictDates.join(', ')}.
-
-Conflicting tasks:
-${conflictingTasks.map(t => `- "${t.title}" (${t.priority}, ${t.duration || '?'}min, ${t.category}) due ${t.dueDate}`).join('\n')}
-
-Suggest specific resolutions: which tasks to reschedule, which to delegate, which to split. Be concrete with dates.`);
-}
-
-async function handleAIChat() {
-  const input = document.getElementById('ai-chat-input');
-  const query = input?.value.trim();
-  if (!query) return;
-  input.value = '';
-  appendChatBubble(query, 'user');
-  const systemContext = `You are TaskFlow's AI assistant. The user has ${tasks.length} tasks (${tasks.filter(t => !t.completed).length} pending, ${tasks.filter(t => isOverdue(t)).length} overdue). Today is ${todayStr()}. Be concise and helpful.`;
-  chatHistory.push({ role:'user', content: query });
-  if (chatHistory.length > 20) chatHistory = chatHistory.slice(-20);
-  const thinkingId = appendChatBubble('⏳ Thinking…', 'ai', true);
-  try {
-    const messages = [
-      { role:'user', content: systemContext + '\n\nTask list:\n' + buildFullTaskList() },
-      { role:'assistant', content: 'Got it. How can I help?' },
-      ...chatHistory,
-    ];
-    const response = await callAIMessages(messages);
-    chatHistory.push({ role:'assistant', content: response });
-    updateChatBubble(thinkingId, response);
-  } catch(err) {
-    updateChatBubble(thinkingId, `⚠️ AI unavailable: ${err.message}`);
-  }
-}
-
-function appendChatBubble(text, role, isTemp=false) {
-  const log = document.getElementById('ai-chat-log');
-  if (!log) return null;
-  const id = 'bubble-' + Date.now();
-  const div = document.createElement('div');
-  div.className = `chat-msg ${role}`;
-  div.id = id;
-  div.innerHTML = `<div class="chat-avatar">${role === 'user' ? '👤' : '🤖'}</div><div class="chat-bubble">${escHtml(text)}</div>`;
-  log.appendChild(div);
-  log.scrollTop = log.scrollHeight;
-  return id;
-}
-
-function updateChatBubble(id, text) {
-  const el = document.getElementById(id);
-  if (el) {
-    const bubble = el.querySelector('.chat-bubble');
-    if (bubble) bubble.innerHTML = formatAIText(text);
-    el.scrollIntoView({ behavior:'smooth', block:'nearest' });
-  }
-}
-
-async function streamAIToOutput(prompt) {
-  const loading = document.getElementById('ai-loading');
-  const output  = document.getElementById('ai-output');
-  const placeholder = document.getElementById('ai-placeholder');
-  if (loading) { loading.classList.remove('hidden'); loading.style.display = 'inline-block'; }
-  if (output) output.textContent = '';
-  if (placeholder) placeholder.setAttribute('hidden', '');
-  try {
-    const text = await callAI(prompt);
-    if (output) output.innerHTML = formatAIText(text);
-  } catch(err) {
-    if (output) output.textContent = `⚠️ AI Error: ${err.message}`;
-  } finally {
-    if (loading) { loading.classList.add('hidden'); }
-  }
-}
-
-function setAIOutput(text) {
-  const output = document.getElementById('ai-output');
-  if (output) output.innerHTML = formatAIText(text);
-  document.getElementById('ai-placeholder')?.setAttribute('hidden', '');
-}
-
-/* ═══════════════════════════════════════════════════════
-   ANTHROPIC API
-═══════════════════════════════════════════════════════ */
-async function callAI(userPrompt) {
-  return callAIMessages([{ role:'user', content: userPrompt }]);
-}
-
-async function callAIMessages(messages) {
-  const res = await fetch(ANTHROPIC_API, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ model: AI_MODEL, max_tokens: 1000, messages }),
-  });
-  if (!res.ok) throw new Error(`API ${res.status}: ${await res.text()}`);
-  const data = await res.json();
-  return data.content.map(b => b.text || '').join('');
-}
-
-function formatAIText(text) {
-  if (!text) return '';
-  return text
-    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
-    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
-    .replace(/\*(.+?)\*/g,'<em>$1</em>')
-    .replace(/^(\d+\.\s)/gm,'<br><strong>$1</strong>')
-    .replace(/^[-•]\s/gm,'<br>• ')
-    .replace(/\n\n/g,'<br><br>')
-    .replace(/\n/g,'<br>');
-}
-
-/* ═══════════════════════════════════════════════════════
-   PREFERENCES
-═══════════════════════════════════════════════════════ */
-function loadPrefsFromStorage() {
-  const stored = localStorage.getItem('tf_prefs');
-  prefs = stored ? { ...DEFAULT_PREFS, ...JSON.parse(stored) } : { ...DEFAULT_PREFS };
-  applyPrefsToForm();
-}
-
-async function loadPrefsFromSupabase() {
-  try {
-    const filter = currentUser ? `user_id=eq.${getUserId()}` : 'id=eq.default';
-    const data = await sb.select('preferences', filter);
-    if (data && data.length > 0 && data[0].data) {
-      prefs = { ...DEFAULT_PREFS, ...data[0].data };
-      localStorage.setItem('tf_prefs', JSON.stringify(prefs));
-      applyPrefsToForm();
-    }
-  } catch(e) { /* Use localStorage fallback */ }
-}
-
-function applyPrefsToForm() {
-  setValue('pref-start-time', prefs.startTime);
-  setValue('pref-end-time', prefs.endTime);
-  setValue('pref-max-tasks', prefs.maxTasks);
-  setValue('pref-max-hours', prefs.maxHours);
-  setValue('pref-focus-category', prefs.focusCategory);
-  setValue('pref-ai-style', prefs.aiStyle);
-  setChecked('pref-notify-overload', prefs.notifyOverload);
-  setChecked('pref-notify-conflict', prefs.notifyConflict);
-  setChecked('pref-notify-overdue', prefs.notifyOverdue);
-}
-
-function setupPreferencesForm() {
-  const form = document.getElementById('preferences-form');
-  if (!form) return;
-  form.addEventListener('submit', async e => {
-    e.preventDefault();
-    prefs = {
-      startTime:      document.getElementById('pref-start-time').value,
-      endTime:        document.getElementById('pref-end-time').value,
-      maxTasks:       parseInt(document.getElementById('pref-max-tasks').value, 10),
-      maxHours:       parseFloat(document.getElementById('pref-max-hours').value),
-      focusCategory:  document.getElementById('pref-focus-category').value,
-      aiStyle:        document.getElementById('pref-ai-style').value,
-      notifyOverload: document.getElementById('pref-notify-overload').checked,
-      notifyConflict: document.getElementById('pref-notify-conflict').checked,
-      notifyOverdue:  document.getElementById('pref-notify-overdue').checked,
-    };
-    localStorage.setItem('tf_prefs', JSON.stringify(prefs));
-    try {
-      const uid = getUserId();
-      const prefData = uid
-        ? { user_id: uid, data: prefs }
-        : { id: 'default', data: prefs };
-      await sb.upsert('preferences', prefData, uid ? 'user_id' : 'id');
-    } catch(e) { console.warn('Prefs save to DB failed:', e.message); }
-    const status = document.getElementById('pref-save-status');
-    if (status) { status.textContent = '✅ Preferences saved!'; status.classList.remove('hidden'); setTimeout(() => status.classList.add('hidden'), 3000); }
-    checkEdgeCases();
-    showToast('💾 Preferences saved!', 'success');
-  });
-  document.getElementById('btn-reset-prefs')?.addEventListener('click', () => {
-    prefs = { ...DEFAULT_PREFS };
-    localStorage.setItem('tf_prefs', JSON.stringify(prefs));
-    applyPrefsToForm();
-    showToast('↩️ Reset to defaults.', 'info');
-  });
-}
-
-/* ═══════════════════════════════════════════════════════
-   NAVIGATION
-═══════════════════════════════════════════════════════ */
-function switchView(view) {
-  document.querySelectorAll('.view').forEach(v => {
-    if (v.id === `view-${view}`) { v.removeAttribute('hidden'); v.classList.add('active'); }
-    else { v.setAttribute('hidden', ''); v.classList.remove('active'); }
-  });
-  // Sync desktop nav
-  document.querySelectorAll('.nav-btn[data-view]').forEach(b => b.classList.toggle('active', b.dataset.view === view));
-  // Sync mobile nav
-  document.querySelectorAll('.mob-nav-btn[data-view]').forEach(b => b.classList.toggle('active', b.dataset.view === view));
-  if (view === 'tasks') renderAllTasksTable();
-  if (view === 'dashboard') renderTaskList();
-  if (view === 'ai-suggestions') document.getElementById('ai-module-dot').className = 'status-dot online';
-}
-
-function setupNavigation() {
-  document.querySelectorAll('.nav-btn[data-view]').forEach(btn => {
-    btn.addEventListener('click', () => switchView(btn.dataset.view));
-  });
-}
-
-function setupMobileNav() {
-  document.querySelectorAll('.mob-nav-btn[data-view]').forEach(btn => {
-    btn.addEventListener('click', () => switchView(btn.dataset.view));
-  });
-}
-
-/* ═══════════════════════════════════════════════════════
-   THEME
-═══════════════════════════════════════════════════════ */
-function setupThemeToggle() {
-  const btn = document.getElementById('theme-toggle');
-  if (!btn) return;
-  const saved = localStorage.getItem('tf_theme') || 'dark';
-  applyTheme(saved);
-  btn.addEventListener('click', () => {
-    const next = (document.documentElement.dataset.theme || 'dark') === 'dark' ? 'light' : 'dark';
-    applyTheme(next);
-    localStorage.setItem('tf_theme', next);
-  });
-}
-
-function applyTheme(theme) {
-  document.documentElement.dataset.theme = theme;
-  const btn = document.getElementById('theme-toggle');
-  if (btn) btn.textContent = theme === 'dark' ? '🌙' : '☀️';
-  if (theme === 'light') {
-    const s = document.documentElement.style;
-    s.setProperty('--bg-base','#f4f4f6');s.setProperty('--bg-surface','#fff');
-    s.setProperty('--bg-raised','#ebebef');s.setProperty('--bg-hover','#e0e0e8');
-    s.setProperty('--text-primary','#111118');s.setProperty('--text-secondary','#44445a');
-    s.setProperty('--text-muted','#888899');s.setProperty('--border','#d4d4de');s.setProperty('--border-light','#c0c0cc');
-  } else {
-    ['--bg-base','--bg-surface','--bg-raised','--bg-hover','--text-primary','--text-secondary','--text-muted','--border','--border-light'].forEach(v => document.documentElement.style.removeProperty(v));
-  }
-}
-
-/* ═══════════════════════════════════════════════════════
-   TOAST
-═══════════════════════════════════════════════════════ */
-function showToast(message, type='info') {
-  const container = document.getElementById('toast-container');
-  if (!container) return;
-  const toast = document.createElement('div');
-  toast.className = `toast ${type}`;
-  toast.innerHTML = `<span>${escHtml(message)}</span>`;
-  container.appendChild(toast);
-  setTimeout(() => { toast.classList.add('hiding'); setTimeout(() => toast.remove(), 220); }, 3500);
-}
-
-/* ═══════════════════════════════════════════════════════
-   HELPERS
-═══════════════════════════════════════════════════════ */
-function todayStr() { return new Date().toISOString().slice(0, 10); }
-function formatDate(dateStr) {
-  if (!dateStr) return '';
-  return new Date(dateStr + 'T00:00:00').toLocaleDateString('en-IN', { day:'numeric', month:'short', year:'numeric' });
-}
-function priorityWeight(p) { return p === 'high' ? 3 : p === 'medium' ? 2 : 1; }
-function priorityLabel(p) { return p === 'high' ? '🔴 High' : p === 'medium' ? '🟡 Medium' : '🟢 Low'; }
-function categoryIcon(cat) { return { study:'📚', work:'💼', personal:'🧡', health:'🏃', other:'📌' }[cat] || '📌'; }
-function mostCommonCategory() {
-  const counts = {};
-  tasks.forEach(t => counts[t.category] = (counts[t.category] || 0) + 1);
-  return Object.entries(counts).sort((a,b) => b[1]-a[1])[0]?.[0] || 'other';
-}
-function getConflictDates() {
-  const dueCounts = {};
-  tasks.filter(t => t.dueDate && !t.completed).forEach(t => { dueCounts[t.dueDate] = (dueCounts[t.dueDate] || 0) + 1; });
-  return Object.entries(dueCounts).filter(([,v]) => v > 1).map(([d]) => d);
-}
-function buildTaskContext() {
-  const pending = tasks.filter(t => !t.completed).slice(0, 10);
-  if (!pending.length) return 'No other tasks currently.';
-  return pending.map(t => `- "${t.title}" | ${t.priority} | ${t.category}${t.dueDate ? ` | due ${t.dueDate}` : ''}`).join('\n');
-}
-function buildFullTaskList() {
-  if (!tasks.length) return 'No tasks yet.';
-  return tasks.slice(0, 30).map((t, i) =>
-    `${i+1}. "${t.title}" | ${t.priority} | ${t.category} | ${t.completed ? 'done' : isOverdue(t) ? 'OVERDUE' : 'pending'}${t.dueDate ? ` | due ${t.dueDate}` : ''}${t.duration ? ` | ${t.duration}min` : ''}`
-  ).join('\n');
-}
-function escHtml(str) {
-  return String(str).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-function setText(id, val) { const el = document.getElementById(id); if (el) el.textContent = val; }
-function setValue(id, val) { const el = document.getElementById(id); if (el) el.value = val ?? ''; }
-function setChecked(id, val) { const el = document.getElementById(id); if (el) el.checked = !!val; }
-function setShow(id, show) { const el = document.getElementById(id); if (el) el.classList.toggle('show', show); }
-</script>
+  </script>
 </body>
 </html>
